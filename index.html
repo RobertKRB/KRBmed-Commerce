@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KRBmed Commerce · Preiskalkulation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #0c1117;
+  --bg2:      #111820;
+  --bg3:      #161e28;
+  --border:   #1e2d3d;
+  --border2:  #253447;
+  --text:     #cdd9e5;
+  --text2:    #768390;
+  --text3:    #444c56;
+  --accent:   #388bfd;
+  --green:    #3fb950;
+  --yellow:   #d29922;
+  --red:      #f85149;
+  --orange:   #db6d28;
+  --purple:   #bc8cff;
+  --input-bg: #1c2733;
+  --gold:     #e3b341;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'IBM Plex Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  font-size: 14px;
+}
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+/* LAYOUT */
+.header {
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 52px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.logo {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: 0.05em;
+}
+.logo span { color: var(--accent); }
+.nav { display: flex; gap: 2px; }
+.nav-btn {
+  background: none;
+  border: none;
+  color: var(--text2);
+  cursor: pointer;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: 6px;
+  transition: all 0.15s;
+}
+.nav-btn:hover { background: var(--bg3); color: var(--text); }
+.nav-btn.active { background: var(--bg3); color: var(--accent); }
+
+.main { padding: 24px; max-width: 1600px; margin: 0 auto; }
+
+/* PANELS */
+.panel {
+  display: none;
+}
+.panel.active { display: block; }
+
+/* CARDS */
+.card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.card-header {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.card-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: 0.02em;
+}
+.card-body { padding: 20px; }
+
+/* BUTTONS */
+.btn {
+  align-items: center;
+  border-radius: 6px;
+  border: 1px solid var(--border2);
+  cursor: pointer;
+  display: inline-flex;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  gap: 6px;
+  padding: 6px 14px;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.btn-primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn-primary:hover { background: #1f6feb; }
+.btn-success { background: var(--green); border-color: var(--green); color: #fff; }
+.btn-success:hover { opacity: 0.85; }
+.btn-ghost { background: transparent; color: var(--text2); }
+.btn-ghost:hover { background: var(--bg3); color: var(--text); border-color: var(--border2); }
+.btn-danger { background: transparent; border-color: var(--red); color: var(--red); }
+.btn-danger:hover { background: rgba(248,81,73,0.1); }
+.btn-sm { font-size: 11px; padding: 4px 10px; }
+
+/* INPUTS */
+.form-group { margin-bottom: 16px; }
+.form-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text2);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.form-control {
+  background: var(--input-bg);
+  border: 1px solid var(--border2);
+  border-radius: 6px;
+  color: var(--text);
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 13px;
+  outline: none;
+  padding: 8px 12px;
+  transition: border-color 0.15s;
+  width: 100%;
+}
+.form-control:focus { border-color: var(--accent); }
+.form-control.mono { font-family: 'IBM Plex Mono', monospace; }
+input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; }
+input[type=number] { -moz-appearance: textfield; }
+.form-row { display: grid; gap: 12px; }
+.form-row-2 { grid-template-columns: 1fr 1fr; }
+.form-row-3 { grid-template-columns: 1fr 1fr 1fr; }
+.form-row-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+
+/* VK INPUT SPECIAL */
+.vk-input-wrap {
+  position: relative;
+  display: inline-block;
+}
+.vk-input {
+  background: rgba(227,179,65,0.1);
+  border: 2px solid var(--gold);
+  border-radius: 6px;
+  color: var(--gold);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 14px;
+  font-weight: 600;
+  outline: none;
+  padding: 7px 12px;
+  text-align: right;
+  width: 120px;
+  transition: all 0.15s;
+}
+.vk-input:focus { box-shadow: 0 0 0 3px rgba(227,179,65,0.2); }
+
+/* TABLES */
+.table-wrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; }
+thead tr { background: var(--bg3); }
+th {
+  color: var(--text2);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  padding: 10px 14px;
+  text-align: right;
+  text-transform: uppercase;
+  white-space: nowrap;
+  border-bottom: 1px solid var(--border);
+}
+th.left { text-align: left; }
+th.center { text-align: center; }
+td {
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  font-size: 13px;
+  padding: 10px 14px;
+  text-align: right;
+  vertical-align: middle;
+}
+td.left { text-align: left; }
+td.center { text-align: center; }
+tr:hover td { background: rgba(56,139,253,0.04); }
+tr:last-child td { border-bottom: none; }
+
+/* BADGES / PILLS */
+.badge {
+  border-radius: 4px;
+  display: inline-block;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 2px 8px;
+}
+.badge-green { background: rgba(63,185,80,0.15); color: var(--green); }
+.badge-yellow { background: rgba(210,153,34,0.15); color: var(--yellow); }
+.badge-red { background: rgba(248,81,73,0.15); color: var(--red); }
+.badge-orange { background: rgba(219,109,40,0.15); color: var(--orange); }
+.badge-blue { background: rgba(56,139,253,0.15); color: var(--accent); }
+.badge-purple { background: rgba(188,140,255,0.15); color: var(--purple); }
+
+/* KPI GRID */
+.kpi-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(160px,1fr)); gap: 12px; margin-bottom: 20px; }
+.kpi-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 18px;
+}
+.kpi-label { color: var(--text2); font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 6px; }
+.kpi-value { font-family: 'IBM Plex Mono', monospace; font-size: 22px; font-weight: 600; }
+.kpi-sub { color: var(--text2); font-size: 11px; margin-top: 3px; }
+
+/* MODAL */
+.modal-overlay {
+  align-items: center;
+  background: rgba(0,0,0,0.7);
+  bottom: 0;
+  display: none;
+  justify-content: center;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 200;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 24px;
+  width: 90%;
+  max-width: 640px;
+}
+.modal-title {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: var(--text);
+}
+.modal-footer { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+
+/* SECTION TITLE */
+.section-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin: 20px 0 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* LIEFERANT TABS */
+.lief-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+.lief-tab {
+  background: none;
+  border: 1px solid var(--border2);
+  border-radius: 6px;
+  color: var(--text2);
+  cursor: pointer;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 14px;
+  transition: all 0.15s;
+}
+.lief-tab.active-wisma  { background: rgba(63,185,80,0.15); border-color: var(--green); color: var(--green); }
+.lief-tab.active-guder  { background: rgba(56,139,253,0.15); border-color: var(--accent); color: var(--accent); }
+.lief-tab.active-hartmann { background: rgba(227,179,65,0.15); border-color: var(--gold); color: var(--gold); }
+
+/* BREAK-EVEN BAR */
+.be-bar-wrap { margin: 6px 0 2px; position: relative; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+.be-bar-fill { height: 100%; border-radius: 2px; transition: width 0.3s; }
+
+/* VERSANDMATRIX */
+.matrix-table td, .matrix-table th { padding: 8px 12px; font-size: 12px; }
+
+/* TOAST */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--bg2);
+  border: 1px solid var(--green);
+  border-radius: 8px;
+  color: var(--green);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 10px 18px;
+  z-index: 300;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: all 0.2s;
+  pointer-events: none;
+}
+.toast.show { opacity: 1; transform: translateY(0); }
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .main { padding: 12px; }
+  .form-row-4 { grid-template-columns: 1fr 1fr; }
+  .form-row-3 { grid-template-columns: 1fr 1fr; }
+  .header { padding: 0 12px; }
+}
+
+.empty-state {
+  text-align: center;
+  padding: 48px 24px;
+  color: var(--text2);
+}
+.empty-state .icon { font-size: 36px; margin-bottom: 12px; }
+.empty-state h3 { font-size: 15px; margin-bottom: 6px; color: var(--text); }
+.mono { font-family: 'IBM Plex Mono', monospace; }
+.text-green { color: var(--green); }
+.text-red { color: var(--red); }
+.text-yellow { color: var(--yellow); }
+.text-gold { color: var(--gold); }
+.text-muted { color: var(--text2); }
+.fw6 { font-weight: 600; }
+.divider { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="logo">KRBmed <span>Commerce</span></div>
+  <nav class="nav">
+    <button class="nav-btn active" onclick="showPanel('kalkulation')">Kalkulation</button>
+    <button class="nav-btn" onclick="showPanel('produkte')">Produkte</button>
+    <button class="nav-btn" onclick="showPanel('versand')">Versand</button>
+    <button class="nav-btn" onclick="showPanel('einstellungen')">Einstellungen</button>
+  </nav>
+</header>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- MAIN -->
+<div class="main">
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- PANEL: KALKULATION                              -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="panel active" id="panel-kalkulation">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
+    <div>
+      <h2 style="font-size:18px;font-weight:700;letter-spacing:-0.01em;">Preiskalkulation</h2>
+      <p style="color:var(--text2);font-size:12px;margin-top:2px;">VK Brutto eingeben → Gewinn & Break-even berechnen sich live</p>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+      <span style="font-size:12px;color:var(--text2);">Lieferant:</span>
+      <div class="lief-tabs" id="lief-tabs"></div>
+    </div>
+  </div>
+
+  <!-- KPI Zeile -->
+  <div class="kpi-grid" id="kpi-grid"></div>
+
+  <!-- Tabelle -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-title">Produktkalkulation</span>
+      <span style="font-size:11px;color:var(--text2);">
+        <span style="color:var(--gold);">■</span> Gelb = VK eingeben &nbsp;
+        <span style="color:var(--green);">■</span> Grün = profitabel &nbsp;
+        <span style="color:var(--red);">■</span> Rot = Verlust
+      </span>
+    </div>
+    <div class="table-wrap">
+      <table id="kalk-table">
+        <thead>
+          <tr>
+            <th class="left" style="min-width:140px;">Produkt</th>
+            <th>EK Netto</th>
+            <th>Versand EK</th>
+            <th>Einstand</th>
+            <th style="color:var(--gold);background:rgba(227,179,65,0.06);min-width:160px;">⭐ VK BRUTTO</th>
+            <th>VK Netto</th>
+            <th style="color:var(--purple);">Shopify</th>
+            <th>Netto-Umsatz</th>
+            <th style="min-width:110px;">Gewinn</th>
+            <th>Marge</th>
+            <th>Break-even</th>
+            <th class="center">AEP</th>
+          </tr>
+        </thead>
+        <tbody id="kalk-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- PANEL: PRODUKTE                                 -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="panel" id="panel-produkte">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
+    <div>
+      <h2 style="font-size:18px;font-weight:700;">Produkte</h2>
+      <p style="color:var(--text2);font-size:12px;margin-top:2px;">Produkte mit EK-Preisen verwalten</p>
+    </div>
+    <button class="btn btn-primary" onclick="openProductModal()">+ Neues Produkt</button>
+  </div>
+  <div class="card">
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th class="left">Produktname</th>
+            <th class="left">SKU</th>
+            <th class="left">PZN</th>
+            <th>AEP (Netto)</th>
+            <th>EK Wisma</th>
+            <th>EK Guder</th>
+            <th>EK Hartmann</th>
+            <th>Versandklasse</th>
+            <th class="center">Aktionen</th>
+          </tr>
+        </thead>
+        <tbody id="produkte-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- PANEL: VERSAND                                  -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="panel" id="panel-versand">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
+    <div>
+      <h2 style="font-size:18px;font-weight:700;">Versandmatrix</h2>
+      <p style="color:var(--text2);font-size:12px;margin-top:2px;">Lieferanten-Versandkosten nach Gewichtsklasse</p>
+    </div>
+    <button class="btn btn-primary" onclick="openVersandModal()">+ Neue Klasse</button>
+  </div>
+  <div class="card">
+    <div class="table-wrap">
+      <table class="matrix-table">
+        <thead>
+          <tr>
+            <th class="left">Klasse</th>
+            <th class="left">Gewicht</th>
+            <th>Wisma (Netto €)</th>
+            <th>Guder (Netto €)</th>
+            <th>Hartmann Drop (Netto €)</th>
+            <th class="center">Aktionen</th>
+          </tr>
+        </thead>
+        <tbody id="versand-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+  <hr class="divider">
+  <div class="card">
+    <div class="card-header"><span class="card-title">Versandkosten Kunde</span></div>
+    <div class="card-body">
+      <div class="form-row form-row-3">
+        <div class="form-group">
+          <label class="form-label">Versand Netto (€)</label>
+          <input type="number" step="0.01" class="form-control mono" id="vers-kunde-netto" value="5.00" oninput="saveSettings()">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Versand Brutto (€)</label>
+          <input type="number" step="0.01" class="form-control mono" id="vers-kunde-brutto" value="5.95" oninput="saveSettings()">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Info</label>
+          <div style="font-size:12px;color:var(--text2);padding-top:10px;">5,00 × 1,19 = 5,95 €</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- PANEL: EINSTELLUNGEN                            -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="panel" id="panel-einstellungen">
+  <h2 style="font-size:18px;font-weight:700;margin-bottom:16px;">Einstellungen</h2>
+  <div class="form-row form-row-2" style="gap:20px;">
+    <div class="card">
+      <div class="card-header"><span class="card-title">Shopify Gebühren</span></div>
+      <div class="card-body">
+        <div class="form-group">
+          <label class="form-label">Shopify Faktor (z.B. 0.97 = 3%)</label>
+          <input type="number" step="0.001" class="form-control mono" id="shopify-faktor" value="0.97" oninput="saveSettings()">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Shopify Fixbetrag (€)</label>
+          <input type="number" step="0.01" class="form-control mono" id="shopify-fix" value="0.60" oninput="saveSettings()">
+        </div>
+        <div style="font-size:11px;color:var(--text2);background:var(--bg3);border-radius:6px;padding:10px;font-family:'IBM Plex Mono',monospace;">
+          Formel: (VK Brutto + Versand Brutto) × Faktor − Fixbetrag
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">Steuer & Allgemein</span></div>
+      <div class="card-body">
+        <div class="form-group">
+          <label class="form-label">MwSt Satz (z.B. 0.19)</label>
+          <input type="number" step="0.01" class="form-control mono" id="mwst-satz" value="0.19" oninput="saveSettings()">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Firmenname</label>
+          <input type="text" class="form-control" id="firma-name" value="KRB MEDI+CARE GmbH" oninput="saveSettings()">
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr class="divider">
+  <div class="card" style="margin-top:0;">
+    <div class="card-header"><span class="card-title">Daten</span></div>
+    <div class="card-body" style="display:flex;gap:10px;flex-wrap:wrap;">
+      <button class="btn btn-ghost" onclick="exportData()">⬇ Daten exportieren (JSON)</button>
+      <button class="btn btn-ghost" onclick="document.getElementById('import-file').click()">⬆ Daten importieren</button>
+      <input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(event)">
+      <button class="btn btn-danger" onclick="if(confirm('Alle Daten löschen?')) resetData()">⚠ Alle Daten zurücksetzen</button>
+    </div>
+  </div>
+</div>
+
+</div><!-- /main -->
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- MODAL: PRODUKT BEARBEITEN                       -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-produkt">
+  <div class="modal">
+    <div class="modal-title" id="modal-produkt-title">Neues Produkt</div>
+    <input type="hidden" id="edit-prod-id">
+
+    <div class="section-title">Produktinfo</div>
+    <div class="form-row form-row-2">
+      <div class="form-group">
+        <label class="form-label">Produktname / Variante *</label>
+        <input type="text" class="form-control" id="prod-name" placeholder="z.B. Omnifix Elastic 10cm × 10m">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Produktgruppe</label>
+        <input type="text" class="form-control" id="prod-gruppe" placeholder="z.B. Omnifix Elastic">
+      </div>
+    </div>
+    <div class="form-row form-row-3">
+      <div class="form-group">
+        <label class="form-label">SKU</label>
+        <input type="text" class="form-control mono" id="prod-sku" placeholder="900603">
+      </div>
+      <div class="form-group">
+        <label class="form-label">PZN</label>
+        <input type="text" class="form-control mono" id="prod-pzn" placeholder="00255585">
+      </div>
+      <div class="form-group">
+        <label class="form-label">AEP Netto (€)</label>
+        <input type="number" step="0.01" class="form-control mono" id="prod-aep" placeholder="33.12">
+      </div>
+    </div>
+
+    <div class="section-title">Einkaufspreise (Netto €)</div>
+    <div class="form-row form-row-3">
+      <div class="form-group">
+        <label class="form-label">EK Wisma</label>
+        <input type="number" step="0.01" class="form-control mono" id="prod-ek-wisma" placeholder="3.04">
+      </div>
+      <div class="form-group">
+        <label class="form-label">EK Guder</label>
+        <input type="number" step="0.01" class="form-control mono" id="prod-ek-guder" placeholder="18.22">
+      </div>
+      <div class="form-group">
+        <label class="form-label">EK Hartmann</label>
+        <input type="number" step="0.01" class="form-control mono" id="prod-ek-hartmann" placeholder="19.87">
+      </div>
+    </div>
+
+    <div class="section-title">Versand & Referenz</div>
+    <div class="form-row form-row-3">
+      <div class="form-group">
+        <label class="form-label">Versandklasse</label>
+        <select class="form-control" id="prod-versandklasse"></select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Wettbewerb Brutto (€)</label>
+        <input type="number" step="0.01" class="form-control mono" id="prod-pp" placeholder="optional">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Wettbewerber</label>
+        <input type="text" class="form-control" id="prod-pp-name" placeholder="z.B. PraxisPanda">
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-produkt')">Abbrechen</button>
+      <button class="btn btn-primary" onclick="saveProduct()">Speichern</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- MODAL: VERSANDKLASSE                            -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-versand">
+  <div class="modal">
+    <div class="modal-title" id="modal-versand-title">Versandklasse</div>
+    <input type="hidden" id="edit-versand-id">
+    <div class="form-row form-row-2">
+      <div class="form-group">
+        <label class="form-label">Bezeichnung *</label>
+        <input type="text" class="form-control" id="vers-name" placeholder="z.B. Paket 0-2 kg">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Gewicht (Info)</label>
+        <input type="text" class="form-control" id="vers-gewicht" placeholder="z.B. 0–2 kg">
+      </div>
+    </div>
+    <div class="form-row form-row-3">
+      <div class="form-group">
+        <label class="form-label">Wisma Netto (€)</label>
+        <input type="number" step="0.01" class="form-control mono" id="vers-wisma">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Guder Netto (€)</label>
+        <input type="number" step="0.01" class="form-control mono" id="vers-guder">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Hartmann Drop Netto (€)</label>
+        <input type="number" step="0.01" class="form-control mono" id="vers-hartmann">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-versand')">Abbrechen</button>
+      <button class="btn btn-primary" onclick="saveVersand()">Speichern</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════
+const DEFAULT_STATE = {
+  settings: {
+    firma: "KRB MEDI+CARE GmbH",
+    mwst: 0.19,
+    shopifyFaktor: 0.97,
+    shopifyFix: 0.60,
+    versandKundeNetto: 5.00,
+    versandKundeBrutto: 5.95,
+    aktiverLieferant: "wisma",
+  },
+  versandklassen: [
+    { id: "vk1", name: "Paket 0–2 kg",     gewicht: "0–2 kg",     wisma: 6.90, guder: null, hartmann: 4.95 },
+    { id: "vk2", name: "Paket 2,1–5,9 kg", gewicht: "2,1–5,9 kg", wisma: 7.90, guder: null, hartmann: 4.95 },
+    { id: "vk3", name: "Paket 6–31,5 kg",  gewicht: "6–31,5 kg",  wisma: 9.00, guder: null, hartmann: 4.95 },
+  ],
+  produkte: [
+    { id:"p1", name:"10cm × 2m",   gruppe:"Omnifix Elastic", sku:"900601", pzn:"04377374", aep:10.78, ekWisma:5.31, ekGuder:5.93, ekHartmann:6.47, versandklasse:"vk1", pp:null, ppName:"PraxisPanda" },
+    { id:"p2", name:"2,5cm × 10m", gruppe:"Omnifix Elastic", sku:"900606", pzn:"01316515", aep:19.66, ekWisma:2.65, ekGuder:10.81,ekHartmann:11.80,versandklasse:"vk1", pp:null, ppName:"PraxisPanda" },
+    { id:"p3", name:"5cm × 10m",   gruppe:"Omnifix Elastic", sku:"900602", pzn:"00255579", aep:18.67, ekWisma:2.05, ekGuder:10.27,ekHartmann:11.20,versandklasse:"vk1", pp:9.90, ppName:"PraxisPanda" },
+    { id:"p4", name:"10cm × 10m",  gruppe:"Omnifix Elastic", sku:"900603", pzn:"00255585", aep:33.12, ekWisma:3.04, ekGuder:18.22,ekHartmann:19.87,versandklasse:"vk1", pp:null, ppName:"PraxisPanda" },
+    { id:"p5", name:"15cm × 10m",  gruppe:"Omnifix Elastic", sku:"900604", pzn:"00255616", aep:45.58, ekWisma:4.10, ekGuder:12.50,ekHartmann:27.35,versandklasse:"vk2", pp:null, ppName:"PraxisPanda" },
+    { id:"p6", name:"20cm × 10m",  gruppe:"Omnifix Elastic", sku:"900605", pzn:"00255622", aep:59.54, ekWisma:6.08, ekGuder:32.75,ekHartmann:35.72,versandklasse:"vk2", pp:null, ppName:"PraxisPanda" },
+    { id:"p7", name:"30cm × 10m",  gruppe:"Omnifix Elastic", sku:"900607", pzn:"01316509", aep:82.00, ekWisma:10.17,ekGuder:45.10,ekHartmann:49.20,versandklasse:"vk2", pp:null, ppName:"PraxisPanda" },
+  ],
+  vkValues: {},
+};
+
+let STATE = loadState();
+
+function loadState() {
+  try {
+    const saved = localStorage.getItem('krbmed_commerce_v1');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      // Merge mit defaults um neue Felder zu ergänzen
+      return { ...DEFAULT_STATE, ...parsed,
+        settings: { ...DEFAULT_STATE.settings, ...parsed.settings }
+      };
+    }
+  } catch(e) {}
+  return JSON.parse(JSON.stringify(DEFAULT_STATE));
+}
+
+function saveState() {
+  localStorage.setItem('krbmed_commerce_v1', JSON.stringify(STATE));
+}
+
+// ═══════════════════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════════════════
+function uid() { return 'id_' + Math.random().toString(36).substr(2,9); }
+function eur(v) { return (v||0).toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2}) + ' €'; }
+function pct(v) { return ((v||0)*100).toLocaleString('de-DE',{minimumFractionDigits:1,maximumFractionDigits:1}) + ' %'; }
+function n(v)   { return parseFloat(v) || 0; }
+
+function getVersandEk(prod) {
+  const vk = STATE.versandklassen.find(v => v.id === prod.versandklasse);
+  if (!vk) return 0;
+  const lief = STATE.settings.aktiverLieferant;
+  if (lief === 'wisma')     return vk.wisma || 0;
+  if (lief === 'guder')     return vk.guder || vk.wisma || 0;
+  if (lief === 'hartmann')  return vk.hartmann || 0;
+  return vk.wisma || 0;
+}
+
+function getEk(prod) {
+  const lief = STATE.settings.aktiverLieferant;
+  if (lief === 'wisma')    return prod.ekWisma || 0;
+  if (lief === 'guder')    return prod.ekGuder || prod.ekWisma || 0;
+  if (lief === 'hartmann') return prod.ekHartmann || prod.ekWisma || 0;
+  return prod.ekWisma || 0;
+}
+
+function kalkuliere(prod, vkBrutto) {
+  const s = STATE.settings;
+  const ek         = getEk(prod);
+  const versandEk  = getVersandEk(prod);
+  const einstand   = ek + versandEk;
+  const vkNetto    = vkBrutto / (1 + s.mwst);
+  const bruttoUms  = vkBrutto + s.versandKundeBrutto;
+  const nachShop   = bruttoUms * s.shopifyFaktor - s.shopifyFix;
+  const shopify    = bruttoUms - nachShop;
+  const nettoUms   = vkNetto + s.versandKundeNetto;
+  const gewinn     = nettoUms - einstand - shopify;
+  const marge      = vkNetto > 0 ? gewinn / vkNetto : 0;
+  // Break-even VK Brutto: einstand + shopify(vkb) = nettoUms(vkb)
+  // vkb/(1+mwst) + versKunde = einstand + (vkb+versBrutto)*(1-shopFak)+shopFix
+  // Lösung iterativ oder algebraisch:
+  // Sei x = vkBrutto (gesuchter BE)
+  // x/(1+t) + vn = einstand + x*(1-f) + vb*(1-f) - fix  ... vereinfacht:
+  // x/(1+t) - x*(1-f) = einstand + vb*(1-f) - fix - vn
+  const t = s.mwst, f = 1 - s.shopifyFaktor, vb = s.versandKundeBrutto, vn = s.versandKundeNetto, fix = s.shopifyFix;
+  const beVkBrutto = (einstand + vb * f + fix - vn) / (1/(1+t) - f);
+  return { ek, versandEk, einstand, vkNetto, bruttoUms, shopify, nettoUms, gewinn, marge, beVkBrutto };
+}
+
+function vkVorschlag(aep) {
+  return Math.round(aep * 1.19 * 0.89 / 0.10) * 0.10 - 0.01;
+}
+
+function getVk(prodId, aep) {
+  return STATE.vkValues[prodId] ?? vkVorschlag(aep);
+}
+
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2200);
+}
+
+// ═══════════════════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════════════════
+function showPanel(name) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  event.target.classList.add('active');
+  renderAll();
+}
+
+// ═══════════════════════════════════════════════════════
+// RENDER KALKULATION
+// ═══════════════════════════════════════════════════════
+function renderKalkulation() {
+  const s = STATE.settings;
+
+  // Lieferanten Tabs
+  const tabs = document.getElementById('lief-tabs');
+  const liefs = [
+    { key: 'wisma',    label: 'Wisma',    cls: 'active-wisma' },
+    { key: 'guder',    label: 'Guder',    cls: 'active-guder' },
+    { key: 'hartmann', label: 'Hartmann', cls: 'active-hartmann' },
+  ];
+  tabs.innerHTML = liefs.map(l => `
+    <button class="lief-tab ${s.aktiverLieferant === l.key ? l.cls : ''}"
+      onclick="setLieferant('${l.key}')">${l.label}</button>
+  `).join('');
+
+  // Produkte berechnen
+  const rows = STATE.produkte.map(p => {
+    const vkBrutto = getVk(p.id, p.aep);
+    const calc = kalkuliere(p, vkBrutto);
+    return { ...p, vkBrutto, ...calc };
+  });
+
+  // KPIs
+  const gewinnSum  = rows.reduce((s,r) => s + r.gewinn, 0);
+  const avgMarge   = rows.reduce((s,r) => s + r.marge, 0) / rows.length;
+  const profitable = rows.filter(r => r.gewinn > 0).length;
+  const kpiGrid = document.getElementById('kpi-grid');
+  kpiGrid.innerHTML = [
+    { label: 'Produkte',    val: rows.length,             color: 'var(--accent)',  sub: 'gesamt' },
+    { label: 'Profitabel',  val: profitable,              color: 'var(--green)',   sub: 'mit positivem Gewinn' },
+    { label: 'Ø Marge',     val: pct(avgMarge),           color: avgMarge>0.4?'var(--green)':avgMarge>0.2?'var(--yellow)':'var(--red)', sub: 'auf VK Netto' },
+    { label: 'Ges. Gewinn', val: eur(gewinnSum),          color: gewinnSum>0?'var(--green)':'var(--red)', sub: 'alle Produkte' },
+  ].map(k => `
+    <div class="kpi-card">
+      <div class="kpi-label">${k.label}</div>
+      <div class="kpi-value" style="color:${k.color}">${k.val}</div>
+      <div class="kpi-sub">${k.sub}</div>
+    </div>
+  `).join('');
+
+  // Tabelle
+  const tbody = document.getElementById('kalk-tbody');
+  if (rows.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="12" class="left"><div class="empty-state"><div class="icon">📦</div><h3>Keine Produkte</h3><p>Gehe zu "Produkte" und lege dein erstes Produkt an.</p></div></td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = rows.map(r => {
+    const mc  = r.marge > 0.5 ? 'var(--green)' : r.marge > 0.25 ? 'var(--yellow)' : r.marge > 0 ? 'var(--orange)' : 'var(--red)';
+    const gc  = r.gewinn > 0 ? 'var(--green)' : 'var(--red)';
+    const bePct = r.vkBrutto > 0 ? Math.min(r.beVkBrutto / r.vkBrutto, 1.5) : 0;
+    const beColor = r.vkBrutto >= r.beVkBrutto ? 'var(--green)' : 'var(--red)';
+    const ppDiff = r.pp ? r.vkBrutto - r.pp : null;
+
+    return `<tr>
+      <td class="left">
+        <div class="fw6" style="font-size:13px;">${r.name}</div>
+        <div style="font-size:10px;color:var(--text3);font-family:'IBM Plex Mono',monospace;">${r.gruppe || ''} · SKU ${r.sku}</div>
+      </td>
+      <td><span class="mono" style="color:var(--green)">${eur(r.ek)}</span></td>
+      <td><span class="mono" style="color:var(--accent)">${eur(r.versandEk)}</span></td>
+      <td><span class="mono" style="color:var(--red)">${eur(r.einstand)}</span></td>
+      <td style="background:rgba(227,179,65,0.05);border-left:1px solid rgba(227,179,65,0.15);border-right:1px solid rgba(227,179,65,0.15);">
+        <div style="display:flex;align-items:center;gap:6px;justify-content:flex-end;">
+          <input type="number" class="vk-input" step="0.10" min="0"
+            value="${r.vkBrutto.toFixed(2)}"
+            onchange="updateVk('${r.id}', this.value)"
+            onclick="this.select()">
+          <button onclick="resetVk('${r.id}',${r.aep})" title="Vorschlag" style="background:none;border:none;cursor:pointer;color:var(--text3);font-size:14px;padding:0 2px;">↺</button>
+        </div>
+        <div style="font-size:10px;color:var(--text3);text-align:right;margin-top:2px;">Vorschlag: ${eur(vkVorschlag(r.aep))}</div>
+      </td>
+      <td><span class="mono">${eur(r.vkNetto)}</span></td>
+      <td><span class="mono" style="color:var(--purple)">${eur(r.shopify)}</span></td>
+      <td><span class="mono">${eur(r.nettoUms)}</span></td>
+      <td>
+        <span class="mono fw6" style="color:${gc};font-size:14px;">${eur(r.gewinn)}</span>
+        ${r.pp ? `<div style="font-size:10px;margin-top:2px;color:${ppDiff<0?'var(--green)':'var(--red)'}">
+          vs ${r.ppName||'WB'}: ${ppDiff<0?'▼':'▲'} ${eur(Math.abs(ppDiff))}
+        </div>` : ''}
+      </td>
+      <td>
+        <span class="badge ${r.marge>0.5?'badge-green':r.marge>0.25?'badge-yellow':r.marge>0?'badge-orange':'badge-red'}">${pct(r.marge)}</span>
+      </td>
+      <td>
+        <div style="font-size:11px;color:${beColor};font-family:'IBM Plex Mono',monospace;">${eur(r.beVkBrutto)}</div>
+        <div class="be-bar-wrap">
+          <div class="be-bar-fill" style="width:${Math.min(r.beVkBrutto/r.vkBrutto*100,100)}%;background:${beColor};"></div>
+        </div>
+        <div style="font-size:9px;color:var(--text3);">Break-even VK</div>
+      </td>
+      <td class="center"><span class="mono text-muted" style="font-size:12px;">${eur(r.aep)}</span></td>
+    </tr>`;
+  }).join('');
+}
+
+function updateVk(id, val) {
+  STATE.vkValues[id] = parseFloat(val) || 0;
+  saveState();
+  renderKalkulation();
+}
+function resetVk(id, aep) {
+  STATE.vkValues[id] = vkVorschlag(aep);
+  saveState();
+  renderKalkulation();
+}
+function setLieferant(key) {
+  STATE.settings.aktiverLieferant = key;
+  saveState();
+  renderKalkulation();
+}
+
+// ═══════════════════════════════════════════════════════
+// RENDER PRODUKTE
+// ═══════════════════════════════════════════════════════
+function renderProdukte() {
+  const tbody = document.getElementById('produkte-tbody');
+  if (STATE.produkte.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="9" class="left"><div class="empty-state"><div class="icon">📦</div><h3>Noch keine Produkte</h3><p>Klicke auf "Neues Produkt" um zu starten.</p></div></td></tr>`;
+    return;
+  }
+  tbody.innerHTML = STATE.produkte.map(p => {
+    const vk = STATE.versandklassen.find(v => v.id === p.versandklasse);
+    return `<tr>
+      <td class="left">
+        <div class="fw6">${p.name}</div>
+        <div style="font-size:11px;color:var(--text2);">${p.gruppe||''}</div>
+      </td>
+      <td class="left"><span class="mono" style="font-size:12px;">${p.sku||'—'}</span></td>
+      <td class="left"><span class="mono" style="font-size:12px;">${p.pzn||'—'}</span></td>
+      <td><span class="mono">${eur(p.aep)}</span></td>
+      <td><span class="mono" style="color:var(--green)">${p.ekWisma?eur(p.ekWisma):'—'}</span></td>
+      <td><span class="mono" style="color:var(--accent)">${p.ekGuder?eur(p.ekGuder):'—'}</span></td>
+      <td><span class="mono" style="color:var(--gold)">${p.ekHartmann?eur(p.ekHartmann):'—'}</span></td>
+      <td class="center"><span class="badge badge-blue">${vk?vk.name:'—'}</span></td>
+      <td class="center" style="white-space:nowrap;">
+        <button class="btn btn-ghost btn-sm" onclick="openProductModal('${p.id}')">✏ Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteProduct('${p.id}')">✕</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════════════════
+// RENDER VERSAND
+// ═══════════════════════════════════════════════════════
+function renderVersand() {
+  const tbody = document.getElementById('versand-tbody');
+  tbody.innerHTML = STATE.versandklassen.map(v => `
+    <tr>
+      <td class="left"><span class="fw6">${v.name}</span></td>
+      <td class="left"><span class="badge badge-blue">${v.gewicht||'—'}</span></td>
+      <td><span class="mono" style="color:var(--green)">${v.wisma!=null?eur(v.wisma):'—'}</span></td>
+      <td><span class="mono" style="color:var(--accent)">${v.guder!=null?eur(v.guder):'—'}</span></td>
+      <td><span class="mono" style="color:var(--gold)">${v.hartmann!=null?eur(v.hartmann):'—'}</span></td>
+      <td class="center" style="white-space:nowrap;">
+        <button class="btn btn-ghost btn-sm" onclick="openVersandModal('${v.id}')">✏ Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteVersand('${v.id}')">✕</button>
+      </td>
+    </tr>
+  `).join('');
+  document.getElementById('vers-kunde-netto').value   = STATE.settings.versandKundeNetto;
+  document.getElementById('vers-kunde-brutto').value  = STATE.settings.versandKundeBrutto;
+}
+
+// ═══════════════════════════════════════════════════════
+// RENDER EINSTELLUNGEN
+// ═══════════════════════════════════════════════════════
+function renderEinstellungen() {
+  const s = STATE.settings;
+  document.getElementById('shopify-faktor').value = s.shopifyFaktor;
+  document.getElementById('shopify-fix').value    = s.shopifyFix;
+  document.getElementById('mwst-satz').value      = s.mwst;
+  document.getElementById('firma-name').value     = s.firma;
+}
+
+function saveSettings() {
+  STATE.settings.shopifyFaktor        = n(document.getElementById('shopify-faktor').value);
+  STATE.settings.shopifyFix           = n(document.getElementById('shopify-fix').value);
+  STATE.settings.mwst                 = n(document.getElementById('mwst-satz').value);
+  STATE.settings.firma                = document.getElementById('firma-name').value;
+  STATE.settings.versandKundeNetto    = n(document.getElementById('vers-kunde-netto').value);
+  STATE.settings.versandKundeBrutto   = n(document.getElementById('vers-kunde-brutto').value);
+  saveState();
+  renderKalkulation();
+}
+
+// ═══════════════════════════════════════════════════════
+// PRODUKT MODAL
+// ═══════════════════════════════════════════════════════
+function openProductModal(id) {
+  const modal = document.getElementById('modal-produkt');
+  const sel = document.getElementById('prod-versandklasse');
+  sel.innerHTML = STATE.versandklassen.map(v => `<option value="${v.id}">${v.name}</option>`).join('');
+
+  if (id) {
+    const p = STATE.produkte.find(p => p.id === id);
+    if (!p) return;
+    document.getElementById('modal-produkt-title').textContent = 'Produkt bearbeiten';
+    document.getElementById('edit-prod-id').value     = p.id;
+    document.getElementById('prod-name').value        = p.name;
+    document.getElementById('prod-gruppe').value      = p.gruppe || '';
+    document.getElementById('prod-sku').value         = p.sku || '';
+    document.getElementById('prod-pzn').value         = p.pzn || '';
+    document.getElementById('prod-aep').value         = p.aep || '';
+    document.getElementById('prod-ek-wisma').value    = p.ekWisma || '';
+    document.getElementById('prod-ek-guder').value    = p.ekGuder || '';
+    document.getElementById('prod-ek-hartmann').value = p.ekHartmann || '';
+    document.getElementById('prod-versandklasse').value = p.versandklasse || STATE.versandklassen[0]?.id;
+    document.getElementById('prod-pp').value          = p.pp || '';
+    document.getElementById('prod-pp-name').value     = p.ppName || '';
+  } else {
+    document.getElementById('modal-produkt-title').textContent = 'Neues Produkt';
+    document.getElementById('edit-prod-id').value = '';
+    ['prod-name','prod-gruppe','prod-sku','prod-pzn','prod-aep',
+     'prod-ek-wisma','prod-ek-guder','prod-ek-hartmann','prod-pp','prod-pp-name'].forEach(id => {
+      document.getElementById(id).value = '';
+    });
+    if (STATE.versandklassen[0]) sel.value = STATE.versandklassen[0].id;
+  }
+  modal.classList.add('open');
+}
+
+function saveProduct() {
+  const id    = document.getElementById('edit-prod-id').value;
+  const name  = document.getElementById('prod-name').value.trim();
+  if (!name) { alert('Produktname ist Pflicht.'); return; }
+
+  const prod = {
+    id:           id || uid(),
+    name,
+    gruppe:       document.getElementById('prod-gruppe').value.trim(),
+    sku:          document.getElementById('prod-sku').value.trim(),
+    pzn:          document.getElementById('prod-pzn').value.trim(),
+    aep:          n(document.getElementById('prod-aep').value),
+    ekWisma:      n(document.getElementById('prod-ek-wisma').value) || null,
+    ekGuder:      n(document.getElementById('prod-ek-guder').value) || null,
+    ekHartmann:   n(document.getElementById('prod-ek-hartmann').value) || null,
+    versandklasse:document.getElementById('prod-versandklasse').value,
+    pp:           n(document.getElementById('prod-pp').value) || null,
+    ppName:       document.getElementById('prod-pp-name').value.trim() || 'Wettbewerb',
+  };
+
+  if (id) {
+    const idx = STATE.produkte.findIndex(p => p.id === id);
+    STATE.produkte[idx] = prod;
+  } else {
+    STATE.produkte.push(prod);
+  }
+  saveState();
+  closeModal('modal-produkt');
+  renderAll();
+  toast(id ? '✓ Produkt aktualisiert' : '✓ Produkt angelegt');
+}
+
+function deleteProduct(id) {
+  if (!confirm('Produkt löschen?')) return;
+  STATE.produkte = STATE.produkte.filter(p => p.id !== id);
+  saveState();
+  renderAll();
+  toast('Produkt gelöscht');
+}
+
+// ═══════════════════════════════════════════════════════
+// VERSAND MODAL
+// ═══════════════════════════════════════════════════════
+function openVersandModal(id) {
+  const modal = document.getElementById('modal-versand');
+  if (id) {
+    const v = STATE.versandklassen.find(v => v.id === id);
+    if (!v) return;
+    document.getElementById('modal-versand-title').textContent = 'Versandklasse bearbeiten';
+    document.getElementById('edit-versand-id').value = v.id;
+    document.getElementById('vers-name').value       = v.name;
+    document.getElementById('vers-gewicht').value    = v.gewicht || '';
+    document.getElementById('vers-wisma').value      = v.wisma != null ? v.wisma : '';
+    document.getElementById('vers-guder').value      = v.guder != null ? v.guder : '';
+    document.getElementById('vers-hartmann').value   = v.hartmann != null ? v.hartmann : '';
+  } else {
+    document.getElementById('modal-versand-title').textContent = 'Neue Versandklasse';
+    document.getElementById('edit-versand-id').value = '';
+    ['vers-name','vers-gewicht','vers-wisma','vers-guder','vers-hartmann'].forEach(i => {
+      document.getElementById(i).value = '';
+    });
+  }
+  modal.classList.add('open');
+}
+
+function saveVersand() {
+  const id   = document.getElementById('edit-versand-id').value;
+  const name = document.getElementById('vers-name').value.trim();
+  if (!name) { alert('Bezeichnung ist Pflicht.'); return; }
+
+  const vk = {
+    id:       id || uid(),
+    name,
+    gewicht:  document.getElementById('vers-gewicht').value.trim(),
+    wisma:    n(document.getElementById('vers-wisma').value) || null,
+    guder:    n(document.getElementById('vers-guder').value) || null,
+    hartmann: n(document.getElementById('vers-hartmann').value) || null,
+  };
+
+  if (id) {
+    const idx = STATE.versandklassen.findIndex(v => v.id === id);
+    STATE.versandklassen[idx] = vk;
+  } else {
+    STATE.versandklassen.push(vk);
+  }
+  saveState();
+  closeModal('modal-versand');
+  renderAll();
+  toast(id ? '✓ Versandklasse aktualisiert' : '✓ Versandklasse angelegt');
+}
+
+function deleteVersand(id) {
+  if (!confirm('Versandklasse löschen?')) return;
+  STATE.versandklassen = STATE.versandklassen.filter(v => v.id !== id);
+  saveState();
+  renderAll();
+}
+
+// ═══════════════════════════════════════════════════════
+// MODAL UTILS
+// ═══════════════════════════════════════════════════════
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+}
+document.querySelectorAll('.modal-overlay').forEach(m => {
+  m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); });
+});
+
+// ═══════════════════════════════════════════════════════
+// DATEN IMPORT/EXPORT
+// ═══════════════════════════════════════════════════════
+function exportData() {
+  const blob = new Blob([JSON.stringify(STATE, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'krb_kalkulation_' + new Date().toISOString().slice(0,10) + '.json';
+  a.click();
+  toast('✓ Daten exportiert');
+}
+
+function importData(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const data = JSON.parse(e.target.result);
+      STATE = { ...DEFAULT_STATE, ...data, settings: { ...DEFAULT_STATE.settings, ...data.settings } };
+      saveState();
+      renderAll();
+      toast('✓ Daten importiert');
+    } catch(err) {
+      alert('Fehler beim Importieren: Ungültige JSON-Datei.');
+    }
+  };
+  reader.readAsText(file);
+  event.target.value = '';
+}
+
+function resetData() {
+  STATE = JSON.parse(JSON.stringify(DEFAULT_STATE));
+  saveState();
+  renderAll();
+  toast('Daten zurückgesetzt');
+}
+
+// ═══════════════════════════════════════════════════════
+// RENDER ALL
+// ═══════════════════════════════════════════════════════
+function renderAll() {
+  renderKalkulation();
+  renderProdukte();
+  renderVersand();
+  renderEinstellungen();
+}
+
+// INIT
+renderAll();
+</script>
+</body>
+</html>
