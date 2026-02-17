@@ -3,540 +3,393 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KRBmed Commerce · Preiskalkulation</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
+<title>KRBmed Commerce · v2.0</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg:       #0c1117;
-  --bg2:      #111820;
-  --bg3:      #161e28;
-  --border:   #1e2d3d;
-  --border2:  #253447;
-  --text:     #cdd9e5;
-  --text2:    #768390;
-  --text3:    #444c56;
-  --accent:   #388bfd;
-  --green:    #3fb950;
-  --yellow:   #d29922;
-  --red:      #f85149;
-  --orange:   #db6d28;
-  --purple:   #bc8cff;
-  --input-bg: #1c2733;
-  --gold:     #e3b341;
+  --bg:      #0c1117; --bg2: #111820; --bg3: #161e28; --bg4: #1c2733;
+  --border:  #1e2d3d; --border2: #253447;
+  --text:    #cdd9e5; --text2: #768390; --text3: #444c56;
+  --accent:  #388bfd; --green: #3fb950; --yellow: #d29922;
+  --red:     #f85149; --orange: #db6d28; --purple: #bc8cff;
+  --gold:    #e3b341; --teal: #39d353; --pink: #f778ba;
 }
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  font-family: 'IBM Plex Sans', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-  font-size: 14px;
-}
-::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;}
+::-webkit-scrollbar{width:5px;height:5px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
+input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;}
+input[type=number]{-moz-appearance:textfield;}
 
 /* LAYOUT */
-.header {
-  background: var(--bg2);
-  border-bottom: 1px solid var(--border);
-  padding: 0 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 52px;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-.logo {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text);
-  letter-spacing: 0.05em;
-}
-.logo span { color: var(--accent); }
-.nav { display: flex; gap: 2px; }
-.nav-btn {
-  background: none;
-  border: none;
-  color: var(--text2);
-  cursor: pointer;
-  font-family: 'IBM Plex Sans', sans-serif;
-  font-size: 13px;
-  font-weight: 500;
-  padding: 6px 14px;
-  border-radius: 6px;
-  transition: all 0.15s;
-}
-.nav-btn:hover { background: var(--bg3); color: var(--text); }
-.nav-btn.active { background: var(--bg3); color: var(--accent); }
-
-.main { padding: 24px; max-width: 1600px; margin: 0 auto; }
-
-/* PANELS */
-.panel {
-  display: none;
-}
-.panel.active { display: block; }
+.header{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 20px;display:flex;align-items:center;justify-content:space-between;height:50px;position:sticky;top:0;z-index:100;}
+.logo{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;letter-spacing:.05em;}
+.logo span{color:var(--accent);}
+.logo .ver{color:var(--text3);font-size:10px;margin-left:6px;}
+.nav{display:flex;gap:2px;}
+.nav-btn{background:none;border:none;color:var(--text2);cursor:pointer;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:500;padding:6px 12px;border-radius:6px;transition:all .15s;}
+.nav-btn:hover{background:var(--bg3);color:var(--text);}
+.nav-btn.active{background:var(--bg3);color:var(--accent);}
+.nav-badge{background:var(--red);border-radius:8px;color:#fff;font-size:9px;font-weight:700;padding:1px 5px;margin-left:4px;vertical-align:middle;}
+.main{padding:20px;max-width:1700px;margin:0 auto;}
+.panel{display:none;} .panel.active{display:block;}
 
 /* CARDS */
-.card {
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  overflow: hidden;
-}
-.card-header {
-  padding: 14px 20px;
-  border-bottom: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-.card-title {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text);
-  letter-spacing: 0.02em;
-}
-.card-body { padding: 20px; }
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:16px;}
+.card-header{padding:12px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+.card-title{font-size:13px;font-weight:600;color:var(--text);}
+.card-body{padding:18px;}
 
 /* BUTTONS */
-.btn {
-  align-items: center;
-  border-radius: 6px;
-  border: 1px solid var(--border2);
-  cursor: pointer;
-  display: inline-flex;
-  font-family: 'IBM Plex Sans', sans-serif;
-  font-size: 12px;
-  font-weight: 600;
-  gap: 6px;
-  padding: 6px 14px;
-  transition: all 0.15s;
-  white-space: nowrap;
-}
-.btn-primary { background: var(--accent); border-color: var(--accent); color: #fff; }
-.btn-primary:hover { background: #1f6feb; }
-.btn-success { background: var(--green); border-color: var(--green); color: #fff; }
-.btn-success:hover { opacity: 0.85; }
-.btn-ghost { background: transparent; color: var(--text2); }
-.btn-ghost:hover { background: var(--bg3); color: var(--text); border-color: var(--border2); }
-.btn-danger { background: transparent; border-color: var(--red); color: var(--red); }
-.btn-danger:hover { background: rgba(248,81,73,0.1); }
-.btn-sm { font-size: 11px; padding: 4px 10px; }
+.btn{align-items:center;border-radius:6px;border:1px solid var(--border2);cursor:pointer;display:inline-flex;font-family:'IBM Plex Sans',sans-serif;font-size:12px;font-weight:600;gap:5px;padding:5px 12px;transition:all .15s;white-space:nowrap;}
+.btn-primary{background:var(--accent);border-color:var(--accent);color:#fff;}
+.btn-primary:hover{background:#1f6feb;}
+.btn-success{background:var(--green);border-color:var(--green);color:#fff;}
+.btn-ghost{background:transparent;color:var(--text2);}
+.btn-ghost:hover{background:var(--bg3);color:var(--text);border-color:var(--border2);}
+.btn-danger{background:transparent;border-color:var(--red);color:var(--red);}
+.btn-danger:hover{background:rgba(248,81,73,.1);}
+.btn-warning{background:transparent;border-color:var(--yellow);color:var(--yellow);}
+.btn-sm{font-size:11px;padding:3px 9px;}
+.btn-xs{font-size:10px;padding:2px 7px;}
 
-/* INPUTS */
-.form-group { margin-bottom: 16px; }
-.form-label {
-  display: block;
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--text2);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  margin-bottom: 6px;
-}
-.form-control {
-  background: var(--input-bg);
-  border: 1px solid var(--border2);
-  border-radius: 6px;
-  color: var(--text);
-  font-family: 'IBM Plex Sans', sans-serif;
-  font-size: 13px;
-  outline: none;
-  padding: 8px 12px;
-  transition: border-color 0.15s;
-  width: 100%;
-}
-.form-control:focus { border-color: var(--accent); }
-.form-control.mono { font-family: 'IBM Plex Mono', monospace; }
-input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; }
-input[type=number] { -moz-appearance: textfield; }
-.form-row { display: grid; gap: 12px; }
-.form-row-2 { grid-template-columns: 1fr 1fr; }
-.form-row-3 { grid-template-columns: 1fr 1fr 1fr; }
-.form-row-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+/* FORMS */
+.form-group{margin-bottom:14px;}
+.form-label{display:block;font-size:11px;font-weight:600;color:var(--text2);letter-spacing:.07em;text-transform:uppercase;margin-bottom:5px;}
+.form-label .hint{color:var(--text3);font-weight:400;text-transform:none;margin-left:4px;}
+.form-control{background:var(--bg4);border:1px solid var(--border2);border-radius:6px;color:var(--text);font-family:'IBM Plex Sans',sans-serif;font-size:13px;outline:none;padding:7px 11px;transition:border-color .15s;width:100%;}
+.form-control:focus{border-color:var(--accent);}
+.form-control.mono{font-family:'IBM Plex Mono',monospace;}
+select.form-control{cursor:pointer;}
+.form-row{display:grid;gap:12px;}
+.col-2{grid-template-columns:1fr 1fr;}
+.col-3{grid-template-columns:1fr 1fr 1fr;}
+.col-4{grid-template-columns:1fr 1fr 1fr 1fr;}
+.col-6{grid-template-columns:repeat(6,1fr);}
+.section-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);padding:14px 0 8px;border-bottom:1px solid var(--border);margin-bottom:12px;}
 
-/* VK INPUT SPECIAL */
-.vk-input-wrap {
-  position: relative;
-  display: inline-block;
-}
-.vk-input {
-  background: rgba(227,179,65,0.1);
-  border: 2px solid var(--gold);
-  border-radius: 6px;
-  color: var(--gold);
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 14px;
-  font-weight: 600;
-  outline: none;
-  padding: 7px 12px;
-  text-align: right;
-  width: 120px;
-  transition: all 0.15s;
-}
-.vk-input:focus { box-shadow: 0 0 0 3px rgba(227,179,65,0.2); }
+/* VK INPUT */
+.vk-input{background:rgba(227,179,65,.1);border:2px solid var(--gold);border-radius:6px;color:var(--gold);font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;outline:none;padding:6px 10px;text-align:right;width:115px;transition:all .15s;}
+.vk-input:focus{box-shadow:0 0 0 3px rgba(227,179,65,.2);}
 
 /* TABLES */
-.table-wrap { overflow-x: auto; }
-table { border-collapse: collapse; width: 100%; }
-thead tr { background: var(--bg3); }
-th {
-  color: var(--text2);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  padding: 10px 14px;
-  text-align: right;
-  text-transform: uppercase;
-  white-space: nowrap;
-  border-bottom: 1px solid var(--border);
-}
-th.left { text-align: left; }
-th.center { text-align: center; }
-td {
-  border-bottom: 1px solid var(--border);
-  color: var(--text);
-  font-size: 13px;
-  padding: 10px 14px;
-  text-align: right;
-  vertical-align: middle;
-}
-td.left { text-align: left; }
-td.center { text-align: center; }
-tr:hover td { background: rgba(56,139,253,0.04); }
-tr:last-child td { border-bottom: none; }
+.table-wrap{overflow-x:auto;}
+table{border-collapse:collapse;width:100%;}
+thead tr{background:var(--bg3);}
+th{color:var(--text2);font-size:10px;font-weight:700;letter-spacing:.08em;padding:9px 12px;text-align:right;text-transform:uppercase;white-space:nowrap;border-bottom:1px solid var(--border);}
+th.L{text-align:left;} th.C{text-align:center;}
+td{border-bottom:1px solid var(--border);font-size:12px;padding:9px 12px;text-align:right;vertical-align:middle;}
+td.L{text-align:left;} td.C{text-align:center;}
+tr:hover td{background:rgba(56,139,253,.03);}
+tr:last-child td{border-bottom:none;}
 
-/* BADGES / PILLS */
-.badge {
-  border-radius: 4px;
-  display: inline-block;
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 11px;
-  font-weight: 500;
-  padding: 2px 8px;
-}
-.badge-green { background: rgba(63,185,80,0.15); color: var(--green); }
-.badge-yellow { background: rgba(210,153,34,0.15); color: var(--yellow); }
-.badge-red { background: rgba(248,81,73,0.15); color: var(--red); }
-.badge-orange { background: rgba(219,109,40,0.15); color: var(--orange); }
-.badge-blue { background: rgba(56,139,253,0.15); color: var(--accent); }
-.badge-purple { background: rgba(188,140,255,0.15); color: var(--purple); }
+/* BADGES */
+.badge{border-radius:4px;display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;padding:2px 7px;}
+.bg{background:rgba(63,185,80,.15);color:var(--green);}
+.by{background:rgba(210,153,34,.15);color:var(--yellow);}
+.br{background:rgba(248,81,73,.15);color:var(--red);}
+.bo{background:rgba(219,109,40,.15);color:var(--orange);}
+.bb{background:rgba(56,139,253,.15);color:var(--accent);}
+.bp{background:rgba(188,140,255,.15);color:var(--purple);}
+.bgold{background:rgba(227,179,65,.15);color:var(--gold);}
 
-/* KPI GRID */
-.kpi-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(160px,1fr)); gap: 12px; margin-bottom: 20px; }
-.kpi-card {
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 16px 18px;
-}
-.kpi-label { color: var(--text2); font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 6px; }
-.kpi-value { font-family: 'IBM Plex Mono', monospace; font-size: 22px; font-weight: 600; }
-.kpi-sub { color: var(--text2); font-size: 11px; margin-top: 3px; }
+/* KPI */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:16px;}
+.kpi-card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:14px 16px;}
+.kpi-label{color:var(--text2);font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:5px;}
+.kpi-val{font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:600;}
+.kpi-sub{color:var(--text2);font-size:10px;margin-top:2px;}
 
 /* MODAL */
-.modal-overlay {
-  align-items: center;
-  background: rgba(0,0,0,0.7);
-  bottom: 0;
-  display: none;
-  justify-content: center;
-  left: 0;
-  position: fixed;
-  right: 0;
-  top: 0;
-  z-index: 200;
-}
-.modal-overlay.open { display: flex; }
-.modal {
-  background: var(--bg2);
-  border: 1px solid var(--border2);
-  border-radius: 12px;
-  max-height: 90vh;
-  overflow-y: auto;
-  padding: 24px;
-  width: 90%;
-  max-width: 640px;
-}
-.modal-title {
-  font-size: 16px;
-  font-weight: 700;
-  margin-bottom: 20px;
-  color: var(--text);
-}
-.modal-footer { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+.modal-overlay{align-items:flex-start;background:rgba(0,0,0,.75);bottom:0;display:none;justify-content:center;left:0;overflow-y:auto;padding:40px 16px;position:fixed;right:0;top:0;z-index:200;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--bg2);border:1px solid var(--border2);border-radius:12px;padding:22px;width:100%;max-width:680px;position:relative;}
+.modal-title{font-size:15px;font-weight:700;margin-bottom:18px;}
+.modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;padding-top:14px;border-top:1px solid var(--border);}
+.close-modal{background:none;border:none;color:var(--text2);cursor:pointer;font-size:18px;padding:0;position:absolute;right:16px;top:16px;}
 
-/* SECTION TITLE */
-.section-title {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text3);
-  margin: 20px 0 10px;
-  padding-bottom: 6px;
-  border-bottom: 1px solid var(--border);
-}
+/* MHD AMPEL */
+.mhd-ok{color:var(--green);}
+.mhd-warn{color:var(--yellow);}
+.mhd-crit{color:var(--red);}
+.mhd-exp{color:var(--text3);text-decoration:line-through;}
 
-/* LIEFERANT TABS */
-.lief-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
-.lief-tab {
-  background: none;
-  border: 1px solid var(--border2);
-  border-radius: 6px;
-  color: var(--text2);
-  cursor: pointer;
-  font-family: 'IBM Plex Sans', sans-serif;
-  font-size: 12px;
-  font-weight: 600;
-  padding: 5px 14px;
-  transition: all 0.15s;
-}
-.lief-tab.active-wisma  { background: rgba(63,185,80,0.15); border-color: var(--green); color: var(--green); }
-.lief-tab.active-guder  { background: rgba(56,139,253,0.15); border-color: var(--accent); color: var(--accent); }
-.lief-tab.active-hartmann { background: rgba(227,179,65,0.15); border-color: var(--gold); color: var(--gold); }
-
-/* BREAK-EVEN BAR */
-.be-bar-wrap { margin: 6px 0 2px; position: relative; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
-.be-bar-fill { height: 100%; border-radius: 2px; transition: width 0.3s; }
-
-/* VERSANDMATRIX */
-.matrix-table td, .matrix-table th { padding: 8px 12px; font-size: 12px; }
+/* BESTAND AMPEL */
+.stock-ok{color:var(--green);}
+.stock-low{color:var(--yellow);}
+.stock-out{color:var(--red);}
 
 /* TOAST */
-.toast {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  background: var(--bg2);
-  border: 1px solid var(--green);
-  border-radius: 8px;
-  color: var(--green);
-  font-size: 13px;
-  font-weight: 600;
-  padding: 10px 18px;
-  z-index: 300;
-  opacity: 0;
-  transform: translateY(8px);
-  transition: all 0.2s;
-  pointer-events: none;
-}
-.toast.show { opacity: 1; transform: translateY(0); }
+.toast{position:fixed;bottom:20px;right:20px;background:var(--bg2);border:1px solid var(--green);border-radius:8px;color:var(--green);font-size:12px;font-weight:600;padding:9px 16px;z-index:300;opacity:0;transform:translateY(6px);transition:all .2s;pointer-events:none;}
+.toast.show{opacity:1;transform:translateY(0);}
 
-/* RESPONSIVE */
-@media (max-width: 768px) {
-  .main { padding: 12px; }
-  .form-row-4 { grid-template-columns: 1fr 1fr; }
-  .form-row-3 { grid-template-columns: 1fr 1fr; }
-  .header { padding: 0 12px; }
-}
+/* TABS innerhalb Panel */
+.inner-tabs{display:flex;gap:4px;margin-bottom:16px;border-bottom:1px solid var(--border);padding-bottom:0;}
+.inner-tab{background:none;border:none;border-bottom:2px solid transparent;color:var(--text2);cursor:pointer;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:500;padding:8px 14px;margin-bottom:-1px;transition:all .15s;}
+.inner-tab.active{border-bottom-color:var(--accent);color:var(--accent);}
 
-.empty-state {
-  text-align: center;
-  padding: 48px 24px;
-  color: var(--text2);
-}
-.empty-state .icon { font-size: 36px; margin-bottom: 12px; }
-.empty-state h3 { font-size: 15px; margin-bottom: 6px; color: var(--text); }
-.mono { font-family: 'IBM Plex Mono', monospace; }
-.text-green { color: var(--green); }
-.text-red { color: var(--red); }
-.text-yellow { color: var(--yellow); }
-.text-gold { color: var(--gold); }
-.text-muted { color: var(--text2); }
-.fw6 { font-weight: 600; }
-.divider { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
+/* BE BAR */
+.be-bar{height:3px;background:var(--border);border-radius:2px;overflow:hidden;margin-top:3px;}
+.be-fill{height:100%;border-radius:2px;transition:width .3s;}
+
+.empty{text-align:center;padding:40px;color:var(--text2);}
+.empty .ico{font-size:32px;margin-bottom:10px;}
+.mono{font-family:'IBM Plex Mono',monospace;}
+.fw6{font-weight:600;}
+.divider{border:none;border-top:1px solid var(--border);margin:16px 0;}
+@media(max-width:768px){.main{padding:10px;}.col-4,.col-6{grid-template-columns:1fr 1fr;}.col-3{grid-template-columns:1fr 1fr;}.header{padding:0 10px;}.nav-btn span{display:none;}}
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
 <header class="header">
-  <div class="logo">KRBmed <span>Commerce</span></div>
+  <div class="logo">KRBmed <span>Commerce</span><span class="ver">v2.0</span></div>
   <nav class="nav">
-    <button class="nav-btn active" onclick="showPanel('kalkulation')">Kalkulation</button>
-    <button class="nav-btn" onclick="showPanel('produkte')">Produkte</button>
-    <button class="nav-btn" onclick="showPanel('versand')">Versand</button>
-    <button class="nav-btn" onclick="showPanel('einstellungen')">Einstellungen</button>
+    <button class="nav-btn active" data-panel="kalkulation">Kalkulation</button>
+    <button class="nav-btn" data-panel="bestand">Bestand <span class="nav-badge" id="mhd-badge" style="display:none">!</span></button>
+    <button class="nav-btn" data-panel="produkte">Produkte</button>
+    <button class="nav-btn" data-panel="lieferanten">Lieferanten</button>
+    <button class="nav-btn" data-panel="versand">Versand</button>
+    <button class="nav-btn" data-panel="einstellungen">Einstellungen</button>
   </nav>
 </header>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
-<!-- MAIN -->
 <div class="main">
 
-<!-- ═══════════════════════════════════════════════ -->
-<!-- PANEL: KALKULATION                              -->
-<!-- ═══════════════════════════════════════════════ -->
+<!-- ══════════════════════════════════════════════════ -->
+<!-- KALKULATION                                        -->
+<!-- ══════════════════════════════════════════════════ -->
 <div class="panel active" id="panel-kalkulation">
-  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px;">
     <div>
-      <h2 style="font-size:18px;font-weight:700;letter-spacing:-0.01em;">Preiskalkulation</h2>
-      <p style="color:var(--text2);font-size:12px;margin-top:2px;">VK Brutto eingeben → Gewinn & Break-even berechnen sich live</p>
+      <h2 style="font-size:17px;font-weight:700;">Preiskalkulation</h2>
+      <p style="color:var(--text2);font-size:11px;margin-top:2px;">VK Brutto eingeben → alles rechnet live</p>
     </div>
     <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-      <span style="font-size:12px;color:var(--text2);">Lieferant:</span>
-      <div class="lief-tabs" id="lief-tabs"></div>
+      <span style="font-size:11px;color:var(--text2);">Lieferant:</span>
+      <div id="lief-tabs" style="display:flex;gap:4px;flex-wrap:wrap;"></div>
     </div>
   </div>
-
-  <!-- KPI Zeile -->
-  <div class="kpi-grid" id="kpi-grid"></div>
-
-  <!-- Tabelle -->
+  <div class="kpi-grid" id="kalk-kpis"></div>
   <div class="card">
     <div class="card-header">
       <span class="card-title">Produktkalkulation</span>
-      <span style="font-size:11px;color:var(--text2);">
+      <span style="font-size:10px;color:var(--text2);">
         <span style="color:var(--gold);">■</span> Gelb = VK eingeben &nbsp;
         <span style="color:var(--green);">■</span> Grün = profitabel &nbsp;
         <span style="color:var(--red);">■</span> Rot = Verlust
       </span>
     </div>
     <div class="table-wrap">
-      <table id="kalk-table">
-        <thead>
-          <tr>
-            <th class="left" style="min-width:140px;">Produkt</th>
-            <th>EK Netto</th>
-            <th>Versand EK</th>
-            <th>Einstand</th>
-            <th style="color:var(--gold);background:rgba(227,179,65,0.06);min-width:160px;">⭐ VK BRUTTO</th>
-            <th>VK Netto</th>
-            <th style="color:var(--purple);">Shopify</th>
-            <th>Netto-Umsatz</th>
-            <th style="min-width:110px;">Gewinn</th>
-            <th>Marge</th>
-            <th>Break-even</th>
-            <th class="center">AEP</th>
-          </tr>
-        </thead>
+      <table>
+        <thead><tr>
+          <th class="L" style="min-width:160px;">Produkt</th>
+          <th>VE</th>
+          <th>EK/VE</th>
+          <th>EK/Stück</th>
+          <th>Versand EK</th>
+          <th>Einstand</th>
+          <th style="color:var(--gold);background:rgba(227,179,65,.05);min-width:150px;">⭐ VK BRUTTO</th>
+          <th>VK Netto</th>
+          <th style="color:var(--purple);">Shopify</th>
+          <th>Netto-Umsatz</th>
+          <th style="min-width:100px;">Gewinn</th>
+          <th>Marge</th>
+          <th>Break-even</th>
+          <th>AEP</th>
+        </tr></thead>
         <tbody id="kalk-tbody"></tbody>
       </table>
     </div>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════ -->
-<!-- PANEL: PRODUKTE                                 -->
-<!-- ═══════════════════════════════════════════════ -->
-<div class="panel" id="panel-produkte">
-  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
+<!-- ══════════════════════════════════════════════════ -->
+<!-- BESTAND                                            -->
+<!-- ══════════════════════════════════════════════════ -->
+<div class="panel" id="panel-bestand">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px;">
     <div>
-      <h2 style="font-size:18px;font-weight:700;">Produkte</h2>
-      <p style="color:var(--text2);font-size:12px;margin-top:2px;">Produkte mit EK-Preisen verwalten</p>
+      <h2 style="font-size:17px;font-weight:700;">Bestand & Chargen</h2>
+      <p style="color:var(--text2);font-size:11px;margin-top:2px;">Lagerbestand, MHD-Überwachung und Chargennummern</p>
     </div>
-    <button class="btn btn-primary" onclick="openProductModal()">+ Neues Produkt</button>
+    <button class="btn btn-primary" onclick="openChargeModal()">+ Wareneingang buchen</button>
+  </div>
+  <div class="kpi-grid" id="bestand-kpis"></div>
+  <div class="card">
+    <div class="table-wrap">
+      <table>
+        <thead><tr>
+          <th class="L">Produkt</th>
+          <th>VE-Größe</th>
+          <th>Bestand (VE)</th>
+          <th>Bestand (Stück)</th>
+          <th>Mindestbestand</th>
+          <th>Status</th>
+          <th class="L">Letzte Charge</th>
+          <th>MHD</th>
+          <th class="C">Aktionen</th>
+        </tr></thead>
+        <tbody id="bestand-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+  <div style="margin-top:16px;">
+    <h3 style="font-size:14px;font-weight:600;margin-bottom:10px;">Chargenhistorie</h3>
+    <div class="card">
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th class="L">Produkt</th>
+            <th class="L">Chargennummer</th>
+            <th>MHD</th>
+            <th>Menge (VE)</th>
+            <th>EK/VE</th>
+            <th>Lieferant</th>
+            <th>Eingang</th>
+            <th class="C">Aktionen</th>
+          </tr></thead>
+          <tbody id="chargen-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- PRODUKTE                                           -->
+<!-- ══════════════════════════════════════════════════ -->
+<div class="panel" id="panel-produkte">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px;">
+    <div>
+      <h2 style="font-size:17px;font-weight:700;">Produkte</h2>
+      <p style="color:var(--text2);font-size:11px;">Produktstammdaten mit VE und Lieferanten-EK</p>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <button class="btn btn-ghost" onclick="document.getElementById('csv-import').click()">⬆ CSV Import</button>
+      <input type="file" id="csv-import" accept=".csv" style="display:none" onchange="importCSV(event)">
+      <button class="btn btn-primary" onclick="openProdModal()">+ Neues Produkt</button>
+    </div>
   </div>
   <div class="card">
     <div class="table-wrap">
       <table>
-        <thead>
-          <tr>
-            <th class="left">Produktname</th>
-            <th class="left">SKU</th>
-            <th class="left">PZN</th>
-            <th>AEP (Netto)</th>
-            <th>EK Wisma</th>
-            <th>EK Guder</th>
-            <th>EK Hartmann</th>
-            <th>Versandklasse</th>
-            <th class="center">Aktionen</th>
-          </tr>
-        </thead>
-        <tbody id="produkte-tbody"></tbody>
+        <thead><tr>
+          <th class="L">Produktname</th>
+          <th class="L">Gruppe</th>
+          <th class="L">SKU</th>
+          <th class="L">PZN</th>
+          <th>AEP Netto</th>
+          <th>VE-Größe</th>
+          <th>Versandklasse</th>
+          <th id="prod-lief-header">EK Lieferanten</th>
+          <th class="C">Aktionen</th>
+        </tr></thead>
+        <tbody id="prod-tbody"></tbody>
       </table>
     </div>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════ -->
-<!-- PANEL: VERSAND                                  -->
-<!-- ═══════════════════════════════════════════════ -->
-<div class="panel" id="panel-versand">
-  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
+<!-- ══════════════════════════════════════════════════ -->
+<!-- LIEFERANTEN                                        -->
+<!-- ══════════════════════════════════════════════════ -->
+<div class="panel" id="panel-lieferanten">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px;">
     <div>
-      <h2 style="font-size:18px;font-weight:700;">Versandmatrix</h2>
-      <p style="color:var(--text2);font-size:12px;margin-top:2px;">Lieferanten-Versandkosten nach Gewichtsklasse</p>
+      <h2 style="font-size:17px;font-weight:700;">Lieferanten</h2>
+      <p style="color:var(--text2);font-size:11px;">Beliebig viele Lieferanten anlegen und verwalten</p>
+    </div>
+    <button class="btn btn-primary" onclick="openLiefModal()">+ Neuer Lieferant</button>
+  </div>
+  <div class="card">
+    <div class="table-wrap">
+      <table>
+        <thead><tr>
+          <th class="L">Name</th>
+          <th class="L">Kürzel</th>
+          <th class="L">Kontakt</th>
+          <th>Zahlungsziel</th>
+          <th>Min. Bestellwert</th>
+          <th class="L">Notiz</th>
+          <th class="C">Aktionen</th>
+        </tr></thead>
+        <tbody id="lief-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- VERSAND                                            -->
+<!-- ══════════════════════════════════════════════════ -->
+<div class="panel" id="panel-versand">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px;">
+    <div>
+      <h2 style="font-size:17px;font-weight:700;">Versandmatrix</h2>
+      <p style="color:var(--text2);font-size:11px;">Versandkosten pro Lieferant und Gewichtsklasse</p>
     </div>
     <button class="btn btn-primary" onclick="openVersandModal()">+ Neue Klasse</button>
   </div>
   <div class="card">
-    <div class="table-wrap">
-      <table class="matrix-table">
-        <thead>
-          <tr>
-            <th class="left">Klasse</th>
-            <th class="left">Gewicht</th>
-            <th>Wisma (Netto €)</th>
-            <th>Guder (Netto €)</th>
-            <th>Hartmann Drop (Netto €)</th>
-            <th class="center">Aktionen</th>
-          </tr>
-        </thead>
-        <tbody id="versand-tbody"></tbody>
-      </table>
-    </div>
+    <div class="table-wrap" id="versand-table-wrap"></div>
   </div>
-  <hr class="divider">
-  <div class="card">
-    <div class="card-header"><span class="card-title">Versandkosten Kunde</span></div>
+  <div class="card" style="margin-top:0;">
+    <div class="card-header"><span class="card-title">Versand Kunde</span></div>
     <div class="card-body">
-      <div class="form-row form-row-3">
+      <div class="form-row col-3">
         <div class="form-group">
-          <label class="form-label">Versand Netto (€)</label>
-          <input type="number" step="0.01" class="form-control mono" id="vers-kunde-netto" value="5.00" oninput="saveSettings()">
+          <label class="form-label">Netto (€)</label>
+          <input type="number" step="0.01" class="form-control mono" id="vers-netto" value="5.00" oninput="saveSettings()">
         </div>
         <div class="form-group">
-          <label class="form-label">Versand Brutto (€)</label>
-          <input type="number" step="0.01" class="form-control mono" id="vers-kunde-brutto" value="5.95" oninput="saveSettings()">
+          <label class="form-label">Brutto (€)</label>
+          <input type="number" step="0.01" class="form-control mono" id="vers-brutto" value="5.95" oninput="saveSettings()">
         </div>
         <div class="form-group">
-          <label class="form-label">Info</label>
-          <div style="font-size:12px;color:var(--text2);padding-top:10px;">5,00 × 1,19 = 5,95 €</div>
+          <label class="form-label">Hinweis</label>
+          <div style="font-size:11px;color:var(--text2);padding-top:9px;">5,00 × 1,19 MwSt = 5,95 €</div>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════ -->
-<!-- PANEL: EINSTELLUNGEN                            -->
-<!-- ═══════════════════════════════════════════════ -->
+<!-- ══════════════════════════════════════════════════ -->
+<!-- EINSTELLUNGEN                                      -->
+<!-- ══════════════════════════════════════════════════ -->
 <div class="panel" id="panel-einstellungen">
-  <h2 style="font-size:18px;font-weight:700;margin-bottom:16px;">Einstellungen</h2>
-  <div class="form-row form-row-2" style="gap:20px;">
-    <div class="card">
+  <h2 style="font-size:17px;font-weight:700;margin-bottom:14px;">Einstellungen</h2>
+  <div class="form-row col-2" style="gap:16px;">
+    <div class="card" style="margin:0;">
       <div class="card-header"><span class="card-title">Shopify Gebühren</span></div>
       <div class="card-body">
         <div class="form-group">
-          <label class="form-label">Shopify Faktor (z.B. 0.97 = 3%)</label>
+          <label class="form-label">Shopify Faktor <span class="hint">(97% = 0.97)</span></label>
           <input type="number" step="0.001" class="form-control mono" id="shopify-faktor" value="0.97" oninput="saveSettings()">
         </div>
         <div class="form-group">
           <label class="form-label">Shopify Fixbetrag (€)</label>
           <input type="number" step="0.01" class="form-control mono" id="shopify-fix" value="0.60" oninput="saveSettings()">
         </div>
-        <div style="font-size:11px;color:var(--text2);background:var(--bg3);border-radius:6px;padding:10px;font-family:'IBM Plex Mono',monospace;">
-          Formel: (VK Brutto + Versand Brutto) × Faktor − Fixbetrag
+        <div style="font-size:10px;color:var(--text2);background:var(--bg3);border-radius:6px;padding:8px;font-family:'IBM Plex Mono',monospace;">
+          Netto-Umsatz = (VK+Versand Brutto) × Faktor − Fix
         </div>
       </div>
     </div>
-    <div class="card">
-      <div class="card-header"><span class="card-title">Steuer & Allgemein</span></div>
+    <div class="card" style="margin:0;">
+      <div class="card-header"><span class="card-title">Allgemein</span></div>
       <div class="card-body">
         <div class="form-group">
-          <label class="form-label">MwSt Satz (z.B. 0.19)</label>
+          <label class="form-label">MwSt Satz</label>
           <input type="number" step="0.01" class="form-control mono" id="mwst-satz" value="0.19" oninput="saveSettings()">
+        </div>
+        <div class="form-group">
+          <label class="form-label">MHD Warnung (Tage)</label>
+          <input type="number" class="form-control mono" id="mhd-warn-days" value="90" oninput="saveSettings()">
         </div>
         <div class="form-group">
           <label class="form-label">Firmenname</label>
@@ -545,136 +398,142 @@ tr:last-child td { border-bottom: none; }
       </div>
     </div>
   </div>
-  <hr class="divider">
-  <div class="card" style="margin-top:0;">
+  <div class="card">
     <div class="card-header"><span class="card-title">Daten</span></div>
-    <div class="card-body" style="display:flex;gap:10px;flex-wrap:wrap;">
-      <button class="btn btn-ghost" onclick="exportData()">⬇ Daten exportieren (JSON)</button>
-      <button class="btn btn-ghost" onclick="document.getElementById('import-file').click()">⬆ Daten importieren</button>
+    <div class="card-body" style="display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="btn btn-ghost" onclick="exportData()">⬇ Export (JSON)</button>
+      <button class="btn btn-ghost" onclick="document.getElementById('import-file').click()">⬆ Import (JSON)</button>
       <input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(event)">
-      <button class="btn btn-danger" onclick="if(confirm('Alle Daten löschen?')) resetData()">⚠ Alle Daten zurücksetzen</button>
+      <button class="btn btn-danger" onclick="if(confirm('Alle Daten zurücksetzen?'))resetData()">⚠ Reset</button>
     </div>
   </div>
 </div>
 
 </div><!-- /main -->
 
-<!-- ═══════════════════════════════════════════════ -->
-<!-- MODAL: PRODUKT BEARBEITEN                       -->
-<!-- ═══════════════════════════════════════════════ -->
-<div class="modal-overlay" id="modal-produkt">
-  <div class="modal">
-    <div class="modal-title" id="modal-produkt-title">Neues Produkt</div>
-    <input type="hidden" id="edit-prod-id">
-
-    <div class="section-title">Produktinfo</div>
-    <div class="form-row form-row-2">
-      <div class="form-group">
-        <label class="form-label">Produktname / Variante *</label>
-        <input type="text" class="form-control" id="prod-name" placeholder="z.B. Omnifix Elastic 10cm × 10m">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Produktgruppe</label>
-        <input type="text" class="form-control" id="prod-gruppe" placeholder="z.B. Omnifix Elastic">
-      </div>
-    </div>
-    <div class="form-row form-row-3">
-      <div class="form-group">
-        <label class="form-label">SKU</label>
-        <input type="text" class="form-control mono" id="prod-sku" placeholder="900603">
-      </div>
-      <div class="form-group">
-        <label class="form-label">PZN</label>
-        <input type="text" class="form-control mono" id="prod-pzn" placeholder="00255585">
-      </div>
-      <div class="form-group">
-        <label class="form-label">AEP Netto (€)</label>
-        <input type="number" step="0.01" class="form-control mono" id="prod-aep" placeholder="33.12">
-      </div>
-    </div>
-
-    <div class="section-title">Einkaufspreise (Netto €)</div>
-    <div class="form-row form-row-3">
-      <div class="form-group">
-        <label class="form-label">EK Wisma</label>
-        <input type="number" step="0.01" class="form-control mono" id="prod-ek-wisma" placeholder="3.04">
-      </div>
-      <div class="form-group">
-        <label class="form-label">EK Guder</label>
-        <input type="number" step="0.01" class="form-control mono" id="prod-ek-guder" placeholder="18.22">
-      </div>
-      <div class="form-group">
-        <label class="form-label">EK Hartmann</label>
-        <input type="number" step="0.01" class="form-control mono" id="prod-ek-hartmann" placeholder="19.87">
-      </div>
-    </div>
-
-    <div class="section-title">Versand & Referenz</div>
-    <div class="form-row form-row-3">
-      <div class="form-group">
-        <label class="form-label">Versandklasse</label>
-        <select class="form-control" id="prod-versandklasse"></select>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Wettbewerb Brutto (€)</label>
-        <input type="number" step="0.01" class="form-control mono" id="prod-pp" placeholder="optional">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Wettbewerber</label>
-        <input type="text" class="form-control" id="prod-pp-name" placeholder="z.B. PraxisPanda">
-      </div>
-    </div>
-
-    <div class="modal-footer">
-      <button class="btn btn-ghost" onclick="closeModal('modal-produkt')">Abbrechen</button>
-      <button class="btn btn-primary" onclick="saveProduct()">Speichern</button>
-    </div>
+<!-- ══════════════════════════════════════════════════ -->
+<!-- MODAL: PRODUKT                                     -->
+<!-- ══════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-prod">
+<div class="modal">
+  <button class="close-modal" onclick="closeModal('modal-prod')">×</button>
+  <div class="modal-title" id="modal-prod-title">Neues Produkt</div>
+  <input type="hidden" id="ep-id">
+  <div class="section-label">Produktinfo</div>
+  <div class="form-row col-2">
+    <div class="form-group"><label class="form-label">Produktname *</label><input type="text" class="form-control" id="ep-name" placeholder="z.B. Omnifix Elastic 10cm×10m"></div>
+    <div class="form-group"><label class="form-label">Produktgruppe</label><input type="text" class="form-control" id="ep-gruppe" placeholder="z.B. Omnifix Elastic"></div>
+  </div>
+  <div class="form-row col-3">
+    <div class="form-group"><label class="form-label">SKU</label><input type="text" class="form-control mono" id="ep-sku"></div>
+    <div class="form-group"><label class="form-label">PZN</label><input type="text" class="form-control mono" id="ep-pzn"></div>
+    <div class="form-group"><label class="form-label">AEP Netto (€)</label><input type="number" step="0.01" class="form-control mono" id="ep-aep"></div>
+  </div>
+  <div class="section-label">VE / Packungsgröße</div>
+  <div class="form-row col-3">
+    <div class="form-group"><label class="form-label">VE-Größe <span class="hint">(Stück/VE)</span></label><input type="number" class="form-control mono" id="ep-ve" value="1" min="1"></div>
+    <div class="form-group"><label class="form-label">VE Bezeichnung</label><input type="text" class="form-control" id="ep-ve-label" placeholder="z.B. Rolle, Stück, Pkg."></div>
+    <div class="form-group"><label class="form-label">Mindestbestand (VE)</label><input type="number" class="form-control mono" id="ep-minbestand" value="5" min="0"></div>
+  </div>
+  <div class="section-label">Versand & Wettbewerb</div>
+  <div class="form-row col-3">
+    <div class="form-group"><label class="form-label">Versandklasse</label><select class="form-control" id="ep-versand"></select></div>
+    <div class="form-group"><label class="form-label">Wettbewerber</label><input type="text" class="form-control" id="ep-wbname" placeholder="z.B. PraxisPanda"></div>
+    <div class="form-group"><label class="form-label">Wettbewerb VK Brutto (€)</label><input type="number" step="0.01" class="form-control mono" id="ep-wbpreis"></div>
+  </div>
+  <div class="section-label">Einkaufspreise (EK pro VE, Netto €)</div>
+  <div id="ep-ek-fields" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;"></div>
+  <div class="modal-footer">
+    <button class="btn btn-ghost" onclick="closeModal('modal-prod')">Abbrechen</button>
+    <button class="btn btn-primary" onclick="saveProduct()">Speichern</button>
   </div>
 </div>
+</div>
 
-<!-- ═══════════════════════════════════════════════ -->
-<!-- MODAL: VERSANDKLASSE                            -->
-<!-- ═══════════════════════════════════════════════ -->
-<div class="modal-overlay" id="modal-versand">
-  <div class="modal">
-    <div class="modal-title" id="modal-versand-title">Versandklasse</div>
-    <input type="hidden" id="edit-versand-id">
-    <div class="form-row form-row-2">
-      <div class="form-group">
-        <label class="form-label">Bezeichnung *</label>
-        <input type="text" class="form-control" id="vers-name" placeholder="z.B. Paket 0-2 kg">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Gewicht (Info)</label>
-        <input type="text" class="form-control" id="vers-gewicht" placeholder="z.B. 0–2 kg">
-      </div>
-    </div>
-    <div class="form-row form-row-3">
-      <div class="form-group">
-        <label class="form-label">Wisma Netto (€)</label>
-        <input type="number" step="0.01" class="form-control mono" id="vers-wisma">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Guder Netto (€)</label>
-        <input type="number" step="0.01" class="form-control mono" id="vers-guder">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Hartmann Drop Netto (€)</label>
-        <input type="number" step="0.01" class="form-control mono" id="vers-hartmann">
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-ghost" onclick="closeModal('modal-versand')">Abbrechen</button>
-      <button class="btn btn-primary" onclick="saveVersand()">Speichern</button>
-    </div>
+<!-- ══════════════════════════════════════════════════ -->
+<!-- MODAL: LIEFERANT                                   -->
+<!-- ══════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-lief">
+<div class="modal">
+  <button class="close-modal" onclick="closeModal('modal-lief')">×</button>
+  <div class="modal-title" id="modal-lief-title">Neuer Lieferant</div>
+  <input type="hidden" id="el-id">
+  <div class="form-row col-2">
+    <div class="form-group"><label class="form-label">Name *</label><input type="text" class="form-control" id="el-name" placeholder="z.B. Wisma GmbH"></div>
+    <div class="form-group"><label class="form-label">Kürzel *</label><input type="text" class="form-control mono" id="el-kuerzel" placeholder="z.B. WISMA" maxlength="10"></div>
   </div>
+  <div class="form-row col-2">
+    <div class="form-group"><label class="form-label">Kontakt / Email</label><input type="text" class="form-control" id="el-kontakt"></div>
+    <div class="form-group"><label class="form-label">Telefon</label><input type="text" class="form-control" id="el-tel"></div>
+  </div>
+  <div class="form-row col-3">
+    <div class="form-group"><label class="form-label">Zahlungsziel (Tage)</label><input type="number" class="form-control mono" id="el-zahlziel" value="30"></div>
+    <div class="form-group"><label class="form-label">Min. Bestellwert (€)</label><input type="number" step="0.01" class="form-control mono" id="el-minbest"></div>
+    <div class="form-group"><label class="form-label">Farbe</label><input type="color" class="form-control" id="el-farbe" value="#388bfd" style="height:38px;padding:4px;cursor:pointer;"></div>
+  </div>
+  <div class="form-group"><label class="form-label">Notiz</label><textarea class="form-control" id="el-notiz" rows="2" placeholder="z.B. Dropshipping möglich, Mindestmengen..."></textarea></div>
+  <div class="modal-footer">
+    <button class="btn btn-ghost" onclick="closeModal('modal-lief')">Abbrechen</button>
+    <button class="btn btn-primary" onclick="saveLieferant()">Speichern</button>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- MODAL: VERSANDKLASSE                               -->
+<!-- ══════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-versand">
+<div class="modal">
+  <button class="close-modal" onclick="closeModal('modal-versand')">×</button>
+  <div class="modal-title" id="modal-versand-title">Versandklasse</div>
+  <input type="hidden" id="ev-id">
+  <div class="form-row col-2">
+    <div class="form-group"><label class="form-label">Bezeichnung *</label><input type="text" class="form-control" id="ev-name" placeholder="z.B. Paket 0–2 kg"></div>
+    <div class="form-group"><label class="form-label">Gewicht</label><input type="text" class="form-control" id="ev-gewicht" placeholder="z.B. 0–2 kg"></div>
+  </div>
+  <div class="section-label">Versandkosten pro Lieferant (Netto €)</div>
+  <div id="ev-lief-fields" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;"></div>
+  <div class="modal-footer">
+    <button class="btn btn-ghost" onclick="closeModal('modal-versand')">Abbrechen</button>
+    <button class="btn btn-primary" onclick="saveVersand()">Speichern</button>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- MODAL: WARENEINGANG / CHARGE                       -->
+<!-- ══════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-charge">
+<div class="modal">
+  <button class="close-modal" onclick="closeModal('modal-charge')">×</button>
+  <div class="modal-title" id="modal-charge-title">Wareneingang buchen</div>
+  <input type="hidden" id="ec-id">
+  <div class="form-row col-2">
+    <div class="form-group"><label class="form-label">Produkt *</label><select class="form-control" id="ec-produkt"></select></div>
+    <div class="form-group"><label class="form-label">Lieferant *</label><select class="form-control" id="ec-lieferant"></select></div>
+  </div>
+  <div class="form-row col-2">
+    <div class="form-group"><label class="form-label">Chargennummer *</label><input type="text" class="form-control mono" id="ec-charge" placeholder="z.B. CH-2025-001"></div>
+    <div class="form-group"><label class="form-label">MHD *</label><input type="date" class="form-control" id="ec-mhd"></div>
+  </div>
+  <div class="form-row col-3">
+    <div class="form-group"><label class="form-label">Menge (VE) *</label><input type="number" class="form-control mono" id="ec-menge" min="1" value="1"></div>
+    <div class="form-group"><label class="form-label">EK / VE Netto (€)</label><input type="number" step="0.01" class="form-control mono" id="ec-ek"></div>
+    <div class="form-group"><label class="form-label">Eingangsdatum</label><input type="date" class="form-control" id="ec-datum"></div>
+  </div>
+  <div class="form-group"><label class="form-label">Notiz</label><input type="text" class="form-control" id="ec-notiz" placeholder="optional"></div>
+  <div class="modal-footer">
+    <button class="btn btn-ghost" onclick="closeModal('modal-charge')">Abbrechen</button>
+    <button class="btn btn-primary" onclick="saveCharge()">Einbuchen</button>
+  </div>
+</div>
 </div>
 
 <script>
-// ═══════════════════════════════════════════════════════
-// STATE
-// ═══════════════════════════════════════════════════════
-const DEFAULT_STATE = {
+// ══════════════════════════════════════════════════════
+// DEFAULTS
+// ══════════════════════════════════════════════════════
+const DEFAULTS = {
   settings: {
     firma: "KRB MEDI+CARE GmbH",
     mwst: 0.19,
@@ -682,503 +541,702 @@ const DEFAULT_STATE = {
     shopifyFix: 0.60,
     versandKundeNetto: 5.00,
     versandKundeBrutto: 5.95,
-    aktiverLieferant: "wisma",
+    aktiverLieferant: null,
+    mhdWarnDays: 90,
   },
+  lieferanten: [
+    { id:"lief1", name:"Wisma GmbH",     kuerzel:"WISMA",    farbe:"#3fb950", kontakt:"", tel:"", zahlziel:30, minbest:0, notiz:"Dropshipping möglich" },
+    { id:"lief2", name:"Guder",          kuerzel:"GUDER",    farbe:"#388bfd", kontakt:"", tel:"", zahlziel:30, minbest:0, notiz:"" },
+    { id:"lief3", name:"Paul Hartmann",  kuerzel:"HARTMANN", farbe:"#e3b341", kontakt:"", tel:"", zahlziel:30, minbest:0, notiz:"Direktbezug, -40% auf AEP" },
+  ],
   versandklassen: [
-    { id: "vk1", name: "Paket 0–2 kg",     gewicht: "0–2 kg",     wisma: 6.90, guder: null, hartmann: 4.95 },
-    { id: "vk2", name: "Paket 2,1–5,9 kg", gewicht: "2,1–5,9 kg", wisma: 7.90, guder: null, hartmann: 4.95 },
-    { id: "vk3", name: "Paket 6–31,5 kg",  gewicht: "6–31,5 kg",  wisma: 9.00, guder: null, hartmann: 4.95 },
+    { id:"vk1", name:"Paket 0–2 kg",     gewicht:"0–2 kg",     kosten:{ lief1:6.90, lief2:null, lief3:4.95 } },
+    { id:"vk2", name:"Paket 2,1–5,9 kg", gewicht:"2,1–5,9 kg", kosten:{ lief1:7.90, lief2:null, lief3:4.95 } },
+    { id:"vk3", name:"Paket 6–31,5 kg",  gewicht:"6–31,5 kg",  kosten:{ lief1:9.00, lief2:null, lief3:4.95 } },
   ],
   produkte: [
-    { id:"p1", name:"10cm × 2m",   gruppe:"Omnifix Elastic", sku:"900601", pzn:"04377374", aep:10.78, ekWisma:5.31, ekGuder:5.93, ekHartmann:6.47, versandklasse:"vk1", pp:null, ppName:"PraxisPanda" },
-    { id:"p2", name:"2,5cm × 10m", gruppe:"Omnifix Elastic", sku:"900606", pzn:"01316515", aep:19.66, ekWisma:2.65, ekGuder:10.81,ekHartmann:11.80,versandklasse:"vk1", pp:null, ppName:"PraxisPanda" },
-    { id:"p3", name:"5cm × 10m",   gruppe:"Omnifix Elastic", sku:"900602", pzn:"00255579", aep:18.67, ekWisma:2.05, ekGuder:10.27,ekHartmann:11.20,versandklasse:"vk1", pp:9.90, ppName:"PraxisPanda" },
-    { id:"p4", name:"10cm × 10m",  gruppe:"Omnifix Elastic", sku:"900603", pzn:"00255585", aep:33.12, ekWisma:3.04, ekGuder:18.22,ekHartmann:19.87,versandklasse:"vk1", pp:null, ppName:"PraxisPanda" },
-    { id:"p5", name:"15cm × 10m",  gruppe:"Omnifix Elastic", sku:"900604", pzn:"00255616", aep:45.58, ekWisma:4.10, ekGuder:12.50,ekHartmann:27.35,versandklasse:"vk2", pp:null, ppName:"PraxisPanda" },
-    { id:"p6", name:"20cm × 10m",  gruppe:"Omnifix Elastic", sku:"900605", pzn:"00255622", aep:59.54, ekWisma:6.08, ekGuder:32.75,ekHartmann:35.72,versandklasse:"vk2", pp:null, ppName:"PraxisPanda" },
-    { id:"p7", name:"30cm × 10m",  gruppe:"Omnifix Elastic", sku:"900607", pzn:"01316509", aep:82.00, ekWisma:10.17,ekGuder:45.10,ekHartmann:49.20,versandklasse:"vk2", pp:null, ppName:"PraxisPanda" },
+    { id:"p1",  name:"10cm × 2m",   gruppe:"Omnifix Elastic", sku:"900601", pzn:"04377374", aep:10.78, ve:1, veLabel:"Rolle", minbestand:10, versandklasse:"vk1", wbName:"PraxisPanda", wbPreis:null, ek:{lief1:5.31, lief2:5.93, lief3:6.47} },
+    { id:"p2",  name:"2,5cm × 10m", gruppe:"Omnifix Elastic", sku:"900606", pzn:"01316515", aep:19.66, ve:1, veLabel:"Rolle", minbestand:5,  versandklasse:"vk1", wbName:"PraxisPanda", wbPreis:null, ek:{lief1:2.65, lief2:10.81,lief3:11.80} },
+    { id:"p3",  name:"5cm × 10m",   gruppe:"Omnifix Elastic", sku:"900602", pzn:"00255579", aep:18.67, ve:1, veLabel:"Rolle", minbestand:10, versandklasse:"vk1", wbName:"PraxisPanda", wbPreis:9.90, ek:{lief1:2.05, lief2:10.27,lief3:11.20} },
+    { id:"p4",  name:"10cm × 10m",  gruppe:"Omnifix Elastic", sku:"900603", pzn:"00255585", aep:33.12, ve:1, veLabel:"Rolle", minbestand:5,  versandklasse:"vk1", wbName:"PraxisPanda", wbPreis:null, ek:{lief1:3.04, lief2:18.22,lief3:19.87} },
+    { id:"p5",  name:"15cm × 10m",  gruppe:"Omnifix Elastic", sku:"900604", pzn:"00255616", aep:45.58, ve:1, veLabel:"Rolle", minbestand:5,  versandklasse:"vk2", wbName:"PraxisPanda", wbPreis:null, ek:{lief1:4.10, lief2:12.50,lief3:27.35} },
+    { id:"p6",  name:"20cm × 10m",  gruppe:"Omnifix Elastic", sku:"900605", pzn:"00255622", aep:59.54, ve:1, veLabel:"Rolle", minbestand:5,  versandklasse:"vk2", wbName:"PraxisPanda", wbPreis:null, ek:{lief1:6.08, lief2:32.75,lief3:35.72} },
+    { id:"p7",  name:"30cm × 10m",  gruppe:"Omnifix Elastic", sku:"900607", pzn:"01316509", aep:82.00, ve:1, veLabel:"Rolle", minbestand:3,  versandklasse:"vk2", wbName:"PraxisPanda", wbPreis:null, ek:{lief1:10.17,lief2:45.10,lief3:49.20} },
   ],
+  chargen: [],
   vkValues: {},
 };
 
-let STATE = loadState();
+// ══════════════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════════════
+let S = loadState();
 
 function loadState() {
   try {
-    const saved = localStorage.getItem('krbmed_commerce_v1');
-    if (saved) {
-      const parsed = JSON.parse(saved);
-      // Merge mit defaults um neue Felder zu ergänzen
-      return { ...DEFAULT_STATE, ...parsed,
-        settings: { ...DEFAULT_STATE.settings, ...parsed.settings }
-      };
-    }
+    const s = localStorage.getItem('krbmed_commerce_v2');
+    if (s) return deepMerge(JSON.parse(JSON.stringify(DEFAULTS)), JSON.parse(s));
   } catch(e) {}
-  return JSON.parse(JSON.stringify(DEFAULT_STATE));
+  return JSON.parse(JSON.stringify(DEFAULTS));
+}
+function saveState() { localStorage.setItem('krbmed_commerce_v2', JSON.stringify(S)); }
+function deepMerge(def, saved) {
+  const r = {...def};
+  for (const k in saved) {
+    if (Array.isArray(saved[k])) r[k] = saved[k];
+    else if (typeof saved[k]==='object' && saved[k]!==null) r[k] = deepMerge(def[k]||{}, saved[k]);
+    else r[k] = saved[k];
+  }
+  return r;
 }
 
-function saveState() {
-  localStorage.setItem('krbmed_commerce_v1', JSON.stringify(STATE));
-}
+// ══════════════════════════════════════════════════════
+// UTILS
+// ══════════════════════════════════════════════════════
+const uid = () => 'id_' + Math.random().toString(36).substr(2,9);
+const n   = v => parseFloat(v) || 0;
+const eur = v => (v||0).toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2}) + ' €';
+const pct = v => ((v||0)*100).toLocaleString('de-DE',{minimumFractionDigits:1,maximumFractionDigits:1}) + ' %';
+const fmtDate = d => d ? new Date(d).toLocaleDateString('de-DE') : '—';
 
-// ═══════════════════════════════════════════════════════
-// HELPERS
-// ═══════════════════════════════════════════════════════
-function uid() { return 'id_' + Math.random().toString(36).substr(2,9); }
-function eur(v) { return (v||0).toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2}) + ' €'; }
-function pct(v) { return ((v||0)*100).toLocaleString('de-DE',{minimumFractionDigits:1,maximumFractionDigits:1}) + ' %'; }
-function n(v)   { return parseFloat(v) || 0; }
+function getLief(id) { return S.lieferanten.find(l => l.id === id); }
+function getVK(id)   { return S.versandklassen.find(v => v.id === id); }
+function getProd(id) { return S.produkte.find(p => p.id === id); }
+function aktiverLiefId() { return S.settings.aktiverLieferant || (S.lieferanten[0]?.id); }
 
-function getVersandEk(prod) {
-  const vk = STATE.versandklassen.find(v => v.id === prod.versandklasse);
+function getVersandEk(prod, liefId) {
+  const vk = getVK(prod.versandklasse);
   if (!vk) return 0;
-  const lief = STATE.settings.aktiverLieferant;
-  if (lief === 'wisma')     return vk.wisma || 0;
-  if (lief === 'guder')     return vk.guder || vk.wisma || 0;
-  if (lief === 'hartmann')  return vk.hartmann || 0;
-  return vk.wisma || 0;
+  return vk.kosten[liefId] ?? (Object.values(vk.kosten).find(v => v !== null)) ?? 0;
 }
+function getEk(prod, liefId) { return prod.ek?.[liefId] ?? 0; }
 
-function getEk(prod) {
-  const lief = STATE.settings.aktiverLieferant;
-  if (lief === 'wisma')    return prod.ekWisma || 0;
-  if (lief === 'guder')    return prod.ekGuder || prod.ekWisma || 0;
-  if (lief === 'hartmann') return prod.ekHartmann || prod.ekWisma || 0;
-  return prod.ekWisma || 0;
-}
-
-function kalkuliere(prod, vkBrutto) {
-  const s = STATE.settings;
-  const ek         = getEk(prod);
-  const versandEk  = getVersandEk(prod);
-  const einstand   = ek + versandEk;
-  const vkNetto    = vkBrutto / (1 + s.mwst);
-  const bruttoUms  = vkBrutto + s.versandKundeBrutto;
-  const nachShop   = bruttoUms * s.shopifyFaktor - s.shopifyFix;
-  const shopify    = bruttoUms - nachShop;
-  const nettoUms   = vkNetto + s.versandKundeNetto;
-  const gewinn     = nettoUms - einstand - shopify;
-  const marge      = vkNetto > 0 ? gewinn / vkNetto : 0;
-  // Break-even VK Brutto: einstand + shopify(vkb) = nettoUms(vkb)
-  // vkb/(1+mwst) + versKunde = einstand + (vkb+versBrutto)*(1-shopFak)+shopFix
-  // Lösung iterativ oder algebraisch:
-  // Sei x = vkBrutto (gesuchter BE)
-  // x/(1+t) + vn = einstand + x*(1-f) + vb*(1-f) - fix  ... vereinfacht:
-  // x/(1+t) - x*(1-f) = einstand + vb*(1-f) - fix - vn
-  const t = s.mwst, f = 1 - s.shopifyFaktor, vb = s.versandKundeBrutto, vn = s.versandKundeNetto, fix = s.shopifyFix;
-  const beVkBrutto = (einstand + vb * f + fix - vn) / (1/(1+t) - f);
+function kalkuliere(prod, vkBrutto, liefId) {
+  const s = S.settings;
+  const ek        = getEk(prod, liefId);
+  const versandEk = getVersandEk(prod, liefId);
+  const einstand  = ek + versandEk;
+  const vkNetto   = vkBrutto / (1 + s.mwst);
+  const bruttoUms = vkBrutto + s.versandKundeBrutto;
+  const nachShop  = bruttoUms * s.shopifyFaktor - s.shopifyFix;
+  const shopify   = bruttoUms - nachShop;
+  const nettoUms  = vkNetto + s.versandKundeNetto;
+  const gewinn    = nettoUms - einstand - shopify;
+  const marge     = vkNetto > 0 ? gewinn / vkNetto : 0;
+  const t = s.mwst, sf = 1 - s.shopifyFaktor, vb = s.versandKundeBrutto, vno = s.versandKundeNetto, fix = s.shopifyFix;
+  const beVkBrutto = (einstand + vb * sf + fix - vno) / (1/(1+t) - sf);
   return { ek, versandEk, einstand, vkNetto, bruttoUms, shopify, nettoUms, gewinn, marge, beVkBrutto };
 }
 
-function vkVorschlag(aep) {
-  return Math.round(aep * 1.19 * 0.89 / 0.10) * 0.10 - 0.01;
+function vkVorschlag(aep) { return Math.round(aep * 1.19 * 0.89 / 0.10) * 0.10 - 0.01; }
+function getVkVal(id, aep) { return S.vkValues[id] ?? vkVorschlag(aep); }
+
+function mhdStatus(mhdStr) {
+  if (!mhdStr) return { cls:'', text:'—', days:null };
+  const days = Math.floor((new Date(mhdStr) - new Date()) / 86400000);
+  const warn = S.settings.mhdWarnDays || 90;
+  if (days < 0)    return { cls:'mhd-exp',  text:`Abgelaufen (${Math.abs(days)}d)`, days };
+  if (days < 30)   return { cls:'mhd-crit', text:`${days} Tage`, days };
+  if (days < warn) return { cls:'mhd-warn', text:`${days} Tage`, days };
+  return { cls:'mhd-ok', text:fmtDate(mhdStr), days };
 }
 
-function getVk(prodId, aep) {
-  return STATE.vkValues[prodId] ?? vkVorschlag(aep);
+function bestandFuerProd(prodId) {
+  return S.chargen.filter(c => c.prodId === prodId && !c.ausgebucht)
+    .reduce((s,c) => s + (n(c.menge)||0), 0);
 }
 
-function toast(msg) {
+function naechstesMHD(prodId) {
+  const aktiv = S.chargen.filter(c => c.prodId === prodId && !c.ausgebucht && c.mhd);
+  if (!aktiv.length) return null;
+  return aktiv.sort((a,b) => new Date(a.mhd) - new Date(b.mhd))[0];
+}
+
+function toast(msg, color='var(--green)') {
   const el = document.getElementById('toast');
   el.textContent = msg;
+  el.style.borderColor = color;
+  el.style.color = color;
   el.classList.add('show');
-  setTimeout(() => el.classList.remove('show'), 2200);
+  setTimeout(() => el.classList.remove('show'), 2000);
 }
 
-// ═══════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════
 // NAVIGATION
-// ═══════════════════════════════════════════════════════
-function showPanel(name) {
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('panel-' + name).classList.add('active');
-  event.target.classList.add('active');
-  renderAll();
-}
+// ══════════════════════════════════════════════════════
+document.querySelectorAll('.nav-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('panel-' + btn.dataset.panel).classList.add('active');
+    renderAll();
+  });
+});
 
-// ═══════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════
 // RENDER KALKULATION
-// ═══════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════
 function renderKalkulation() {
-  const s = STATE.settings;
+  const liefId = aktiverLiefId();
 
-  // Lieferanten Tabs
+  // Lieferanten-Tabs
   const tabs = document.getElementById('lief-tabs');
-  const liefs = [
-    { key: 'wisma',    label: 'Wisma',    cls: 'active-wisma' },
-    { key: 'guder',    label: 'Guder',    cls: 'active-guder' },
-    { key: 'hartmann', label: 'Hartmann', cls: 'active-hartmann' },
-  ];
-  tabs.innerHTML = liefs.map(l => `
-    <button class="lief-tab ${s.aktiverLieferant === l.key ? l.cls : ''}"
-      onclick="setLieferant('${l.key}')">${l.label}</button>
-  `).join('');
+  tabs.innerHTML = S.lieferanten.map(l => `
+    <button onclick="setLieferant('${l.id}')" style="
+      background:${liefId===l.id ? l.farbe+'26' : 'none'};
+      border:1px solid ${liefId===l.id ? l.farbe : 'var(--border2)'};
+      border-radius:6px;color:${liefId===l.id ? l.farbe : 'var(--text2)'};
+      cursor:pointer;font-family:'IBM Plex Sans',sans-serif;font-size:12px;
+      font-weight:600;padding:4px 12px;transition:all .15s;">
+      ${l.kuerzel}
+    </button>`).join('');
 
-  // Produkte berechnen
-  const rows = STATE.produkte.map(p => {
-    const vkBrutto = getVk(p.id, p.aep);
-    const calc = kalkuliere(p, vkBrutto);
-    return { ...p, vkBrutto, ...calc };
+  const rows = S.produkte.map(p => {
+    const vk = getVkVal(p.id, p.aep);
+    return { ...p, vkBrutto: vk, ...kalkuliere(p, vk, liefId) };
   });
 
   // KPIs
-  const gewinnSum  = rows.reduce((s,r) => s + r.gewinn, 0);
-  const avgMarge   = rows.reduce((s,r) => s + r.marge, 0) / rows.length;
-  const profitable = rows.filter(r => r.gewinn > 0).length;
-  const kpiGrid = document.getElementById('kpi-grid');
-  kpiGrid.innerHTML = [
-    { label: 'Produkte',    val: rows.length,             color: 'var(--accent)',  sub: 'gesamt' },
-    { label: 'Profitabel',  val: profitable,              color: 'var(--green)',   sub: 'mit positivem Gewinn' },
-    { label: 'Ø Marge',     val: pct(avgMarge),           color: avgMarge>0.4?'var(--green)':avgMarge>0.2?'var(--yellow)':'var(--red)', sub: 'auf VK Netto' },
-    { label: 'Ges. Gewinn', val: eur(gewinnSum),          color: gewinnSum>0?'var(--green)':'var(--red)', sub: 'alle Produkte' },
-  ].map(k => `
-    <div class="kpi-card">
-      <div class="kpi-label">${k.label}</div>
-      <div class="kpi-value" style="color:${k.color}">${k.val}</div>
-      <div class="kpi-sub">${k.sub}</div>
-    </div>
-  `).join('');
+  const gSum = rows.reduce((s,r) => s + r.gewinn, 0);
+  const avg  = rows.reduce((s,r) => s + r.marge, 0) / (rows.length||1);
+  const prof = rows.filter(r => r.gewinn > 0).length;
+  document.getElementById('kalk-kpis').innerHTML = [
+    { l:'Produkte',    v:rows.length,  c:'var(--accent)', s:'gesamt' },
+    { l:'Profitabel',  v:prof,         c:'var(--green)',  s:`von ${rows.length}` },
+    { l:'Ø Marge',     v:pct(avg),     c:avg>.4?'var(--green)':avg>.2?'var(--yellow)':'var(--red)', s:'auf VK Netto' },
+    { l:'Ges. Gewinn', v:eur(gSum),    c:gSum>0?'var(--green)':'var(--red)', s:'alle Produkte' },
+  ].map(k=>`<div class="kpi-card"><div class="kpi-label">${k.l}</div><div class="kpi-val" style="color:${k.c}">${k.v}</div><div class="kpi-sub">${k.s}</div></div>`).join('');
 
   // Tabelle
-  const tbody = document.getElementById('kalk-tbody');
-  if (rows.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="12" class="left"><div class="empty-state"><div class="icon">📦</div><h3>Keine Produkte</h3><p>Gehe zu "Produkte" und lege dein erstes Produkt an.</p></div></td></tr>`;
-    return;
-  }
-
-  tbody.innerHTML = rows.map(r => {
-    const mc  = r.marge > 0.5 ? 'var(--green)' : r.marge > 0.25 ? 'var(--yellow)' : r.marge > 0 ? 'var(--orange)' : 'var(--red)';
-    const gc  = r.gewinn > 0 ? 'var(--green)' : 'var(--red)';
-    const bePct = r.vkBrutto > 0 ? Math.min(r.beVkBrutto / r.vkBrutto, 1.5) : 0;
-    const beColor = r.vkBrutto >= r.beVkBrutto ? 'var(--green)' : 'var(--red)';
-    const ppDiff = r.pp ? r.vkBrutto - r.pp : null;
-
+  const tb = document.getElementById('kalk-tbody');
+  if (!rows.length) { tb.innerHTML=`<tr><td colspan="14" class="L"><div class="empty"><div class="ico">📦</div><h3>Keine Produkte</h3></div></td></tr>`; return; }
+  tb.innerHTML = rows.map(r => {
+    const mc = r.marge>.5?'var(--green)':r.marge>.25?'var(--yellow)':r.marge>0?'var(--orange)':'var(--red)';
+    const gc = r.gewinn>0?'var(--green)':'var(--red)';
+    const ekSt = r.ve > 1 ? `<div style="font-size:9px;color:var(--text3)">${eur(r.ek/r.ve)}/Stk</div>` : '';
+    const ppD = r.wbPreis ? r.vkBrutto - r.wbPreis : null;
+    const bePct = r.vkBrutto>0 ? Math.min(r.beVkBrutto/r.vkBrutto*100,100) : 0;
     return `<tr>
-      <td class="left">
-        <div class="fw6" style="font-size:13px;">${r.name}</div>
-        <div style="font-size:10px;color:var(--text3);font-family:'IBM Plex Mono',monospace;">${r.gruppe || ''} · SKU ${r.sku}</div>
+      <td class="L">
+        <div class="fw6">${r.name}</div>
+        <div style="font-size:10px;color:var(--text3);font-family:'IBM Plex Mono',monospace;">${r.gruppe||''} · ${r.sku}</div>
       </td>
-      <td><span class="mono" style="color:var(--green)">${eur(r.ek)}</span></td>
+      <td><span class="badge bb">${r.ve} ${r.veLabel||'Stk'}</span></td>
+      <td><span class="mono" style="color:var(--green);font-size:12px;">${eur(r.ek)}</span>${ekSt}</td>
+      <td class="mono" style="font-size:11px;color:var(--text2);">${r.ve>1?eur(r.ek/r.ve):'—'}</td>
       <td><span class="mono" style="color:var(--accent)">${eur(r.versandEk)}</span></td>
       <td><span class="mono" style="color:var(--red)">${eur(r.einstand)}</span></td>
-      <td style="background:rgba(227,179,65,0.05);border-left:1px solid rgba(227,179,65,0.15);border-right:1px solid rgba(227,179,65,0.15);">
-        <div style="display:flex;align-items:center;gap:6px;justify-content:flex-end;">
-          <input type="number" class="vk-input" step="0.10" min="0"
-            value="${r.vkBrutto.toFixed(2)}"
-            onchange="updateVk('${r.id}', this.value)"
-            onclick="this.select()">
-          <button onclick="resetVk('${r.id}',${r.aep})" title="Vorschlag" style="background:none;border:none;cursor:pointer;color:var(--text3);font-size:14px;padding:0 2px;">↺</button>
+      <td style="background:rgba(227,179,65,.04);border-left:1px solid rgba(227,179,65,.15);border-right:1px solid rgba(227,179,65,.15);">
+        <div style="display:flex;align-items:center;gap:4px;justify-content:flex-end;">
+          <input class="vk-input" type="number" step="0.10" min="0" value="${r.vkBrutto.toFixed(2)}"
+            onchange="updateVk('${r.id}',this.value)" onclick="this.select()">
+          <button onclick="resetVk('${r.id}',${r.aep})" title="Vorschlag" style="background:none;border:none;cursor:pointer;color:var(--text3);font-size:13px;padding:0 2px;">↺</button>
         </div>
-        <div style="font-size:10px;color:var(--text3);text-align:right;margin-top:2px;">Vorschlag: ${eur(vkVorschlag(r.aep))}</div>
+        <div style="font-size:9px;color:var(--text3);text-align:right;margin-top:2px;">▸ ${eur(vkVorschlag(r.aep))}</div>
+        ${ppD!==null?`<div style="font-size:9px;margin-top:1px;text-align:right;color:${ppD<0?'var(--green)':'var(--red)'};">${r.wbName}: ${ppD<0?'▼':'▲'} ${eur(Math.abs(ppD))}</div>`:''}
       </td>
-      <td><span class="mono">${eur(r.vkNetto)}</span></td>
-      <td><span class="mono" style="color:var(--purple)">${eur(r.shopify)}</span></td>
-      <td><span class="mono">${eur(r.nettoUms)}</span></td>
+      <td class="mono" style="font-size:12px;">${eur(r.vkNetto)}</td>
+      <td class="mono" style="color:var(--purple);font-size:12px;">${eur(r.shopify)}</td>
+      <td class="mono" style="font-size:12px;">${eur(r.nettoUms)}</td>
       <td>
-        <span class="mono fw6" style="color:${gc};font-size:14px;">${eur(r.gewinn)}</span>
-        ${r.pp ? `<div style="font-size:10px;margin-top:2px;color:${ppDiff<0?'var(--green)':'var(--red)'}">
-          vs ${r.ppName||'WB'}: ${ppDiff<0?'▼':'▲'} ${eur(Math.abs(ppDiff))}
-        </div>` : ''}
+        <span class="mono fw6" style="color:${gc};font-size:13px;">${eur(r.gewinn)}</span>
       </td>
+      <td><span class="badge ${r.marge>.5?'bg':r.marge>.25?'by':r.marge>0?'bo':'br'}">${pct(r.marge)}</span></td>
       <td>
-        <span class="badge ${r.marge>0.5?'badge-green':r.marge>0.25?'badge-yellow':r.marge>0?'badge-orange':'badge-red'}">${pct(r.marge)}</span>
+        <div class="mono" style="font-size:11px;color:${r.vkBrutto>=r.beVkBrutto?'var(--green)':'var(--red)'};">${eur(r.beVkBrutto)}</div>
+        <div class="be-bar"><div class="be-fill" style="width:${bePct}%;background:${r.vkBrutto>=r.beVkBrutto?'var(--green)':'var(--red)'}"></div></div>
       </td>
-      <td>
-        <div style="font-size:11px;color:${beColor};font-family:'IBM Plex Mono',monospace;">${eur(r.beVkBrutto)}</div>
-        <div class="be-bar-wrap">
-          <div class="be-bar-fill" style="width:${Math.min(r.beVkBrutto/r.vkBrutto*100,100)}%;background:${beColor};"></div>
-        </div>
-        <div style="font-size:9px;color:var(--text3);">Break-even VK</div>
-      </td>
-      <td class="center"><span class="mono text-muted" style="font-size:12px;">${eur(r.aep)}</span></td>
+      <td class="mono" style="font-size:11px;color:var(--text2);">${eur(r.aep)}</td>
     </tr>`;
   }).join('');
 }
 
-function updateVk(id, val) {
-  STATE.vkValues[id] = parseFloat(val) || 0;
-  saveState();
-  renderKalkulation();
-}
-function resetVk(id, aep) {
-  STATE.vkValues[id] = vkVorschlag(aep);
-  saveState();
-  renderKalkulation();
-}
-function setLieferant(key) {
-  STATE.settings.aktiverLieferant = key;
-  saveState();
-  renderKalkulation();
-}
+function updateVk(id, val) { S.vkValues[id]=n(val); saveState(); renderKalkulation(); }
+function resetVk(id, aep)  { S.vkValues[id]=vkVorschlag(aep); saveState(); renderKalkulation(); }
+function setLieferant(id)  { S.settings.aktiverLieferant=id; saveState(); renderKalkulation(); }
 
-// ═══════════════════════════════════════════════════════
-// RENDER PRODUKTE
-// ═══════════════════════════════════════════════════════
-function renderProdukte() {
-  const tbody = document.getElementById('produkte-tbody');
-  if (STATE.produkte.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="9" class="left"><div class="empty-state"><div class="icon">📦</div><h3>Noch keine Produkte</h3><p>Klicke auf "Neues Produkt" um zu starten.</p></div></td></tr>`;
-    return;
-  }
-  tbody.innerHTML = STATE.produkte.map(p => {
-    const vk = STATE.versandklassen.find(v => v.id === p.versandklasse);
+// ══════════════════════════════════════════════════════
+// RENDER BESTAND
+// ══════════════════════════════════════════════════════
+function renderBestand() {
+  // MHD Badge
+  const kritisch = S.produkte.filter(p => {
+    const c = naechstesMHD(p.id);
+    return c && mhdStatus(c.mhd).days !== null && mhdStatus(c.mhd).days < 30;
+  }).length;
+  const badge = document.getElementById('mhd-badge');
+  badge.style.display = kritisch > 0 ? 'inline' : 'none';
+  badge.textContent = kritisch;
+
+  // KPIs
+  const gesamtVE = S.produkte.reduce((s,p) => s + bestandFuerProd(p.id), 0);
+  const unterMin = S.produkte.filter(p => bestandFuerProd(p.id) < (p.minbestand||0)).length;
+  const mhdWarn  = S.produkte.filter(p => { const c=naechstesMHD(p.id); return c && mhdStatus(c.mhd).days!==null && mhdStatus(c.mhd).days < (S.settings.mhdWarnDays||90); }).length;
+
+  document.getElementById('bestand-kpis').innerHTML = [
+    { l:'Gesamtbestand', v:gesamtVE+' VE',  c:'var(--accent)',  s:'alle Produkte' },
+    { l:'Unter Minbest.', v:unterMin,        c:unterMin>0?'var(--red)':'var(--green)', s:'Produkte' },
+    { l:'MHD Warnung',    v:mhdWarn,         c:mhdWarn>0?'var(--yellow)':'var(--green)', s:`< ${S.settings.mhdWarnDays}d` },
+    { l:'Chargen',        v:S.chargen.filter(c=>!c.ausgebucht).length, c:'var(--text2)', s:'aktiv' },
+  ].map(k=>`<div class="kpi-card"><div class="kpi-label">${k.l}</div><div class="kpi-val" style="color:${k.c}">${k.v}</div><div class="kpi-sub">${k.s}</div></div>`).join('');
+
+  // Bestandstabelle
+  const tb = document.getElementById('bestand-tbody');
+  tb.innerHTML = S.produkte.map(p => {
+    const bestand = bestandFuerProd(p.id);
+    const min = p.minbestand || 0;
+    const mhdC = naechstesMHD(p.id);
+    const mhd = mhdC ? mhdStatus(mhdC.mhd) : { cls:'', text:'—' };
+    const stCls = bestand === 0 ? 'stock-out' : bestand < min ? 'stock-low' : 'stock-ok';
+    const stBadge = bestand === 0 ? 'br' : bestand < min ? 'by' : 'bg';
+    const stText = bestand === 0 ? 'Kein Bestand' : bestand < min ? 'Niedrig' : 'OK';
     return `<tr>
-      <td class="left">
-        <div class="fw6">${p.name}</div>
-        <div style="font-size:11px;color:var(--text2);">${p.gruppe||''}</div>
+      <td class="L"><div class="fw6">${p.name}</div><div style="font-size:10px;color:var(--text2);">${p.gruppe||''}</div></td>
+      <td class="C"><span class="badge bb">${p.ve} ${p.veLabel||'Stk'}</span></td>
+      <td class="C"><span class="mono fw6 ${stCls}" style="font-size:14px;">${bestand}</span></td>
+      <td class="C"><span class="mono" style="color:var(--text2);">${bestand * (p.ve||1)}</span></td>
+      <td class="C"><span class="mono" style="color:var(--text2);">${min}</span></td>
+      <td class="C"><span class="badge ${stBadge}">${stText}</span></td>
+      <td class="L"><span class="mono" style="font-size:11px;">${mhdC?.chargeNr||'—'}</span></td>
+      <td class="C"><span class="mono ${mhd.cls}" style="font-size:11px;">${mhd.text}</span></td>
+      <td class="C" style="white-space:nowrap;">
+        <button class="btn btn-ghost btn-xs" onclick="openChargeModal('${p.id}')">+ Eingang</button>
       </td>
-      <td class="left"><span class="mono" style="font-size:12px;">${p.sku||'—'}</span></td>
-      <td class="left"><span class="mono" style="font-size:12px;">${p.pzn||'—'}</span></td>
-      <td><span class="mono">${eur(p.aep)}</span></td>
-      <td><span class="mono" style="color:var(--green)">${p.ekWisma?eur(p.ekWisma):'—'}</span></td>
-      <td><span class="mono" style="color:var(--accent)">${p.ekGuder?eur(p.ekGuder):'—'}</span></td>
-      <td><span class="mono" style="color:var(--gold)">${p.ekHartmann?eur(p.ekHartmann):'—'}</span></td>
-      <td class="center"><span class="badge badge-blue">${vk?vk.name:'—'}</span></td>
-      <td class="center" style="white-space:nowrap;">
-        <button class="btn btn-ghost btn-sm" onclick="openProductModal('${p.id}')">✏ Edit</button>
-        <button class="btn btn-danger btn-sm" onclick="deleteProduct('${p.id}')">✕</button>
+    </tr>`;
+  }).join('');
+
+  // Chargenhistorie
+  const ctb = document.getElementById('chargen-tbody');
+  const sorted = [...S.chargen].sort((a,b) => new Date(b.datum||0) - new Date(a.datum||0));
+  if (!sorted.length) { ctb.innerHTML=`<tr><td colspan="8" class="L"><div class="empty"><div class="ico">📋</div><h3>Noch keine Chargen</h3></div></td></tr>`; return; }
+  ctb.innerHTML = sorted.map(c => {
+    const p = getProd(c.prodId);
+    const l = getLief(c.liefId);
+    const mhd = mhdStatus(c.mhd);
+    return `<tr style="${c.ausgebucht?'opacity:.4':''}">
+      <td class="L"><span class="fw6">${p?.name||'—'}</span></td>
+      <td class="L"><span class="mono" style="font-size:12px;">${c.chargeNr}</span></td>
+      <td class="C"><span class="mono ${mhd.cls}" style="font-size:11px;">${mhd.text}</span></td>
+      <td class="C"><span class="mono">${c.menge} VE</span></td>
+      <td><span class="mono">${c.ek ? eur(c.ek) : '—'}</span></td>
+      <td class="L"><span class="badge" style="background:${l?.farbe+'26'||'var(--bg3)'};color:${l?.farbe||'var(--text2)'};">${l?.kuerzel||'—'}</span></td>
+      <td class="C" style="font-size:11px;color:var(--text2);">${fmtDate(c.datum)}</td>
+      <td class="C" style="white-space:nowrap;">
+        ${!c.ausgebucht ? `<button class="btn btn-warning btn-xs" onclick="ausbuchenCharge('${c.id}')">Ausbuchen</button>` : '<span style="font-size:10px;color:var(--text3);">ausgebucht</span>'}
+        <button class="btn btn-danger btn-xs" onclick="deleteCharge('${c.id}')">✕</button>
       </td>
     </tr>`;
   }).join('');
 }
 
-// ═══════════════════════════════════════════════════════
-// RENDER VERSAND
-// ═══════════════════════════════════════════════════════
-function renderVersand() {
-  const tbody = document.getElementById('versand-tbody');
-  tbody.innerHTML = STATE.versandklassen.map(v => `
-    <tr>
-      <td class="left"><span class="fw6">${v.name}</span></td>
-      <td class="left"><span class="badge badge-blue">${v.gewicht||'—'}</span></td>
-      <td><span class="mono" style="color:var(--green)">${v.wisma!=null?eur(v.wisma):'—'}</span></td>
-      <td><span class="mono" style="color:var(--accent)">${v.guder!=null?eur(v.guder):'—'}</span></td>
-      <td><span class="mono" style="color:var(--gold)">${v.hartmann!=null?eur(v.hartmann):'—'}</span></td>
-      <td class="center" style="white-space:nowrap;">
-        <button class="btn btn-ghost btn-sm" onclick="openVersandModal('${v.id}')">✏ Edit</button>
-        <button class="btn btn-danger btn-sm" onclick="deleteVersand('${v.id}')">✕</button>
+// ══════════════════════════════════════════════════════
+// RENDER PRODUKTE
+// ══════════════════════════════════════════════════════
+function renderProdukte() {
+  const tb = document.getElementById('prod-tbody');
+  if (!S.produkte.length) { tb.innerHTML=`<tr><td colspan="9" class="L"><div class="empty"><div class="ico">📦</div><h3>Keine Produkte</h3></div></td></tr>`; return; }
+  tb.innerHTML = S.produkte.map(p => {
+    const vk = getVK(p.versandklasse);
+    const ekCells = S.lieferanten.map(l => {
+      const ek = p.ek?.[l.id];
+      return `<span style="font-size:10px;color:${l.farbe};margin-right:6px;">${l.kuerzel}: ${ek ? eur(ek) : '—'}</span>`;
+    }).join('');
+    return `<tr>
+      <td class="L"><div class="fw6">${p.name}</div></td>
+      <td class="L" style="font-size:11px;color:var(--text2);">${p.gruppe||'—'}</td>
+      <td class="L"><span class="mono" style="font-size:11px;">${p.sku||'—'}</span></td>
+      <td class="L"><span class="mono" style="font-size:11px;">${p.pzn||'—'}</span></td>
+      <td><span class="mono">${eur(p.aep)}</span></td>
+      <td class="C"><span class="badge bb">${p.ve||1} ${p.veLabel||'Stk'}</span></td>
+      <td class="C"><span class="badge bp">${vk?.name||'—'}</span></td>
+      <td class="L">${ekCells}</td>
+      <td class="C" style="white-space:nowrap;">
+        <button class="btn btn-ghost btn-sm" onclick="openProdModal('${p.id}')">✏</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteProd('${p.id}')">✕</button>
       </td>
-    </tr>
-  `).join('');
-  document.getElementById('vers-kunde-netto').value   = STATE.settings.versandKundeNetto;
-  document.getElementById('vers-kunde-brutto').value  = STATE.settings.versandKundeBrutto;
+    </tr>`;
+  }).join('');
 }
 
-// ═══════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════
+// RENDER LIEFERANTEN
+// ══════════════════════════════════════════════════════
+function renderLieferanten() {
+  const tb = document.getElementById('lief-tbody');
+  if (!S.lieferanten.length) { tb.innerHTML=`<tr><td colspan="7" class="L"><div class="empty"><div class="ico">🏭</div><h3>Keine Lieferanten</h3></div></td></tr>`; return; }
+  tb.innerHTML = S.lieferanten.map(l => `<tr>
+    <td class="L"><div class="fw6" style="color:${l.farbe};">${l.name}</div></td>
+    <td class="L"><span class="badge" style="background:${l.farbe+'26'};color:${l.farbe};">${l.kuerzel}</span></td>
+    <td class="L" style="font-size:11px;">${l.kontakt||'—'}</td>
+    <td class="C"><span class="mono">${l.zahlziel||30} Tage</span></td>
+    <td><span class="mono">${l.minbest ? eur(l.minbest) : '—'}</span></td>
+    <td class="L" style="font-size:11px;color:var(--text2);">${l.notiz||'—'}</td>
+    <td class="C" style="white-space:nowrap;">
+      <button class="btn btn-ghost btn-sm" onclick="openLiefModal('${l.id}')">✏</button>
+      <button class="btn btn-danger btn-sm" onclick="deleteLief('${l.id}')">✕</button>
+    </td>
+  </tr>`).join('');
+}
+
+// ══════════════════════════════════════════════════════
+// RENDER VERSAND
+// ══════════════════════════════════════════════════════
+function renderVersand() {
+  const wrap = document.getElementById('versand-table-wrap');
+  const liefHeaders = S.lieferanten.map(l => `<th style="color:${l.farbe};">${l.kuerzel}</th>`).join('');
+  const rows = S.versandklassen.map(vk => {
+    const kostCells = S.lieferanten.map(l => {
+      const k = vk.kosten?.[l.id];
+      return `<td><span class="mono" style="color:${l.farbe};">${k!=null ? eur(k) : '—'}</span></td>`;
+    }).join('');
+    return `<tr>
+      <td class="L fw6">${vk.name}</td>
+      <td class="L"><span class="badge bb">${vk.gewicht||'—'}</span></td>
+      ${kostCells}
+      <td class="C" style="white-space:nowrap;">
+        <button class="btn btn-ghost btn-sm" onclick="openVersandModal('${vk.id}')">✏</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteVersand('${vk.id}')">✕</button>
+      </td>
+    </tr>`;
+  }).join('');
+  wrap.innerHTML = `<table><thead><tr><th class="L">Klasse</th><th class="L">Gewicht</th>${liefHeaders}<th class="C">Aktionen</th></tr></thead><tbody>${rows||'<tr><td colspan="10" class="L"><div class="empty"><div class="ico">🚚</div><h3>Keine Versandklassen</h3></div></td></tr>'}</tbody></table>`;
+  document.getElementById('vers-netto').value  = S.settings.versandKundeNetto;
+  document.getElementById('vers-brutto').value = S.settings.versandKundeBrutto;
+}
+
+// ══════════════════════════════════════════════════════
 // RENDER EINSTELLUNGEN
-// ═══════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════
 function renderEinstellungen() {
-  const s = STATE.settings;
+  const s = S.settings;
   document.getElementById('shopify-faktor').value = s.shopifyFaktor;
   document.getElementById('shopify-fix').value    = s.shopifyFix;
   document.getElementById('mwst-satz').value      = s.mwst;
+  document.getElementById('mhd-warn-days').value  = s.mhdWarnDays;
   document.getElementById('firma-name').value     = s.firma;
 }
 
 function saveSettings() {
-  STATE.settings.shopifyFaktor        = n(document.getElementById('shopify-faktor').value);
-  STATE.settings.shopifyFix           = n(document.getElementById('shopify-fix').value);
-  STATE.settings.mwst                 = n(document.getElementById('mwst-satz').value);
-  STATE.settings.firma                = document.getElementById('firma-name').value;
-  STATE.settings.versandKundeNetto    = n(document.getElementById('vers-kunde-netto').value);
-  STATE.settings.versandKundeBrutto   = n(document.getElementById('vers-kunde-brutto').value);
+  S.settings.shopifyFaktor        = n(document.getElementById('shopify-faktor').value);
+  S.settings.shopifyFix           = n(document.getElementById('shopify-fix').value);
+  S.settings.mwst                 = n(document.getElementById('mwst-satz').value);
+  S.settings.mhdWarnDays          = n(document.getElementById('mhd-warn-days').value);
+  S.settings.firma                = document.getElementById('firma-name').value;
+  S.settings.versandKundeNetto    = n(document.getElementById('vers-netto').value);
+  S.settings.versandKundeBrutto   = n(document.getElementById('vers-brutto').value);
   saveState();
   renderKalkulation();
 }
 
-// ═══════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════
 // PRODUKT MODAL
-// ═══════════════════════════════════════════════════════
-function openProductModal(id) {
-  const modal = document.getElementById('modal-produkt');
-  const sel = document.getElementById('prod-versandklasse');
-  sel.innerHTML = STATE.versandklassen.map(v => `<option value="${v.id}">${v.name}</option>`).join('');
+// ══════════════════════════════════════════════════════
+function openProdModal(id) {
+  const m = document.getElementById('modal-prod');
+  // Versandklassen füllen
+  document.getElementById('ep-versand').innerHTML = S.versandklassen.map(v => `<option value="${v.id}">${v.name}</option>`).join('');
+  // EK-Felder dynamisch aus Lieferanten
+  document.getElementById('ep-ek-fields').innerHTML = S.lieferanten.map(l => `
+    <div class="form-group">
+      <label class="form-label" style="color:${l.farbe};">EK ${l.kuerzel}</label>
+      <input type="number" step="0.01" class="form-control mono" id="ep-ek-${l.id}" placeholder="0.00">
+    </div>`).join('');
 
   if (id) {
-    const p = STATE.produkte.find(p => p.id === id);
+    const p = getProd(id);
     if (!p) return;
-    document.getElementById('modal-produkt-title').textContent = 'Produkt bearbeiten';
-    document.getElementById('edit-prod-id').value     = p.id;
-    document.getElementById('prod-name').value        = p.name;
-    document.getElementById('prod-gruppe').value      = p.gruppe || '';
-    document.getElementById('prod-sku').value         = p.sku || '';
-    document.getElementById('prod-pzn').value         = p.pzn || '';
-    document.getElementById('prod-aep').value         = p.aep || '';
-    document.getElementById('prod-ek-wisma').value    = p.ekWisma || '';
-    document.getElementById('prod-ek-guder').value    = p.ekGuder || '';
-    document.getElementById('prod-ek-hartmann').value = p.ekHartmann || '';
-    document.getElementById('prod-versandklasse').value = p.versandklasse || STATE.versandklassen[0]?.id;
-    document.getElementById('prod-pp').value          = p.pp || '';
-    document.getElementById('prod-pp-name').value     = p.ppName || '';
-  } else {
-    document.getElementById('modal-produkt-title').textContent = 'Neues Produkt';
-    document.getElementById('edit-prod-id').value = '';
-    ['prod-name','prod-gruppe','prod-sku','prod-pzn','prod-aep',
-     'prod-ek-wisma','prod-ek-guder','prod-ek-hartmann','prod-pp','prod-pp-name'].forEach(id => {
-      document.getElementById(id).value = '';
+    document.getElementById('modal-prod-title').textContent = 'Produkt bearbeiten';
+    document.getElementById('ep-id').value       = p.id;
+    document.getElementById('ep-name').value     = p.name;
+    document.getElementById('ep-gruppe').value   = p.gruppe||'';
+    document.getElementById('ep-sku').value      = p.sku||'';
+    document.getElementById('ep-pzn').value      = p.pzn||'';
+    document.getElementById('ep-aep').value      = p.aep||'';
+    document.getElementById('ep-ve').value       = p.ve||1;
+    document.getElementById('ep-ve-label').value = p.veLabel||'';
+    document.getElementById('ep-minbestand').value = p.minbestand||0;
+    document.getElementById('ep-versand').value  = p.versandklasse||'';
+    document.getElementById('ep-wbname').value   = p.wbName||'';
+    document.getElementById('ep-wbpreis').value  = p.wbPreis||'';
+    S.lieferanten.forEach(l => {
+      const el = document.getElementById(`ep-ek-${l.id}`);
+      if (el) el.value = p.ek?.[l.id]||'';
     });
-    if (STATE.versandklassen[0]) sel.value = STATE.versandklassen[0].id;
+  } else {
+    document.getElementById('modal-prod-title').textContent = 'Neues Produkt';
+    document.getElementById('ep-id').value = '';
+    ['ep-name','ep-gruppe','ep-sku','ep-pzn','ep-aep','ep-wbname','ep-wbpreis'].forEach(i => { const el=document.getElementById(i); if(el)el.value=''; });
+    document.getElementById('ep-ve').value = 1;
+    document.getElementById('ep-ve-label').value = 'Rolle';
+    document.getElementById('ep-minbestand').value = 5;
   }
-  modal.classList.add('open');
+  m.classList.add('open');
 }
 
 function saveProduct() {
-  const id    = document.getElementById('edit-prod-id').value;
-  const name  = document.getElementById('prod-name').value.trim();
-  if (!name) { alert('Produktname ist Pflicht.'); return; }
-
+  const id   = document.getElementById('ep-id').value;
+  const name = document.getElementById('ep-name').value.trim();
+  if (!name) { alert('Produktname Pflicht'); return; }
+  const ek = {};
+  S.lieferanten.forEach(l => { ek[l.id] = n(document.getElementById(`ep-ek-${l.id}`)?.value) || null; });
   const prod = {
-    id:           id || uid(),
-    name,
-    gruppe:       document.getElementById('prod-gruppe').value.trim(),
-    sku:          document.getElementById('prod-sku').value.trim(),
-    pzn:          document.getElementById('prod-pzn').value.trim(),
-    aep:          n(document.getElementById('prod-aep').value),
-    ekWisma:      n(document.getElementById('prod-ek-wisma').value) || null,
-    ekGuder:      n(document.getElementById('prod-ek-guder').value) || null,
-    ekHartmann:   n(document.getElementById('prod-ek-hartmann').value) || null,
-    versandklasse:document.getElementById('prod-versandklasse').value,
-    pp:           n(document.getElementById('prod-pp').value) || null,
-    ppName:       document.getElementById('prod-pp-name').value.trim() || 'Wettbewerb',
+    id: id || uid(), name,
+    gruppe:       document.getElementById('ep-gruppe').value.trim(),
+    sku:          document.getElementById('ep-sku').value.trim(),
+    pzn:          document.getElementById('ep-pzn').value.trim(),
+    aep:          n(document.getElementById('ep-aep').value),
+    ve:           n(document.getElementById('ep-ve').value) || 1,
+    veLabel:      document.getElementById('ep-ve-label').value.trim() || 'Stk',
+    minbestand:   n(document.getElementById('ep-minbestand').value),
+    versandklasse:document.getElementById('ep-versand').value,
+    wbName:       document.getElementById('ep-wbname').value.trim(),
+    wbPreis:      n(document.getElementById('ep-wbpreis').value) || null,
+    ek,
   };
-
-  if (id) {
-    const idx = STATE.produkte.findIndex(p => p.id === id);
-    STATE.produkte[idx] = prod;
-  } else {
-    STATE.produkte.push(prod);
-  }
-  saveState();
-  closeModal('modal-produkt');
-  renderAll();
+  if (id) { const i=S.produkte.findIndex(p=>p.id===id); S.produkte[i]=prod; }
+  else S.produkte.push(prod);
+  saveState(); closeModal('modal-prod'); renderAll();
   toast(id ? '✓ Produkt aktualisiert' : '✓ Produkt angelegt');
 }
 
-function deleteProduct(id) {
+function deleteProd(id) {
   if (!confirm('Produkt löschen?')) return;
-  STATE.produkte = STATE.produkte.filter(p => p.id !== id);
-  saveState();
-  renderAll();
-  toast('Produkt gelöscht');
+  S.produkte = S.produkte.filter(p => p.id !== id);
+  saveState(); renderAll(); toast('Produkt gelöscht','var(--red)');
 }
 
-// ═══════════════════════════════════════════════════════
-// VERSAND MODAL
-// ═══════════════════════════════════════════════════════
-function openVersandModal(id) {
-  const modal = document.getElementById('modal-versand');
+// ══════════════════════════════════════════════════════
+// LIEFERANT MODAL
+// ══════════════════════════════════════════════════════
+function openLiefModal(id) {
+  const m = document.getElementById('modal-lief');
   if (id) {
-    const v = STATE.versandklassen.find(v => v.id === id);
+    const l = getLief(id);
+    if (!l) return;
+    document.getElementById('modal-lief-title').textContent = 'Lieferant bearbeiten';
+    document.getElementById('el-id').value      = l.id;
+    document.getElementById('el-name').value    = l.name;
+    document.getElementById('el-kuerzel').value = l.kuerzel;
+    document.getElementById('el-kontakt').value = l.kontakt||'';
+    document.getElementById('el-tel').value     = l.tel||'';
+    document.getElementById('el-zahlziel').value= l.zahlziel||30;
+    document.getElementById('el-minbest').value = l.minbest||'';
+    document.getElementById('el-farbe').value   = l.farbe||'#388bfd';
+    document.getElementById('el-notiz').value   = l.notiz||'';
+  } else {
+    document.getElementById('modal-lief-title').textContent = 'Neuer Lieferant';
+    document.getElementById('el-id').value = '';
+    ['el-name','el-kuerzel','el-kontakt','el-tel','el-notiz'].forEach(i => document.getElementById(i).value='');
+    document.getElementById('el-zahlziel').value = 30;
+    document.getElementById('el-minbest').value = '';
+    document.getElementById('el-farbe').value = '#' + Math.floor(Math.random()*0xffffff).toString(16).padStart(6,'0');
+  }
+  m.classList.add('open');
+}
+
+function saveLieferant() {
+  const id   = document.getElementById('el-id').value;
+  const name = document.getElementById('el-name').value.trim();
+  const kuerzel = document.getElementById('el-kuerzel').value.trim().toUpperCase();
+  if (!name || !kuerzel) { alert('Name und Kürzel Pflicht'); return; }
+  const lief = {
+    id: id || uid(), name, kuerzel,
+    kontakt:  document.getElementById('el-kontakt').value.trim(),
+    tel:      document.getElementById('el-tel').value.trim(),
+    zahlziel: n(document.getElementById('el-zahlziel').value),
+    minbest:  n(document.getElementById('el-minbest').value),
+    farbe:    document.getElementById('el-farbe').value,
+    notiz:    document.getElementById('el-notiz').value.trim(),
+  };
+  if (id) { const i=S.lieferanten.findIndex(l=>l.id===id); S.lieferanten[i]=lief; }
+  else S.lieferanten.push(lief);
+  saveState(); closeModal('modal-lief'); renderAll();
+  toast(id ? '✓ Lieferant aktualisiert' : '✓ Lieferant angelegt');
+}
+
+function deleteLief(id) {
+  if (!confirm('Lieferant löschen?')) return;
+  S.lieferanten = S.lieferanten.filter(l => l.id !== id);
+  saveState(); renderAll(); toast('Lieferant gelöscht','var(--red)');
+}
+
+// ══════════════════════════════════════════════════════
+// VERSAND MODAL
+// ══════════════════════════════════════════════════════
+function openVersandModal(id) {
+  const m = document.getElementById('modal-versand');
+  document.getElementById('ev-lief-fields').innerHTML = S.lieferanten.map(l => `
+    <div class="form-group">
+      <label class="form-label" style="color:${l.farbe};">${l.kuerzel} Netto (€)</label>
+      <input type="number" step="0.01" class="form-control mono" id="ev-${l.id}" placeholder="0.00">
+    </div>`).join('');
+  if (id) {
+    const v = getVK(id);
     if (!v) return;
     document.getElementById('modal-versand-title').textContent = 'Versandklasse bearbeiten';
-    document.getElementById('edit-versand-id').value = v.id;
-    document.getElementById('vers-name').value       = v.name;
-    document.getElementById('vers-gewicht').value    = v.gewicht || '';
-    document.getElementById('vers-wisma').value      = v.wisma != null ? v.wisma : '';
-    document.getElementById('vers-guder').value      = v.guder != null ? v.guder : '';
-    document.getElementById('vers-hartmann').value   = v.hartmann != null ? v.hartmann : '';
+    document.getElementById('ev-id').value      = v.id;
+    document.getElementById('ev-name').value    = v.name;
+    document.getElementById('ev-gewicht').value = v.gewicht||'';
+    S.lieferanten.forEach(l => { const el=document.getElementById(`ev-${l.id}`); if(el) el.value=v.kosten?.[l.id]??''; });
   } else {
     document.getElementById('modal-versand-title').textContent = 'Neue Versandklasse';
-    document.getElementById('edit-versand-id').value = '';
-    ['vers-name','vers-gewicht','vers-wisma','vers-guder','vers-hartmann'].forEach(i => {
-      document.getElementById(i).value = '';
-    });
+    document.getElementById('ev-id').value = '';
+    document.getElementById('ev-name').value = '';
+    document.getElementById('ev-gewicht').value = '';
   }
-  modal.classList.add('open');
+  m.classList.add('open');
 }
 
 function saveVersand() {
-  const id   = document.getElementById('edit-versand-id').value;
-  const name = document.getElementById('vers-name').value.trim();
-  if (!name) { alert('Bezeichnung ist Pflicht.'); return; }
-
-  const vk = {
-    id:       id || uid(),
-    name,
-    gewicht:  document.getElementById('vers-gewicht').value.trim(),
-    wisma:    n(document.getElementById('vers-wisma').value) || null,
-    guder:    n(document.getElementById('vers-guder').value) || null,
-    hartmann: n(document.getElementById('vers-hartmann').value) || null,
-  };
-
-  if (id) {
-    const idx = STATE.versandklassen.findIndex(v => v.id === id);
-    STATE.versandklassen[idx] = vk;
-  } else {
-    STATE.versandklassen.push(vk);
-  }
-  saveState();
-  closeModal('modal-versand');
-  renderAll();
+  const id   = document.getElementById('ev-id').value;
+  const name = document.getElementById('ev-name').value.trim();
+  if (!name) { alert('Bezeichnung Pflicht'); return; }
+  const kosten = {};
+  S.lieferanten.forEach(l => { const v=n(document.getElementById(`ev-${l.id}`)?.value); kosten[l.id]=v||null; });
+  const vk = { id: id||uid(), name, gewicht: document.getElementById('ev-gewicht').value.trim(), kosten };
+  if (id) { const i=S.versandklassen.findIndex(v=>v.id===id); S.versandklassen[i]=vk; }
+  else S.versandklassen.push(vk);
+  saveState(); closeModal('modal-versand'); renderAll();
   toast(id ? '✓ Versandklasse aktualisiert' : '✓ Versandklasse angelegt');
 }
 
 function deleteVersand(id) {
   if (!confirm('Versandklasse löschen?')) return;
-  STATE.versandklassen = STATE.versandklassen.filter(v => v.id !== id);
-  saveState();
-  renderAll();
+  S.versandklassen = S.versandklassen.filter(v => v.id !== id);
+  saveState(); renderAll();
 }
 
-// ═══════════════════════════════════════════════════════
-// MODAL UTILS
-// ═══════════════════════════════════════════════════════
-function closeModal(id) {
-  document.getElementById(id).classList.remove('open');
+// ══════════════════════════════════════════════════════
+// CHARGE / WARENEINGANG MODAL
+// ══════════════════════════════════════════════════════
+function openChargeModal(prodId) {
+  const m = document.getElementById('modal-charge');
+  document.getElementById('modal-charge-title').textContent = 'Wareneingang buchen';
+  document.getElementById('ec-id').value = '';
+  document.getElementById('ec-produkt').innerHTML = S.produkte.map(p => `<option value="${p.id}" ${p.id===prodId?'selected':''}>${p.name} (${p.gruppe||''})</option>`).join('');
+  document.getElementById('ec-lieferant').innerHTML = S.lieferanten.map(l => `<option value="${l.id}">${l.name}</option>`).join('');
+  document.getElementById('ec-charge').value = '';
+  document.getElementById('ec-mhd').value = '';
+  document.getElementById('ec-menge').value = 1;
+  document.getElementById('ec-ek').value = '';
+  document.getElementById('ec-datum').value = new Date().toISOString().slice(0,10);
+  document.getElementById('ec-notiz').value = '';
+  m.classList.add('open');
 }
+
+function saveCharge() {
+  const prodId   = document.getElementById('ec-produkt').value;
+  const chargeNr = document.getElementById('ec-charge').value.trim();
+  const mhd      = document.getElementById('ec-mhd').value;
+  const menge    = n(document.getElementById('ec-menge').value);
+  if (!prodId || !chargeNr || !mhd || !menge) { alert('Produkt, Charge, MHD und Menge sind Pflicht'); return; }
+  const charge = {
+    id: uid(), prodId, chargeNr, mhd, menge,
+    liefId:   document.getElementById('ec-lieferant').value,
+    ek:       n(document.getElementById('ec-ek').value) || null,
+    datum:    document.getElementById('ec-datum').value,
+    notiz:    document.getElementById('ec-notiz').value.trim(),
+    ausgebucht: false,
+  };
+  S.chargen.push(charge);
+  saveState(); closeModal('modal-charge'); renderAll();
+  toast(`✓ ${menge} VE eingebucht`);
+}
+
+function ausbuchenCharge(id) {
+  if (!confirm('Charge ausbuchen (Bestand auf 0 setzen)?')) return;
+  const c = S.chargen.find(c => c.id === id);
+  if (c) { c.ausgebucht = true; saveState(); renderAll(); toast('Charge ausgebucht','var(--yellow)'); }
+}
+
+function deleteCharge(id) {
+  if (!confirm('Charge löschen?')) return;
+  S.chargen = S.chargen.filter(c => c.id !== id);
+  saveState(); renderAll(); toast('Charge gelöscht','var(--red)');
+}
+
+// ══════════════════════════════════════════════════════
+// MODAL UTILS
+// ══════════════════════════════════════════════════════
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
 document.querySelectorAll('.modal-overlay').forEach(m => {
   m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); });
 });
 
-// ═══════════════════════════════════════════════════════
-// DATEN IMPORT/EXPORT
-// ═══════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════
+// DATEN
+// ══════════════════════════════════════════════════════
 function exportData() {
-  const blob = new Blob([JSON.stringify(STATE, null, 2)], { type: 'application/json' });
+  const blob = new Blob([JSON.stringify(S,null,2)],{type:'application/json'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = 'krb_kalkulation_' + new Date().toISOString().slice(0,10) + '.json';
+  a.download = `krbmed_commerce_${new Date().toISOString().slice(0,10)}.json`;
   a.click();
   toast('✓ Daten exportiert');
 }
 
-function importData(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = e => {
-    try {
-      const data = JSON.parse(e.target.result);
-      STATE = { ...DEFAULT_STATE, ...data, settings: { ...DEFAULT_STATE.settings, ...data.settings } };
-      saveState();
-      renderAll();
-      toast('✓ Daten importiert');
-    } catch(err) {
-      alert('Fehler beim Importieren: Ungültige JSON-Datei.');
-    }
+function importData(e) {
+  const file = e.target.files[0]; if (!file) return;
+  const r = new FileReader();
+  r.onload = ev => {
+    try { S = deepMerge(JSON.parse(JSON.stringify(DEFAULTS)), JSON.parse(ev.target.result)); saveState(); renderAll(); toast('✓ Daten importiert'); }
+    catch(err) { alert('Ungültige JSON-Datei'); }
   };
-  reader.readAsText(file);
-  event.target.value = '';
+  r.readAsText(file);
+  e.target.value = '';
+}
+
+function importCSV(e) {
+  const file = e.target.files[0]; if (!file) return;
+  const r = new FileReader();
+  r.onload = ev => {
+    const lines = ev.target.result.split('\n').filter(l=>l.trim());
+    const header = lines[0].split(',').map(h=>h.trim().replace(/"/g,'').toLowerCase());
+    let count = 0;
+    lines.slice(1).forEach(line => {
+      const cols = line.split(',').map(c=>c.trim().replace(/"/g,''));
+      const row  = Object.fromEntries(header.map((h,i)=>[h,cols[i]||'']));
+      const name = row['title'] || row['name'] || row['produktname'];
+      if (!name) return;
+      const exists = S.produkte.find(p => p.sku === row['variant sku'] || p.name === name);
+      if (exists) return;
+      S.produkte.push({
+        id: uid(), name,
+        gruppe: row['product_type'] || row['type'] || '',
+        sku:    row['variant sku'] || '',
+        pzn:    row['pzn'] || '',
+        aep:    n(row['variant price']) || n(row['price']) || 0,
+        ve: 1, veLabel: 'Stk', minbestand: 5,
+        versandklasse: S.versandklassen[0]?.id || '',
+        wbName: '', wbPreis: null,
+        ek: {},
+      });
+      count++;
+    });
+    saveState(); renderAll();
+    toast(`✓ ${count} Produkte importiert`);
+  };
+  r.readAsText(file);
+  e.target.value = '';
 }
 
 function resetData() {
-  STATE = JSON.parse(JSON.stringify(DEFAULT_STATE));
-  saveState();
-  renderAll();
-  toast('Daten zurückgesetzt');
+  S = JSON.parse(JSON.stringify(DEFAULTS));
+  saveState(); renderAll(); toast('Daten zurückgesetzt','var(--yellow)');
 }
 
-// ═══════════════════════════════════════════════════════
-// RENDER ALL
-// ═══════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════
 function renderAll() {
   renderKalkulation();
+  renderBestand();
   renderProdukte();
+  renderLieferanten();
   renderVersand();
   renderEinstellungen();
 }
-
-// INIT
 renderAll();
 </script>
 </body>
