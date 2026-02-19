@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KRBmed Commerce · v4.3</title>
+<link rel="icon" href="https://www.krb-homecare.shop/cdn/shop/files/favicon-krb-homecare-shop.png?crop=center&height=48&v=1770635255&width=48" type="image/png">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:      #0c1117; --bg2: #111820; --bg3: #161e28; --bg4: #1c2733;
+  --border:  #1e2d3d; --border2: #253447;
+  --text:    #cdd9e5; --text2: #768390; --text3: #444c56;
+  --accent:  #388bfd; --green: #3fb950; --yellow: #d29922;
+  --red:     #f85149; --orange: #db6d28; --purple: #bc8cff;
+  --gold:    #e3b341; --teal: #39d353; --pink: #f778ba;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;}
+::-webkit-scrollbar{width:5px;height:5px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
+input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;}
+input[type=number]{-moz-appearance:textfield;}
+
+.header{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 20px;display:flex;align-items:center;justify-content:space-between;height:50px;position:sticky;top:0;z-index:100;}
+.logo{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;letter-spacing:.05em;}
+.logo span{color:var(--accent);}
+.logo .ver{color:var(--text3);font-size:10px;margin-left:6px;}
+.nav{display:flex;gap:2px;}
+.nav-btn{background:none;border:none;color:var(--text2);cursor:pointer;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:500;padding:6px 12px;border-radius:6px;transition:all .15s;}
+.nav-btn:hover{background:var(--bg3);color:var(--text);}
+.nav-btn.active{background:var(--bg3);color:var(--accent);}
+.nav-badge{background:var(--red);border-radius:8px;color:#fff;font-size:9px;font-weight:700;padding:1px 5px;margin-left:4px;vertical-align:middle;}
+.main{padding:20px;max-width:1700px;margin:0 auto;}
+.panel{display:none;} .panel.active{display:block;}
+
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:16px;}
+.card-header{padding:12px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+.card-title{font-size:13px;font-weight:600;color:var(--text);}
+.card-body{padding:18px;}
+
+.btn{align-items:center;border-radius:6px;border:1px solid var(--border2);cursor:pointer;display:inline-flex;font-family:'IBM Plex Sans',sans-serif;font-size:12px;font-weight:600;gap:5px;padding:5px 12px;transition:all .15s;white-space:nowrap;}
+.btn-primary{background:var(--accent);border-color:var(--accent);color:#fff;}
+.btn-primary:hover{background:#1f6feb;}
+.btn-success{background:var(--green);border-color:var(--green);color:#fff;}
+.btn-ghost{background:transparent;color:var(--text2);}
+.btn-ghost:hover{background:var(--bg3);color:var(--text);border-color:var(--border2);}
+.btn-danger{background:transparent;border-color:var(--red);color:var(--red);}
+.btn-danger:hover{background:rgba(248,81,73,.1);}
+.btn-warning{background:transparent;border-color:var(--yellow);color:var(--yellow);}
+.btn-sm{font-size:11px;padding:3px 9px;}
+.btn-xs{font-size:10px;padding:2px 7px;}
+
+.form-group{margin-bottom:14px;}
+.form-label{display:block;font-size:11px;font-weight:600;color:var(--text2);letter-spacing:.07em;text-transform:uppercase;margin-bottom:5px;}
+.form-label .hint{color:var(--text3);font-weight:400;text-transform:none;margin-left:4px;}
+.form-control{background:var(--bg4);border:1px solid var(--border2);border-radius:6px;color:var(--text);font-family:'IBM Plex Sans',sans-serif;font-size:13px;outline:none;padding:7px 11px;transition:border-color .15s;width:100%;}
+.form-control:focus{border-color:var(--accent);}
+.form-control.mono{font-family:'IBM Plex Mono',monospace;}
+select.form-control{cursor:pointer;}
+.form-row{display:grid;gap:12px;}
+.col-2{grid-template-columns:1fr 1fr;}
+.col-3{grid-template-columns:1fr 1fr 1fr;}
+.col-4{grid-template-columns:1fr 1fr 1fr 1fr;}
+.col-6{grid-template-columns:repeat(6,1fr);}
+.section-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);padding:14px 0 8px;border-bottom:1px solid var(--border);margin-bottom:12px;}
+
+.vk-input{background:rgba(227,179,65,.1);border:2px solid var(--gold);border-radius:6px;color:var(--gold);font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;outline:none;padding:6px 10px;text-align:right;width:115px;transition:all .15s;}
+.vk-input:focus{box-shadow:0 0 0 3px rgba(227,179,65,.2);}
+
+.table-wrap{overflow-x:auto;}
+table{border-collapse:collapse;width:100%;}
+thead tr{background:var(--bg3);}
+th{color:var(--text2);font-size:10px;font-weight:700;letter-spacing:.08em;padding:9px 12px;text-align:right;text-transform:uppercase;white-space:nowrap;border-bottom:1px solid var(--border);}
+th.L{text-align:left;} th.C{text-align:center;}
+td{border-bottom:1px solid var(--border);font-size:12px;padding:9px 12px;text-align:right;vertical-align:middle;}
+td.L{text-align:left;} td.C{text-align:center;}
+tr:hover td{background:rgba(56,139,253,.03);}
+tr:last-child td{border-bottom:none;}
+
+.badge{border-radius:4px;display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;padding:2px 7px;}
+.bg{background:rgba(63,185,80,.15);color:var(--green);}
+.by{background:rgba(210,153,34,.15);color:var(--yellow);}
+.br{background:rgba(248,81,73,.15);color:var(--red);}
+.bo{background:rgba(219,109,40,.15);color:var(--orange);}
+.bb{background:rgba(56,139,253,.15);color:var(--accent);}
+.bp{background:rgba(188,140,255,.15);color:var(--purple);}
+.bgold{background:rgba(227,179,65,.15);color:var(--gold);}
+
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:16px;}
+.kpi-card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:14px 16px;}
+.kpi-label{color:var(--text2);font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:5px;}
+.kpi-val{font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:600;}
+.kpi-sub{color:var(--text2);font-size:10px;margin-top:2px;}
+
+.modal-overlay{align-items:flex-start;background:rgba(0,0,0,.75);bottom:0;display:none;justify-content:center;left:0;overflow-y:auto;padding:40px 16px;position:fixed;right:0;top:0;z-index:200;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--bg2);border:1px solid var(--border2);border-radius:12px;padding:22px;width:100%;max-width:680px;position:relative;}
+.modal-title{font-size:15px;font-weight:700;margin-bottom:18px;}
+.modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;padding-top:14px;border-top:1px solid var(--border);}
+.close-modal{background:none;border:none;color:var(--text2);cursor:pointer;font-size:18px;padding:0;position:absolute;right:16px;top:16px;}
+
+.mhd-ok{color:var(--green);}
+.mhd-warn{color:var(--yellow);}
+.mhd-crit{color:var(--red);}
+.mhd-exp{color:var(--text3);text-decoration:line-through;}
+.stock-ok{color:var(--green);}
+.stock-low{color:var(--yellow);}
+.stock-out{color:var(--red);}
+
+.toast{position:fixed;bottom:20px;right:20px;background:var(--bg2);border:1px solid var(--green);border-radius:8px;color:var(--green);font-size:12px;font-weight:600;padding:9px 16px;z-index:300;opacity:0;transform:translateY(6px);transition:all .2s;pointer-events:none;}
+.toast.show{opacity:1;transform:translateY(0);}
+
+.be-bar{height:3px;background:var(--border);border-radius:2px;overflow:hidden;margin-top:3px;}
+.be-fill{height:100%;border-radius:2px;transition:width .3s;}
+
+.filter-btn{background:var(--bg3);border:1px solid var(--border2);border-radius:6px;color:var(--text2);cursor:pointer;font-family:'IBM Plex Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 14px;transition:all .15s;}
+.filter-btn:hover{background:var(--bg4);color:var(--text);}
+.filter-btn.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+
+.search-box{background:var(--bg3);border:1px solid var(--border2);border-radius:6px;color:var(--text);font-family:'IBM Plex Sans',sans-serif;font-size:13px;outline:none;padding:6px 12px;width:280px;transition:border-color .15s;}
+.search-box:focus{border-color:var(--accent);}
+
+.empty{text-align:center;padding:40px;color:var(--text2);}
+.empty .ico{font-size:32px;margin-bottom:10px;}
+.mono{font-family:'IBM Plex Mono',monospace;}
+.fw6{font-weight:600;}
+.divider{border:none;border-top:1px solid var(--border);margin:16px 0;}
+@media(max-width:768px){.main{padding:10px;}.col-4,.col-6{grid-template-columns:1fr 1fr;}.col-3{grid-template-columns:1fr 1fr;}.header{padding:0 10px;}.nav-btn span{display:none;}}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo">KRBmed <span>Commerce</span><span class="ver">v4.3</span></div>
+  <nav class="nav">
+    <button class="nav-btn active" data-panel="kalkulation">Kalkulation</button>
+    <button class="nav-btn" data-panel="bestand">Bestand <span class="nav-badge" id="mhd-badge" style="display:none">!</span></button>
+    <button class="nav-btn" data-panel="produkte">Produkte</button>
+    <button class="nav-btn" data-panel="lieferanten">Lieferanten</button>
+    <button class="nav-btn" data-panel="versand">Versand</button>
+    <button class="nav-btn" data-panel="einstellungen">Einstellungen</button>
+  </nav>
+</header>
+
+<div class="toast" id="toast"></div>
+
+<div class="main">
+
+<!-- KALKULATION -->
+<div class="panel active" id="panel-kalkulation">
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:12px;">
+    <div>
+      <h2 style="font-size:17px;font-weight:700;">Preiskalkulation</h2>
+      <p style="color:var(--text2);font-size:11px;margin-top:2px;">VK Brutto eingeben → Gewinn, Marge & Break-even</p>
+    </div>
+    <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+      <input type="text" class="search-box" placeholder="🔍 Produkt suchen..." id="search-input" oninput="setSearch(this.value)">
+      <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+        <span style="font-size:11px;color:var(--text2);font-weight:600;">FILTER:</span>
+        <button class="filter-btn active" onclick="setLiefFilter(null)">Alle</button>
+        <div id="lief-filter-btns"></div>
+      </div>
+    </div>
+  </div>
+  <div class="kpi-grid" id="kalk-kpis"></div>
+  <div class="card">
+    <div class="card-header">
+      <span class="card-title">Produktkalkulation</span>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-ghost btn-sm" onclick="exportInventurPDF()">📄 Inventur PDF</button>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr>
+          <th class="L">Produkt</th>
+          <th>VE</th>
+          <th>Bestand</th>
+          <th>EK/VE</th>
+          <th>Versand</th>
+          <th>Verpack.</th>
+          <th>Einstand</th>
+          <th style="color:var(--gold);background:rgba(227,179,65,.05);">VK BRUTTO</th>
+          <th>VK Netto</th>
+          <th>Shopify</th>
+          <th>Gewinn</th>
+          <th>Marge</th>
+          <th>Break-even</th>
+          <th style="color:var(--text3);">AEP (Ref)</th>
+        </tr></thead>
+        <tbody id="kalk-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- BESTAND -->
+<div class="panel" id="panel-bestand">
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:12px;">
+    <div>
+      <h2 style="font-size:17px;font-weight:700;">Bestand & Chargen</h2>
+      <p style="color:var(--text2);font-size:11px;">Lagerbestand, MHD-Überwachung, Chargenverfolgung</p>
+    </div>
+    <input type="text" class="search-box" placeholder="🔍 Produkt/Charge suchen..." id="bestand-search" oninput="setBestandSearch(this.value)" style="width:280px;">
+      <div style="display:flex;gap:8px;">
+      <button class="btn btn-ghost" onclick="filterMHD('all')">Alle</button>
+      <button class="btn btn-warning btn-sm" onclick="filterMHD('warn')">MHD < 90d</button>
+      <button class="btn btn-danger btn-sm" onclick="filterMHD('crit')">MHD < 30d</button>
+      <button class="btn btn-primary" onclick="openChargeModal()">+ Wareneingang</button>
+    </div>
+  </div>
+  <div class="kpi-grid" id="bestand-kpis"></div>
+  <div class="card">
+    <div class="card-header"><span class="card-title">Lagerübersicht</span></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr>
+          <th class="L">Produkt</th>
+          <th>VE</th>
+          <th>Bestand</th>
+          <th>Min.</th>
+          <th>Status</th>
+          <th class="L">Charge</th>
+          <th>MHD</th>
+          <th class="C">Aktion</th>
+        </tr></thead>
+        <tbody id="bestand-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header"><span class="card-title">Chargenhistorie</span></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr>
+          <th class="L">Produkt</th>
+          <th class="L">Charge</th>
+          <th>MHD</th>
+          <th>Menge</th>
+          <th>Lieferant</th>
+          <th class="L">Shopify Order</th>
+          <th class="C">Aktionen</th>
+        </tr></thead>
+        <tbody id="chargen-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUKTE -->
+<div class="panel" id="panel-produkte">
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:12px;">
+    <div>
+      <h2 style="font-size:17px;font-weight:700;">Produkte</h2>
+      <p style="color:var(--text2);font-size:11px;">Produktstammdaten mit VE und Lieferanten-EK</p>
+    </div>
+    <input type="text" class="search-box" placeholder="🔍 Produkt suchen..." id="prod-search" oninput="setProdSearch(this.value)" style="width:280px;">
+      <div style="display:flex;gap:8px;">
+      <button class="btn btn-ghost" onclick="document.getElementById('csv-import').click()">⬆ CSV Import</button>
+      <input type="file" id="csv-import" accept=".csv" style="display:none" onchange="importCSV(event)">
+      <button class="btn btn-primary" onclick="openProdModal()">+ Produkt</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="table-wrap">
+      <table>
+        <thead><tr>
+          <th class="L">Produktname</th>
+          <th class="L">Gruppe</th>
+          <th class="L">SKU</th>
+          <th>AEP</th>
+          <th>VE</th>
+          <th class="L">EK Lieferanten</th>
+          <th class="C">Aktionen</th>
+        </tr></thead>
+        <tbody id="prod-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- LIEFERANTEN -->
+<div class="panel" id="panel-lieferanten">
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:12px;">
+    <div>
+      <h2 style="font-size:17px;font-weight:700;">Lieferanten</h2>
+      <p style="color:var(--text2);font-size:11px;">Beliebig viele Lieferanten verwalten</p>
+    </div>
+    <button class="btn btn-primary" onclick="openLiefModal()">+ Lieferant</button>
+  </div>
+  <div class="card">
+    <div class="table-wrap">
+      <table>
+        <thead><tr>
+          <th class="L">Name</th>
+          <th class="L">Kürzel</th>
+          <th class="L">Kontakt</th>
+          <th>Zahlungsziel</th>
+          <th class="L">Notiz</th>
+          <th class="C">Aktionen</th>
+        </tr></thead>
+        <tbody id="lief-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- VERSAND -->
+<div class="panel" id="panel-versand">
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:12px;">
+    <div>
+      <h2 style="font-size:17px;font-weight:700;">Versandmatrix</h2>
+      <p style="color:var(--text2);font-size:11px;">Versandkosten pro Lieferant</p>
+    </div>
+    <button class="btn btn-primary" onclick="openVersandModal()">+ Klasse</button>
+  </div>
+  <div class="card">
+    <div class="table-wrap" id="versand-table-wrap"></div>
+  </div>
+  <div class="card" style="margin-top:0;">
+    <div class="card-header"><span class="card-title">Versand Kunde</span></div>
+    <div class="card-body">
+      <div class="form-row col-3">
+        <div class="form-group">
+          <label class="form-label">Netto (€)</label>
+          <input type="number" step="0.01" class="form-control mono" id="vers-netto" value="5.00" oninput="saveSettings()">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Brutto (€)</label>
+          <input type="number" step="0.01" class="form-control mono" id="vers-brutto" value="5.95" oninput="saveSettings()">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EINSTELLUNGEN -->
+<div class="panel" id="panel-einstellungen">
+  <h2 style="font-size:17px;font-weight:700;margin-bottom:14px;">Einstellungen</h2>
+  <div class="form-row col-2" style="gap:16px;">
+    <div class="card" style="margin:0;">
+      <div class="card-header"><span class="card-title">Shopify Gebühren</span></div>
+      <div class="card-body">
+        <div class="form-group">
+          <label class="form-label">Faktor <span class="hint">(97% = 0.97)</span></label>
+          <input type="number" step="0.001" class="form-control mono" id="shopify-faktor" value="0.97" oninput="saveSettings()">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Fixbetrag (€)</label>
+          <input type="number" step="0.01" class="form-control mono" id="shopify-fix" value="0.60" oninput="saveSettings()">
+        </div>
+      </div>
+    </div>
+    <div class="card" style="margin:0;">
+      <div class="card-header"><span class="card-title">Allgemein</span></div>
+      <div class="card-body">
+        <div class="form-group">
+          <label class="form-label">MwSt Satz</label>
+          <input type="number" step="0.01" class="form-control mono" id="mwst-satz" value="0.19" oninput="saveSettings()">
+        </div>
+        <div class="form-group">
+          <label class="form-label">MHD Warnung (Tage)</label>
+          <input type="number" class="form-control mono" id="mhd-warn-days" value="90" oninput="saveSettings()">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header"><span class="card-title">Daten</span></div>
+    <div class="card-body" style="display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="btn btn-ghost" onclick="exportData()">⬇ Export</button>
+      <button class="btn btn-ghost" onclick="document.getElementById('import-file').click()">⬆ Import</button>
+      <input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(event)">
+      <button class="btn btn-danger" onclick="if(confirm('Alle Daten zurücksetzen?'))resetData()">⚠ Reset</button>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<!-- MODALS -->
+<div class="modal-overlay" id="modal-prod">
+<div class="modal">
+  <button class="close-modal" onclick="closeModal('modal-prod')">×</button>
+  <div class="modal-title" id="modal-prod-title">Produkt</div>
+  <input type="hidden" id="ep-id">
+  <div class="section-label">Produktinfo</div>
+  <div class="form-row col-2">
+    <div class="form-group"><label class="form-label">Name *</label><input type="text" class="form-control" id="ep-name"></div>
+    <div class="form-group"><label class="form-label">Gruppe</label><input type="text" class="form-control" id="ep-gruppe"></div>
+  </div>
+  <div class="form-row col-3">
+    <div class="form-group"><label class="form-label">SKU</label><input type="text" class="form-control mono" id="ep-sku"></div>
+    <div class="form-group"><label class="form-label">PZN</label><input type="text" class="form-control mono" id="ep-pzn"></div>
+    <div class="form-group"><label class="form-label">AEP Netto</label><input type="number" step="0.01" class="form-control mono" id="ep-aep"></div>
+  </div>
+  <div class="section-label">VE & Kosten</div>
+  <div class="form-row col-4">
+    <div class="form-group"><label class="form-label">VE-Größe</label><input type="number" class="form-control mono" id="ep-ve" value="1" min="1"></div>
+    <div class="form-group"><label class="form-label">VE Label</label><input type="text" class="form-control" id="ep-ve-label" placeholder="Stück"></div>
+    <div class="form-group"><label class="form-label">Mindestbest.</label><input type="number" class="form-control mono" id="ep-minbestand" value="5"></div>
+    <div class="form-group"><label class="form-label">Verpackung (€)</label><input type="number" step="0.01" class="form-control mono" id="ep-verpack" value="0"></div>
+  </div>
+  <div class="form-row col-2">
+    <div class="form-group"><label class="form-label">Versandklasse</label><select class="form-control" id="ep-versand"></select></div>
+    <div class="form-group"><label class="form-label">Wettbewerb VK</label><input type="number" step="0.01" class="form-control mono" id="ep-wbpreis"></div>
+  </div>
+  <div class="section-label">Einkaufspreise (€/VE Netto)</div>
+  <div id="ep-ek-fields" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;"></div>
+  <div class="modal-footer">
+    <button class="btn btn-ghost" onclick="closeModal('modal-prod')">Abbrechen</button>
+    <button class="btn btn-primary" onclick="saveProduct()">Speichern</button>
+  </div>
+</div>
+</div>
+
+<div class="modal-overlay" id="modal-lief">
+<div class="modal">
+  <button class="close-modal" onclick="closeModal('modal-lief')">×</button>
+  <div class="modal-title">Lieferant</div>
+  <input type="hidden" id="el-id">
+  <div class="form-row col-2">
+    <div class="form-group"><label class="form-label">Name *</label><input type="text" class="form-control" id="el-name"></div>
+    <div class="form-group"><label class="form-label">Kürzel *</label><input type="text" class="form-control mono" id="el-kuerzel" maxlength="10"></div>
+  </div>
+  <div class="form-row col-3">
+    <div class="form-group"><label class="form-label">Kontakt</label><input type="text" class="form-control" id="el-kontakt"></div>
+    <div class="form-group"><label class="form-label">Zahlungsziel</label><input type="number" class="form-control mono" id="el-zahlziel" value="30"></div>
+    <div class="form-group"><label class="form-label">Farbe</label><input type="color" class="form-control" id="el-farbe" value="#388bfd" style="height:38px;padding:4px;"></div>
+  </div>
+  <div class="form-group"><label class="form-label">Notiz</label><textarea class="form-control" id="el-notiz" rows="2"></textarea></div>
+  <div class="modal-footer">
+    <button class="btn btn-ghost" onclick="closeModal('modal-lief')">Abbrechen</button>
+    <button class="btn btn-primary" onclick="saveLieferant()">Speichern</button>
+  </div>
+</div>
+</div>
+
+<div class="modal-overlay" id="modal-versand">
+<div class="modal">
+  <button class="close-modal" onclick="closeModal('modal-versand')">×</button>
+  <div class="modal-title">Versandklasse</div>
+  <input type="hidden" id="ev-id">
+  <div class="form-row col-2">
+    <div class="form-group"><label class="form-label">Bezeichnung *</label><input type="text" class="form-control" id="ev-name"></div>
+    <div class="form-group"><label class="form-label">Gewicht</label><input type="text" class="form-control" id="ev-gewicht"></div>
+  </div>
+  <div class="section-label">Versandkosten Lieferant (€ Netto)</div>
+  <div id="ev-lief-fields" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;"></div>
+  <div class="modal-footer">
+    <button class="btn btn-ghost" onclick="closeModal('modal-versand')">Abbrechen</button>
+    <button class="btn btn-primary" onclick="saveVersand()">Speichern</button>
+  </div>
+</div>
+</div>
+
+<div class="modal-overlay" id="modal-charge">
+<div class="modal">
+  <button class="close-modal" onclick="closeModal('modal-charge')">×</button>
+  <div class="modal-title">Wareneingang buchen</div>
+  <input type="hidden" id="ec-id">
+  <div class="form-row col-2">
+    <div class="form-group"><label class="form-label">Produkt *</label><select class="form-control" id="ec-produkt"></select></div>
+    <div class="form-group"><label class="form-label">Lieferant *</label><select class="form-control" id="ec-lieferant"></select></div>
+  </div>
+  <div class="form-row col-2">
+    <div class="form-group"><label class="form-label">Chargennr. *</label><input type="text" class="form-control mono" id="ec-charge"></div>
+    <div class="form-group"><label class="form-label">MHD *</label><input type="date" class="form-control" id="ec-mhd"></div>
+  </div>
+  <div class="form-row col-2">
+    <div class="form-group"><label class="form-label">Menge (VE) *</label><input type="number" class="form-control mono" id="ec-menge" value="1"></div>
+    <div class="form-group"><label class="form-label">Datum</label><input type="date" class="form-control" id="ec-datum"></div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-ghost" onclick="closeModal('modal-charge')">Abbrechen</button>
+    <button class="btn btn-primary" onclick="saveCharge()">Einbuchen</button>
+  </div>
+</div>
+</div>
+
+<div class="modal-overlay" id="modal-ausbuchen">
+<div class="modal">
+  <button class="close-modal" onclick="closeModal('modal-ausbuchen')">×</button>
+  <div class="modal-title">Charge ausbuchen</div>
+  <input type="hidden" id="ea-id">
+  <p style="color:var(--text2);font-size:12px;margin-bottom:16px;">Optional: Shopify Order-ID für Rückverfolgbarkeit</p>
+  <div class="form-group">
+    <label class="form-label">Shopify Order-ID <span class="hint">(optional, z.B. #1234567)</span></label>
+    <input type="text" class="form-control mono" id="ea-order" placeholder="#1234567">
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-ghost" onclick="closeModal('modal-ausbuchen')">Abbrechen</button>
+    <button class="btn btn-warning" onclick="confirmAusbuchen()">Ausbuchen</button>
+  </div>
+</div>
+</div>
+
+<script>
+const DEFAULTS = {
+  settings: { mwst:0.19, shopifyFaktor:0.97, shopifyFix:0.60, versandKundeNetto:5.00, versandKundeBrutto:5.95, aktiverLieferant:null, mhdWarnDays:90 },
+  lieferanten: [
+    { id:"lief1", name:"Wisma GmbH",    kuerzel:"WISMA",    farbe:"#3fb950", kontakt:"", zahlziel:30, notiz:"" },
+    { id:"lief2", name:"Guder",         kuerzel:"GUDER",    farbe:"#388bfd", kontakt:"", zahlziel:30, notiz:"" },
+    { id:"lief3", name:"Paul Hartmann", kuerzel:"HARTMANN", farbe:"#d29922", kontakt:"", zahlziel:30, notiz:"" },
+  ],
+  versandklassen: [
+    { id:"vk1", name:"0-2kg",     kosten:{ lief1:6.90, lief2:null, lief3:4.95 } },
+    { id:"vk2", name:"2-6kg",     kosten:{ lief1:7.90, lief2:null, lief3:4.95 } },
+    { id:"vk3", name:"6-31.5kg",  kosten:{ lief1:9.00, lief2:null, lief3:4.95 } },
+  ],
+  produkte: [{"id": "p_900602", "name": "Omnifix® Elastic Fixierverband – Elastischer Wundverband | Hartmann – 5cm x 10m", "gruppe": "Paul Hartmann AG", "sku": "900602", "pzn": "", "aep": 9.5, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {"lief1": 2.05, "lief2": 10.27, "lief3": 11.2}}, {"id": "p_900603", "name": "Omnifix® Elastic Fixierverband – Elastischer Wundverband | Hartmann – 10cm x 10m", "gruppe": "Paul Hartmann AG", "sku": "900603", "pzn": "", "aep": 12.5, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {"lief1": 3.04, "lief2": 18.22, "lief3": 19.87}}, {"id": "p_900601", "name": "Omnifix® Elastic Fixierverband – Elastischer Wundverband | Hartmann – 10cm x 2m", "gruppe": "Paul Hartmann AG", "sku": "900601", "pzn": "", "aep": 13.7, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {"lief1": 5.31, "lief2": 5.93, "lief3": 6.47}}, {"id": "p_900606", "name": "Omnifix® Elastic Fixierverband – Elastischer Wundverband | Hartmann – 2.5cm x 10m", "gruppe": "Paul Hartmann AG", "sku": "900606", "pzn": "", "aep": 13.7, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {"lief1": 2.65, "lief2": 10.81, "lief3": 11.8}}, {"id": "p_900604", "name": "Omnifix® Elastic Fixierverband – Elastischer Wundverband | Hartmann – 15cm x 10m", "gruppe": "Paul Hartmann AG", "sku": "900604", "pzn": "", "aep": 29.9, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {"lief1": 4.1, "lief2": 12.5, "lief3": 27.35}}, {"id": "p_900605", "name": "Omnifix® Elastic Fixierverband – Elastischer Wundverband | Hartmann – 20cm x 10m", "gruppe": "Paul Hartmann AG", "sku": "900605", "pzn": "", "aep": 42.9, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {"lief1": 6.08, "lief2": 32.75, "lief3": 35.72}}, {"id": "p_900607", "name": "Omnifix® Elastic Fixierverband – Elastischer Wundverband | Hartmann – 30cm x 10m", "gruppe": "Paul Hartmann AG", "sku": "900607", "pzn": "", "aep": 56.9, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {"lief1": 10.17, "lief2": 45.1, "lief3": 49.2}}, {"id": "p_900430", "name": "Omnisilk® Spulenpflaster – 1.25cm x 5m", "gruppe": "Paul Hartmann AG", "sku": "900430", "pzn": "", "aep": 3.54, "ve": 1, "veLabel": "Rolle", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_900418", "name": "Omnisilk® Spulenpflaster – 1.25cm x 9.2m", "gruppe": "Paul Hartmann AG", "sku": "900418", "pzn": "", "aep": 3.57, "ve": 1, "veLabel": "Rolle", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_900431", "name": "Omnisilk® Spulenpflaster – 2.5cm x 5m", "gruppe": "Paul Hartmann AG", "sku": "900431", "pzn": "", "aep": 5.9, "ve": 1, "veLabel": "Rolle", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_900419", "name": "Omnisilk® Spulenpflaster – 2.5cm x 9.2m", "gruppe": "Paul Hartmann AG", "sku": "900419", "pzn": "", "aep": 6.18, "ve": 1, "veLabel": "Rolle", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_900432", "name": "Omnisilk® Spulenpflaster – 5cm x 5m", "gruppe": "Paul Hartmann AG", "sku": "900432", "pzn": "", "aep": 10.13, "ve": 1, "veLabel": "Rolle", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_900420", "name": "Omnisilk® Spulenpflaster – 5cm x 9.2m", "gruppe": "Paul Hartmann AG", "sku": "900420", "pzn": "", "aep": 12.7, "ve": 1, "veLabel": "Rolle", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_499510", "name": "Atrauman® Salbenkompresse steril – 5 x 5 cm", "gruppe": "Paul Hartmann AG", "sku": "499510", "pzn": "", "aep": 33.16, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_499550", "name": "Atrauman® Salbenkompresse steril – 5 x 5 cm", "gruppe": "Paul Hartmann AG", "sku": "499550", "pzn": "", "aep": 140.46, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_499513", "name": "Atrauman® Salbenkompresse steril – 7.5 x 10 cm", "gruppe": "Paul Hartmann AG", "sku": "499513", "pzn": "", "aep": 48.23, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_499553", "name": "Atrauman® Salbenkompresse steril – 7.5 x 10 cm", "gruppe": "Paul Hartmann AG", "sku": "499553", "pzn": "", "aep": 12.9, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_499536", "name": "Atrauman® Salbenkompresse steril – 10 x 20 cm", "gruppe": "Paul Hartmann AG", "sku": "499536", "pzn": "", "aep": 269.19, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_205969", "name": "Attends For Men 4 Protective Pad – Default Title", "gruppe": "Attends", "sku": "205969", "pzn": "07569200", "aep": 7.7, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_205945", "name": "Attends For Men 3 Protective Pad – Default Title", "gruppe": "Attends", "sku": "205945", "pzn": "07569186", "aep": 7.3, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_212806", "name": "Attends Men 3 Protective Absorbent Shield – Default Title", "gruppe": "Attends", "sku": "212806", "pzn": "07569200", "aep": 5.1, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_201787", "name": "Attends For Men 2 Protective Shield – Default Title", "gruppe": "Attends", "sku": "201787", "pzn": "02414964", "aep": 6.3, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_212783", "name": "Attends Men 2 Protective Absorbent Shield – Default Title", "gruppe": "Attends", "sku": "212783", "pzn": "07569200", "aep": 7.2, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_410032", "name": "Attends For Men 1 Protective Shield – Default Title", "gruppe": "Attends", "sku": "410032", "pzn": "02414757", "aep": 9.8, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_9950256", "name": "MoliCare Skin Hautprotektor Schaum, 100 ml – Default Title", "gruppe": "Paul Hartmann AG", "sku": "9950256", "pzn": "12458112", "aep": 8.0, "ve": 1, "veLabel": "Flasche", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_995075", "name": "MoliCare Skin Feuchtpflegetuecher – Default Title", "gruppe": "Paul Hartmann AG", "sku": "995075", "pzn": "12458135", "aep": 5.9, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_9950970", "name": "MoliCare Skin 3in1 Feuchtpflegetücher – Default Title", "gruppe": "Paul Hartmann AG", "sku": "9950970", "pzn": "18723696", "aep": 4.0, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_165332", "name": "MoliCare Slip super 7 Tropfen", "gruppe": "Paul Hartmann AG", "sku": "165332", "pzn": "", "aep": 20.2, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_165333", "name": "MoliCare Slip super 7 Tropfen – L", "gruppe": "Paul Hartmann AG", "sku": "165333", "pzn": "", "aep": 26.6, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_165531", "name": "MoliCare Slip maxi 9 Tropfen", "gruppe": "Paul Hartmann AG", "sku": "165531", "pzn": "", "aep": 11.52, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_165532", "name": "MoliCare Slip maxi 9 Tropfen", "gruppe": "Paul Hartmann AG", "sku": "165532", "pzn": "", "aep": 12.5, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_165533", "name": "MoliCare Slip maxi 9 Tropfen – L", "gruppe": "Paul Hartmann AG", "sku": "165533", "pzn": "", "aep": 16.2, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_9800082", "name": "Sterillium Händedesinfektion – Default Title", "gruppe": "Paul Hartmann AG", "sku": "9800082", "pzn": "970709", "aep": 6.99, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1550121", "name": "MoliCare Premium Bed Mat Textile 7 Tropfen mit Flügeln | Bettschutzunterlage waschbar – De", "gruppe": "Paul Hartmann AG", "sku": "1550121", "pzn": "16137043", "aep": 31.0, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk2", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1550101", "name": "MoliCare Premium Bed Mat Textile 7 Tropfen | Bettschutzunterlage waschbar – Default Title", "gruppe": "Paul Hartmann AG", "sku": "1550101", "pzn": "16137020", "aep": 28.0, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk2", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1610780", "name": "MoliCare Premium Bed Mat 9 Tropfen | Bettschutzunterlage – 60 x 90 cm", "gruppe": "Paul Hartmann AG", "sku": "1610780", "pzn": "", "aep": 22.5, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk2", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1610700", "name": "MoliCare Premium Bed Mat 7 Tropfen | Bettschutzunterlage – 60 x 90 cm", "gruppe": "Paul Hartmann AG", "sku": "1610700", "pzn": "", "aep": 17.99, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk2", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1610710", "name": "MoliCare Premium Bed Mat 7 Tropfen | Bettschutzunterlage – 60 x 90 cm", "gruppe": "Paul Hartmann AG", "sku": "1610710", "pzn": "", "aep": 18.0, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk2", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1610640", "name": "MoliCare Premium Bed Mat 5 Tropfen | Bettschutzunterlage – 60 x 90 cm", "gruppe": "Paul Hartmann AG", "sku": "1610640", "pzn": "", "aep": 12.99, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk2", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1610650", "name": "MoliCare Premium Bed Mat 5 Tropfen | Bettschutzunterlage – 60 x 90 cm", "gruppe": "Paul Hartmann AG", "sku": "1610650", "pzn": "", "aep": 14.99, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk2", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1655712", "name": "MoliCare Premium Elastic 9 Tropfen – S", "gruppe": "Paul Hartmann AG", "sku": "1655712", "pzn": "", "aep": 24.67, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1655722", "name": "MoliCare Premium Elastic 9 Tropfen", "gruppe": "Paul Hartmann AG", "sku": "1655722", "pzn": "", "aep": 26.88, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1655732", "name": "MoliCare Premium Elastic 9 Tropfen – L", "gruppe": "Paul Hartmann AG", "sku": "1655732", "pzn": "", "aep": 32.95, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1655742", "name": "MoliCare Premium Elastic 9 Tropfen – XL", "gruppe": "Paul Hartmann AG", "sku": "1655742", "pzn": "", "aep": 32.46, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1654732", "name": "MoliCare Premium Elastic 8 Tropfen – L", "gruppe": "Paul Hartmann AG", "sku": "1654732", "pzn": "", "aep": 27.74, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1654722", "name": "MoliCare Premium Elastic 8 Tropfen", "gruppe": "Paul Hartmann AG", "sku": "1654722", "pzn": "", "aep": 22.56, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1654712", "name": "MoliCare Premium Elastic 8 Tropfen – S", "gruppe": "Paul Hartmann AG", "sku": "1654712", "pzn": "", "aep": 21.4, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1654742", "name": "MoliCare Premium Elastic 8 Tropfen – XL", "gruppe": "Paul Hartmann AG", "sku": "1654742", "pzn": "", "aep": 29.4, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1653732", "name": "MoliCare Premium Elastic 7 Tropfen – L", "gruppe": "Paul Hartmann AG", "sku": "1653732", "pzn": "", "aep": 32.09, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1653722", "name": "MoliCare Premium Elastic 7 Tropfen", "gruppe": "Paul Hartmann AG", "sku": "1653722", "pzn": "", "aep": 23.9, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1653712", "name": "MoliCare Premium Elastic 7 Tropfen – S", "gruppe": "Paul Hartmann AG", "sku": "1653712", "pzn": "", "aep": 22.62, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1653742", "name": "MoliCare Premium Elastic 7 Tropfen – XL", "gruppe": "Paul Hartmann AG", "sku": "1653742", "pzn": "", "aep": 27.12, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1652712", "name": "MoliCare Premium Elastic 6 Tropfen – S", "gruppe": "Paul Hartmann AG", "sku": "1652712", "pzn": "", "aep": 20.55, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1652722", "name": "MoliCare Premium Elastic 6 Tropfen", "gruppe": "Paul Hartmann AG", "sku": "1652722", "pzn": "", "aep": 21.81, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1652732", "name": "MoliCare Premium Elastic 6 Tropfen – L", "gruppe": "Paul Hartmann AG", "sku": "1652732", "pzn": "", "aep": 29.5, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1652742", "name": "MoliCare Premium Elastic 6 Tropfen – XL", "gruppe": "Paul Hartmann AG", "sku": "1652742", "pzn": "", "aep": 24.82, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1651722", "name": "MoliCare Premium Elastic 5 Tropfen", "gruppe": "Paul Hartmann AG", "sku": "1651722", "pzn": "", "aep": 19.71, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1651712", "name": "MoliCare Premium Elastic 5 Tropfen – S", "gruppe": "Paul Hartmann AG", "sku": "1651712", "pzn": "", "aep": 19.9, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1651732", "name": "MoliCare Premium Elastic 5 Tropfen – L", "gruppe": "Paul Hartmann AG", "sku": "1651732", "pzn": "", "aep": 26.91, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1656722", "name": "MoliCare Premium Elastic 10 Tropfen", "gruppe": "Paul Hartmann AG", "sku": "1656722", "pzn": "", "aep": 14.99, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1656712", "name": "MoliCare Premium Elastic 10 Tropfen – S", "gruppe": "Paul Hartmann AG", "sku": "1656712", "pzn": "", "aep": 22.49, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1656732", "name": "MoliCare Premium Elastic 10 Tropfen – L", "gruppe": "Paul Hartmann AG", "sku": "1656732", "pzn": "", "aep": 21.99, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1656742", "name": "MoliCare Premium Elastic 10 Tropfen – XL", "gruppe": "Paul Hartmann AG", "sku": "1656742", "pzn": "", "aep": 31.99, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1684480", "name": "MoliCare Form 8 Tropfen – Default Title", "gruppe": "Paul Hartmann AG", "sku": "1684480", "pzn": "17633790", "aep": 16.99, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1684460", "name": "MoliCare Form 6 Tropfen – Default Title", "gruppe": "Paul Hartmann AG", "sku": "1684460", "pzn": "17633778", "aep": 14.99, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1684450", "name": "MoliCare Form 5 Tropfen – Default Title", "gruppe": "Paul Hartmann AG", "sku": "1684450", "pzn": "17633755", "aep": 11.99, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1684440", "name": "MoliCare Form 4 Tropfen – Default Title", "gruppe": "Paul Hartmann AG", "sku": "1684440", "pzn": "17633732", "aep": 9.99, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1684010", "name": "MoliCare Premium Form MEN 6 Tropfen – Default Title", "gruppe": "Paul Hartmann AG", "sku": "1684010", "pzn": "17633695", "aep": 19.99, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1684030", "name": "MoliCare Premium Form 3 Tropfen – Default Title", "gruppe": "Paul Hartmann AG", "sku": "1684030", "pzn": "17633548", "aep": 8.49, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1684040", "name": "MoliCare Premium Form 4 Tropfen – Default Title", "gruppe": "Paul Hartmann AG", "sku": "1684040", "pzn": "17633548", "aep": 11.99, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1684050", "name": "MoliCare Premium Form 5 Tropfen – Default Title", "gruppe": "Paul Hartmann AG", "sku": "1684050", "pzn": "17633560", "aep": 14.4, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1684060", "name": "MoliCare Premium Form 6 Tropfen – Default Title", "gruppe": "Paul Hartmann AG", "sku": "1684060", "pzn": "17633583", "aep": 17.3, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1684080", "name": "MoliCare Premium Form 8 Tropfen – Default Title", "gruppe": "Paul Hartmann AG", "sku": "1684080", "pzn": "17633637", "aep": 20.99, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1684090", "name": "MoliCare Premium Form 9 Tropfen – Default Title", "gruppe": "Paul Hartmann AG", "sku": "1684090", "pzn": "17633672", "aep": 12.5, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_9254110", "name": "Veroval family 3 in 1 Fieberthermometer | Ohr & Stirn | 1 Sekunde – Default Title", "gruppe": "Paul Hartmann AG", "sku": "9254110", "pzn": "19778802", "aep": 29.9, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_9477957", "name": "MoliCare Premium Fixpants – S", "gruppe": "Paul Hartmann AG", "sku": "9477957", "pzn": "", "aep": 4.69, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_9477967", "name": "MoliCare Premium Fixpants", "gruppe": "Paul Hartmann AG", "sku": "9477967", "pzn": "", "aep": 4.89, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_9477977", "name": "MoliCare Premium Fixpants – L", "gruppe": "Paul Hartmann AG", "sku": "9477977", "pzn": "", "aep": 5.2, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_9477987", "name": "MoliCare Premium Fixpants – XL", "gruppe": "Paul Hartmann AG", "sku": "9477987", "pzn": "", "aep": 5.49, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_9477997", "name": "MoliCare Premium Fixpants – XXL", "gruppe": "Paul Hartmann AG", "sku": "9477997", "pzn": "", "aep": 5.99, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_9478307", "name": "MoliCare Premium Fixpants – 5XL", "gruppe": "Paul Hartmann AG", "sku": "9478307", "pzn": "", "aep": 7.09, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_9158771", "name": "MoliCare Premium lady pants 7 Tropfen", "gruppe": "Paul Hartmann AG", "sku": "9158771", "pzn": "", "aep": 8.79, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_9158701", "name": "MoliCare Premium lady pants 7 Tropfen – L", "gruppe": "Paul Hartmann AG", "sku": "9158701", "pzn": "", "aep": 8.79, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_9158672", "name": "MoliCare Premium lady pants 5 Tropfen", "gruppe": "Paul Hartmann AG", "sku": "9158672", "pzn": "", "aep": 8.49, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_9158682", "name": "MoliCare Premium lady pants 5 Tropfen – L", "gruppe": "Paul Hartmann AG", "sku": "9158682", "pzn": "", "aep": 8.49, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_4017215", "name": "ES-Kompressen steril 8-fach | Hartmann Mullkompressen – 5 x 5 cm", "gruppe": "Paul Hartmann AG", "sku": "4017215", "pzn": "", "aep": 4.59, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_4017235", "name": "ES-Kompressen steril 8-fach | Hartmann Mullkompressen – 7.5 x 7.5 cm", "gruppe": "Paul Hartmann AG", "sku": "4017235", "pzn": "", "aep": 5.2, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_4017257", "name": "ES-Kompressen steril 8-fach | Hartmann Mullkompressen – 10 x 10 cm", "gruppe": "Paul Hartmann AG", "sku": "4017257", "pzn": "", "aep": 6.4, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_9158315", "name": "MoliCare Premium Mobile 6 Tropfen – S", "gruppe": "Paul Hartmann AG", "sku": "9158315", "pzn": "", "aep": 9.0, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_9158405", "name": "MoliCare Premium Mobile 6 Tropfen – XS", "gruppe": "Paul Hartmann AG", "sku": "9158405", "pzn": "", "aep": 10.99, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1660140", "name": "MoliCare Premium Mobile 6 Tropfen", "gruppe": "Paul Hartmann AG", "sku": "1660140", "pzn": "", "aep": 10.39, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1660150", "name": "MoliCare Premium Mobile 6 Tropfen – L", "gruppe": "Paul Hartmann AG", "sku": "1660150", "pzn": "", "aep": 11.5, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_9158345", "name": "MoliCare Premium Mobile 6 Tropfen – XL", "gruppe": "Paul Hartmann AG", "sku": "9158345", "pzn": "", "aep": 12.49, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_166170", "name": "MoliCare Premium Mobile 6 Tropfen – XXL", "gruppe": "Paul Hartmann AG", "sku": "166170", "pzn": "", "aep": 14.99, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1660000", "name": "MoliCare Premium Mobile 5 Tropfen", "gruppe": "Paul Hartmann AG", "sku": "1660000", "pzn": "", "aep": 9.39, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1660010", "name": "MoliCare Premium Mobile 5 Tropfen – L", "gruppe": "Paul Hartmann AG", "sku": "1660010", "pzn": "", "aep": 10.43, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_9158542", "name": "MoliCare Premium Mobile 5 Tropfen – XL", "gruppe": "Paul Hartmann AG", "sku": "9158542", "pzn": "", "aep": 11.39, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_9158612", "name": "MoliCare Premium Mobile 5 Tropfen – S", "gruppe": "Paul Hartmann AG", "sku": "9158612", "pzn": "", "aep": 8.2, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1660300", "name": "MoliCare Premium Mobile 8 Tropfen", "gruppe": "Paul Hartmann AG", "sku": "1660300", "pzn": "", "aep": 11.39, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1660310", "name": "MoliCare Premium Mobile 8 Tropfen – L", "gruppe": "Paul Hartmann AG", "sku": "1660310", "pzn": "", "aep": 12.49, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1680690", "name": "MoliCare® premium MEN Pad 5 Tropfen – Default Title", "gruppe": "Paul Hartmann AG", "sku": "1680690", "pzn": "18659248", "aep": 9.49, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1680680", "name": "MoliCare® premium MEN Pad 4 Tropfen – Default Title", "gruppe": "Paul Hartmann AG", "sku": "1680680", "pzn": "18659225", "aep": 7.59, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1680660", "name": "MoliCare® premium MEN Pad 3 Tropfen – Default Title", "gruppe": "Paul Hartmann AG", "sku": "1680660", "pzn": "18659202", "aep": 7.09, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1680670", "name": "MoliCare® premium MEN Pad 2 Tropfen – Default Title", "gruppe": "Paul Hartmann AG", "sku": "1680670", "pzn": "18659188", "aep": 8.29, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1680560", "name": "MoliCare premium lady Pad 0,5 Tropfen – Default Title", "gruppe": "Paul Hartmann AG", "sku": "1680560", "pzn": "18683548", "aep": 3.39, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1680350", "name": "MoliCare premium lady Pad 1 Tropfen – Default Title", "gruppe": "Paul Hartmann AG", "sku": "1680350", "pzn": "18683583", "aep": 1.99, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1680360", "name": "MoliCare premium lady Pad 1,5 Tropfen – Default Title", "gruppe": "Paul Hartmann AG", "sku": "1680360", "pzn": "18683560", "aep": 2.29, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1680440", "name": "MoliCare premium lady Pad 2 Tropfen – Default Title", "gruppe": "Paul Hartmann AG", "sku": "1680440", "pzn": "18683620", "aep": 2.98, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1680450", "name": "MoliCare premium lady Pad 3 Tropfen – Default Title", "gruppe": "Paul Hartmann AG", "sku": "1680450", "pzn": "18683643", "aep": 3.89, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1680460", "name": "MoliCare premium lady Pad 4 Tropfen – Default Title", "gruppe": "Paul Hartmann AG", "sku": "1680460", "pzn": "18659113", "aep": 5.39, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_168051", "name": "MoliCare premium lady Pad 5 Tropfen – Default Title", "gruppe": "Paul Hartmann AG", "sku": "168051", "pzn": "18659165", "aep": 5.99, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1680490", "name": "MoliCare premium lady Pad 4.5 Tropfen – Default Title", "gruppe": "Paul Hartmann AG", "sku": "1680490", "pzn": "18659142", "aep": 5.59, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1680750", "name": "MoliCare Pad 2 Tropfen – Default Title", "gruppe": "Paul Hartmann AG", "sku": "1680750", "pzn": "18683488", "aep": 5.5, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1680760", "name": "MoliCare Pad 3 Tropfen – Default Title", "gruppe": "Paul Hartmann AG", "sku": "1680760", "pzn": "18683502", "aep": 5.65, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1680770", "name": "MoliCare Pad 4 Tropfen – Default Title", "gruppe": "Paul Hartmann AG", "sku": "1680770", "pzn": "18683525", "aep": 6.99, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_094_sm10_g03", "name": "Seni Super Trio – s", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-094-SM10-G03", "pzn": "", "aep": 7.29, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_094_me10_g03", "name": "Seni Super Trio – m", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-094-ME10-G03", "pzn": "", "aep": 8.89, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_094_la10_g03", "name": "Seni Super Trio – l", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-094-LA10-G03", "pzn": "", "aep": 9.99, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_094_xl10_g03", "name": "Seni Super Trio – xl", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-094-XL10-G03", "pzn": "", "aep": 10.99, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1660410", "name": "MoliCare Premium Mobile 10 Tropfen", "gruppe": "Paul Hartmann AG", "sku": "1660410", "pzn": "", "aep": 13.71, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1660420", "name": "MoliCare Premium Mobile 10 Tropfen – L", "gruppe": "Paul Hartmann AG", "sku": "1660420", "pzn": "", "aep": 15.2, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_9158801", "name": "MoliCare Premium Mobile 10 Tropfen – XL", "gruppe": "Paul Hartmann AG", "sku": "9158801", "pzn": "", "aep": 15.99, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_094_sm30_g01", "name": "Seni Super – s", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-094-SM30-G01", "pzn": "", "aep": 17.49, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_094_me30_g01", "name": "Seni Super – m", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-094-ME30-G01", "pzn": "", "aep": 20.47, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_094_la30_g01", "name": "Seni Super – l", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-094-LA30-G01", "pzn": "", "aep": 24.04, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_094_xl30_g01", "name": "Seni Super – xl", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-094-XL30-G01", "pzn": "", "aep": 25.23, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_097_sm10_g01", "name": "Seni Optima Super Small | Packung (10 Stück oder 30 Stück)", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-097-SM10-G01", "pzn": "", "aep": 6.65, "ve": 30, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_097_me10_g01", "name": "Seni Optima Super Small | Packung (10 Stück oder 30 Stück) – M", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-097-ME10-G01", "pzn": "", "aep": 6.85, "ve": 30, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_097_me30_g01", "name": "Seni Optima Super Small | Packung (10 Stück oder 30 Stück) – M", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-097-ME30-G01", "pzn": "", "aep": 20.31, "ve": 30, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_097_la10_g01", "name": "Seni Optima Super Small | Packung (10 Stück oder 30 Stück) – L", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-097-LA10-G01", "pzn": "", "aep": 8.03, "ve": 30, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_097_la30_g01", "name": "Seni Optima Super Small | Packung (10 Stück oder 30 Stück) – L", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-097-LA30-G01", "pzn": "", "aep": 23.84, "ve": 30, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_097_xl10_g01", "name": "Seni Optima Super Small | Packung (10 Stück oder 30 Stück) – XL", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-097-XL10-G01", "pzn": "", "aep": 8.59, "ve": 30, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_097_xl30_g01", "name": "Seni Optima Super Small | Packung (10 Stück oder 30 Stück) – XL", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-097-XL30-G01", "pzn": "", "aep": 25.51, "ve": 30, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_097_me10_g03", "name": "Seni Optima Trio | Packung (10 Stück) – M", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-097-ME10-G03", "pzn": "", "aep": 9.13, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_097_la10_g03", "name": "Seni Optima Trio | Packung (10 Stück) – L", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-097-LA10-G03", "pzn": "", "aep": 10.23, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_097_xl10_g03", "name": "Seni Optima Trio | Packung (10 Stück) – XL", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-097-XL10-G03", "pzn": "", "aep": 11.2, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_097_me10_g02", "name": "Seni Optima Plus | Packung (10 Stück) – M", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-097-ME10-G02", "pzn": "", "aep": 8.08, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_097_la10_g02", "name": "Seni Optima Plus | Packung (10 Stück) – L", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-097-LA10-G02", "pzn": "", "aep": 9.75, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_097_xl10_g02", "name": "Seni Optima Plus | Packung (10 Stück) – XL", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-097-XL10-G02", "pzn": "", "aep": 10.23, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_094_sm30_sc2", "name": "Seni Classic Plus | Packung (30 Stück)", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-094-SM30-SC2", "pzn": "", "aep": 14.77, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_094_me30_cp2", "name": "Seni Classic Plus | Packung (30 Stück) – M", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-094-ME30-CP2", "pzn": "", "aep": 18.82, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_094_la30_sc2", "name": "Seni Classic Plus | Packung (30 Stück) – L", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-094-LA30-SC2", "pzn": "", "aep": 21.85, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_094_xl30_sc2", "name": "Seni Classic Plus | Packung (30 Stück) – XL", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-094-XL30-SC2", "pzn": "", "aep": 23.73, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_9421698", "name": "Hartmann Peha-soft Vinyl Einmalhandschuhe puderfrei, 100 Stück – XS", "gruppe": "Paul Hartmann AG", "sku": "9421698", "pzn": "", "aep": 4.3, "ve": 100, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_9421708", "name": "Hartmann Peha-soft Vinyl Einmalhandschuhe puderfrei, 100 Stück", "gruppe": "Paul Hartmann AG", "sku": "9421708", "pzn": "", "aep": 4.3, "ve": 100, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_9421718", "name": "Hartmann Peha-soft Vinyl Einmalhandschuhe puderfrei, 100 Stück – M", "gruppe": "Paul Hartmann AG", "sku": "9421718", "pzn": "", "aep": 4.3, "ve": 100, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_9421728", "name": "Hartmann Peha-soft Vinyl Einmalhandschuhe puderfrei, 100 Stück – L", "gruppe": "Paul Hartmann AG", "sku": "9421728", "pzn": "", "aep": 4.3, "ve": 100, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_9421738", "name": "Hartmann Peha-soft Vinyl Einmalhandschuhe puderfrei, 100 Stück – XL", "gruppe": "Paul Hartmann AG", "sku": "9421738", "pzn": "", "aep": 4.3, "ve": 100, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_942205", "name": "Hartmann Peha-soft Nitril Einmalhandschuhe weiß puderfrei, 200 Stück – XS", "gruppe": "Paul Hartmann AG", "sku": "942205", "pzn": "", "aep": 9.1, "ve": 200, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_942206", "name": "Hartmann Peha-soft Nitril Einmalhandschuhe weiß puderfrei, 200 Stück", "gruppe": "Paul Hartmann AG", "sku": "942206", "pzn": "", "aep": 9.1, "ve": 200, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_942207", "name": "Hartmann Peha-soft Nitril Einmalhandschuhe weiß puderfrei, 200 Stück – M", "gruppe": "Paul Hartmann AG", "sku": "942207", "pzn": "", "aep": 9.1, "ve": 200, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_942208", "name": "Hartmann Peha-soft Nitril Einmalhandschuhe weiß puderfrei, 200 Stück – L", "gruppe": "Paul Hartmann AG", "sku": "942208", "pzn": "", "aep": 9.1, "ve": 200, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_942209", "name": "Hartmann Peha-soft Nitril Einmalhandschuhe weiß puderfrei, 200 Stück – XL", "gruppe": "Paul Hartmann AG", "sku": "942209", "pzn": "", "aep": 9.1, "ve": 200, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_9420200", "name": "Hartmann Peha-soft Latex Einmalhandschuhe puderfrei, 100 Stück – XS", "gruppe": "Paul Hartmann AG", "sku": "9420200", "pzn": "", "aep": 7.33, "ve": 100, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_9420210", "name": "Hartmann Peha-soft Latex Einmalhandschuhe puderfrei, 100 Stück", "gruppe": "Paul Hartmann AG", "sku": "9420210", "pzn": "", "aep": 7.33, "ve": 100, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_9420220", "name": "Hartmann Peha-soft Latex Einmalhandschuhe puderfrei, 100 Stück – M", "gruppe": "Paul Hartmann AG", "sku": "9420220", "pzn": "", "aep": 7.33, "ve": 100, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_9420230", "name": "Hartmann Peha-soft Latex Einmalhandschuhe puderfrei, 100 Stück", "gruppe": "Paul Hartmann AG", "sku": "9420230", "pzn": "", "aep": 7.33, "ve": 100, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_9420240", "name": "Hartmann Peha-soft Latex Einmalhandschuhe puderfrei, 100 Stück – XL", "gruppe": "Paul Hartmann AG", "sku": "9420240", "pzn": "", "aep": 7.33, "ve": 100, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_092_la02_mb3", "name": "Seni Fix Comfort Man Black | Fixierhose – L", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-092-LA02-MB3", "pzn": "", "aep": 5.73, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_092_xl02_mb3", "name": "Seni Fix Comfort Man Black | Fixierhose – XL", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-092-XL02-MB3", "pzn": "", "aep": 5.73, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_092_me02_ln3", "name": "Seni Fix Comfort Lady Nude | Fixierhose – M", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-092-ME02-LN3", "pzn": "", "aep": 5.73, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_092_la02_ln3", "name": "Seni Fix Comfort Lady Nude | Fixierhose", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-092-LA02-LN3", "pzn": "", "aep": 5.73, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_092_me02_lb3", "name": "Seni Fix Comfort Lady Black | Fixierhose – M", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-092-ME02-LB3", "pzn": "", "aep": 5.73, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_092_la02_lb3", "name": "Seni Fix Comfort Lady Black | Fixierhose", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-092-LA02-LB3", "pzn": "", "aep": 5.73, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_092_sm05_003", "name": "Seni Fix Comfort | Fixierhose | S bis 4 XL | 5 Stück (VE)", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-092-SM05-003", "pzn": "", "aep": 5.13, "ve": 5, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_092_me05_003", "name": "Seni Fix Comfort | Fixierhose | S bis 4 XL | 5 Stück (VE) – M", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-092-ME05-003", "pzn": "", "aep": 5.33, "ve": 5, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_092_la05_003", "name": "Seni Fix Comfort | Fixierhose | S bis 4 XL | 5 Stück (VE)", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-092-LA05-003", "pzn": "", "aep": 5.53, "ve": 5, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_092_xl05_003", "name": "Seni Fix Comfort | Fixierhose | S bis 4 XL | 5 Stück (VE)", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-092-XL05-003", "pzn": "", "aep": 5.7, "ve": 5, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_092_2x05_003", "name": "Seni Fix Comfort | Fixierhose | S bis 4 XL | 5 Stück (VE) – XXL", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-092-2X05-003", "pzn": "", "aep": 5.91, "ve": 5, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_092_3x05_003", "name": "Seni Fix Comfort | Fixierhose | S bis 4 XL | 5 Stück (VE) – 3XL", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-092-3X05-003", "pzn": "", "aep": 7.03, "ve": 5, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_092_4x05_003", "name": "Seni Fix Comfort | Fixierhose | S bis 4 XL | 5 Stück (VE) – 4XL", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-092-4X05-003", "pzn": "", "aep": 8.5, "ve": 5, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_092_me25_fs1", "name": "Seni Fix Soft | Fixierhose | M - XXL | 25 Stück (VE)", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-092-ME25-FS1", "pzn": "", "aep": 17.63, "ve": 25, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_092_la25_fs1", "name": "Seni Fix Soft | Fixierhose | M - XXL | 25 Stück (VE)", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-092-LA25-FS1", "pzn": "", "aep": 17.99, "ve": 25, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_092_xl25_fs1", "name": "Seni Fix Soft | Fixierhose | M - XXL | 25 Stück (VE)", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-092-XL25-FS1", "pzn": "", "aep": 18.73, "ve": 25, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_092_2x25_fs1", "name": "Seni Fix Soft | Fixierhose | M - XXL | 25 Stück (VE)", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-092-2X25-FS1", "pzn": "", "aep": 21.22, "ve": 25, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_092_me05_002", "name": "Seni Fix Panty | Fixierhose | Gößen M - XL | 5 Stück (VE)", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-092-ME05-002", "pzn": "", "aep": 3.58, "ve": 5, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_092_la05_002", "name": "Seni Fix Panty | Fixierhose | Gößen M - XL | 5 Stück (VE)", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-092-LA05-002", "pzn": "", "aep": 3.8, "ve": 5, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_092_xl05_002", "name": "Seni Fix Panty | Fixierhose | Gößen M - XL | 5 Stück (VE)", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-092-XL05-002", "pzn": "", "aep": 4.0, "ve": 5, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_092_me05_001", "name": "Seni Fix Plus | Netzhose – M", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-092-ME05-001", "pzn": "", "aep": 3.31, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_092_la05_001", "name": "Seni Fix Plus | Netzhose – L", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-092-LA05-001", "pzn": "", "aep": 3.6, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_092_xl05_001", "name": "Seni Fix Plus | Netzhose – XL", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-092-XL05-001", "pzn": "", "aep": 3.9, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_092_2x05_001", "name": "Seni Fix Plus | Netzhose – XXL", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-092-2X05-001", "pzn": "", "aep": 4.21, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_093_ma30_003", "name": "Seni V Maxi Inkontinenzvorlage | Packung (30 Stück) – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-093-MA30-003", "pzn": "", "aep": 12.2, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_093_no30_v03", "name": "Seni V Normal Inkontinenzvorlage | Packung (30 Stück) – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-093-NO30-V03", "pzn": "", "aep": 9.1, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_9819260", "name": "Sterillium® foam extra care | Händedesinfektionsschaum – Default Title", "gruppe": "Paul Hartmann AG", "sku": "9819260", "pzn": "", "aep": 8.7, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_9819390", "name": "Sterillium surface spray | Schnelldesinfektion für Oberflächen | 250ml – Default Title", "gruppe": "Paul Hartmann AG", "sku": "9819390", "pzn": "", "aep": 7.1, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_9819420", "name": "Sterillium 2-in-1 Wipes | Desinfektionstücher für Hände & Flächen | 15 Stück – Default Tit", "gruppe": "Paul Hartmann AG", "sku": "9819420", "pzn": "", "aep": 1.99, "ve": 15, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_9819860", "name": "Sterillium surface wipes | Flächendesinfektionstücher | 60 Stück – Default Title", "gruppe": "Paul Hartmann AG", "sku": "9819860", "pzn": "", "aep": 7.75, "ve": 60, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_9819920", "name": "Sterillium® Hartmann gel Hände-Desinfektionsgel – 35ml", "gruppe": "Paul Hartmann AG", "sku": "9819920", "pzn": "", "aep": 2.2, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_9819900", "name": "Sterillium® Hartmann gel Hände-Desinfektionsgel – 100ml", "gruppe": "Paul Hartmann AG", "sku": "9819900", "pzn": "", "aep": 3.25, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_9819890", "name": "Sterillium® Hartmann gel Hände-Desinfektionsgel – 500ml", "gruppe": "Paul Hartmann AG", "sku": "9819890", "pzn": "", "aep": 7.75, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_096_sm10_n01", "name": "Seni Active Normal Inkontinenzpants | 10 Stück (Packung)", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-096-SM10-N01", "pzn": "", "aep": 6.89, "ve": 10, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_096_me10_n01", "name": "Seni Active Normal Inkontinenzpants | 10 Stück (Packung)", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-096-ME10-N01", "pzn": "", "aep": 6.99, "ve": 10, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_096_la10_n01", "name": "Seni Active Normal Inkontinenzpants | 10 Stück (Packung)", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-096-LA10-N01", "pzn": "", "aep": 7.49, "ve": 10, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_096_xl10_n01", "name": "Seni Active Normal Inkontinenzpants | 10 Stück (Packung) – xl", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-096-XL10-N01", "pzn": "", "aep": 8.99, "ve": 10, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_096_sm10_as1", "name": "Seni Active Super – s", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-096-SM10-AS1", "pzn": "", "aep": 8.89, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_096_me10_as1", "name": "Seni Active Super – m", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-096-ME10-AS1", "pzn": "", "aep": 8.99, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_096_la10_as1", "name": "Seni Active Super – l", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-096-LA10-AS1", "pzn": "", "aep": 9.89, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_096_xl10_as1", "name": "Seni Active Super – xl", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-096-XL10-AS1", "pzn": "", "aep": 11.29, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_096_sm10_a02", "name": "Seni Active Plus", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-096-SM10-A02", "pzn": "", "aep": 10.13, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_096_me10_a02", "name": "Seni Active Plus – m", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-096-ME10-A02", "pzn": "", "aep": 10.58, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_096_la10_a02", "name": "Seni Active Plus", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-096-LA10-A02", "pzn": "", "aep": 11.46, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_096_xl10_a02", "name": "Seni Active Plus – xl", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-096-XL10-A02", "pzn": "", "aep": 13.25, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_096_xx10_a02", "name": "Seni Active Plus – xxl", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-096-XX10-A02", "pzn": "", "aep": 20.76, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_096_me10_a03", "name": "Seni Active Trio Inkontinenzpants | 10 Stück (Packung) – m", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-096-ME10-A03", "pzn": "", "aep": 9.99, "ve": 10, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_096_la10_a03", "name": "Seni Active Trio Inkontinenzpants | 10 Stück (Packung) – l", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-096-LA10-A03", "pzn": "", "aep": 10.99, "ve": 10, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_096_xl10_a03", "name": "Seni Active Trio Inkontinenzpants | 10 Stück (Packung) – xl", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-096-XL10-A03", "pzn": "", "aep": 12.99, "ve": 10, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_094_me30_sc1", "name": "Seni Classic Inkontinenzpants | 30 Stück (Packung) – m", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-094-ME30-SC1", "pzn": "", "aep": 15.89, "ve": 30, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_094_sm30_sc1", "name": "Seni Classic Inkontinenzpants | 30 Stück (Packung)", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-094-SM30-SC1", "pzn": "", "aep": 13.49, "ve": 30, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_094_la30_sc1", "name": "Seni Classic Inkontinenzpants | 30 Stück (Packung)", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-094-LA30-SC1", "pzn": "", "aep": 17.99, "ve": 30, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_094_xl30_sc1", "name": "Seni Classic Inkontinenzpants | 30 Stück (Packung) – xl", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-094-XL30-SC1", "pzn": "", "aep": 19.99, "ve": 30, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1681580", "name": "MoliCare Slip Day – L", "gruppe": "Paul Hartmann AG", "sku": "1681580", "pzn": "", "aep": 17.99, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1681570", "name": "MoliCare Slip Day", "gruppe": "Paul Hartmann AG", "sku": "1681570", "pzn": "", "aep": 15.99, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1681600", "name": "MoliCare Slip Night – L", "gruppe": "Paul Hartmann AG", "sku": "1681600", "pzn": "", "aep": 22.69, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1681590", "name": "MoliCare Slip Night", "gruppe": "Paul Hartmann AG", "sku": "1681590", "pzn": "", "aep": 19.69, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1681480", "name": "MoliCare Pants Day – L", "gruppe": "Paul Hartmann AG", "sku": "1681480", "pzn": "", "aep": 7.09, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1681470", "name": "MoliCare Pants Day", "gruppe": "Paul Hartmann AG", "sku": "1681470", "pzn": "", "aep": 7.09, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1681490", "name": "MoliCare Pants Night", "gruppe": "Paul Hartmann AG", "sku": "1681490", "pzn": "", "aep": 12.49, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1681500", "name": "MoliCare Pants Night – L", "gruppe": "Paul Hartmann AG", "sku": "1681500", "pzn": "", "aep": 12.49, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1681390", "name": "MoliCare Pad Night – Default Title", "gruppe": "Paul Hartmann AG", "sku": "1681390", "pzn": "", "aep": 8.69, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1681380", "name": "MoliCare Pad Day – Default Title", "gruppe": "Paul Hartmann AG", "sku": "1681380", "pzn": "", "aep": 4.89, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1681810", "name": "MoliCare Form Day – Default Title", "gruppe": "Paul Hartmann AG", "sku": "1681810", "pzn": "", "aep": 9.69, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1681820", "name": "MoliCare Form Night – Default Title", "gruppe": "Paul Hartmann AG", "sku": "1681820", "pzn": "", "aep": 11.99, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_095_sn15_de1", "name": "Seni Lady Super Night – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-095-SN15-DE1", "pzn": "", "aep": 5.79, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_096_me30_ab1", "name": "Seni Active Basic – m", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-096-ME30-AB1", "pzn": "", "aep": 18.6, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_096_la30_ab1", "name": "Seni Active Basic – l", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-096-LA30-AB1", "pzn": "", "aep": 19.9, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_096_xl30_ba1", "name": "Seni Active Basic – xl", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-096-XL30-BA1", "pzn": "", "aep": 22.6, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_094_sm10_g04", "name": "Seni Super Quatro – s", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-094-SM10-G04", "pzn": "", "aep": 8.75, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_094_me10_g04", "name": "Seni Super Quatro – m", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-094-ME10-G04", "pzn": "", "aep": 9.5, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_094_la10_g04", "name": "Seni Super Quatro – l", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-094-LA10-G04", "pzn": "", "aep": 10.95, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_094_xl10_g04", "name": "Seni Super Quatro – xl", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-094-XL10-G04", "pzn": "", "aep": 11.9, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_094_2x10_g04", "name": "Seni Super Quatro – xxl", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-094-2X10-G04", "pzn": "", "aep": 25.36, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_093_px30_g01", "name": "Seni San Plus Extra – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-093-PX30-G01", "pzn": "", "aep": 20.32, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_093_rx30_g01", "name": "Seni San Regular Extra – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-093-RX30-G01", "pzn": "", "aep": 17.88, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_093_pl30_g01", "name": "Seni San Plus – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-093-PL30-G01", "pzn": "", "aep": 17.97, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_093_ma30_g01", "name": "Seni San Maxi – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-093-MA30-G01", "pzn": "", "aep": 15.14, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_093_re30_g01", "name": "Seni San Regular – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-093-RE30-G01", "pzn": "", "aep": 13.1, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_093_al30_g01", "name": "San Seni Alvi – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-093-AL30-G01", "pzn": "", "aep": 12.2, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_093_un30_g01", "name": "Seni San Uni – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-093-UN30-G01", "pzn": "", "aep": 12.2, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_093_no30_g01", "name": "Seni San Normal – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-093-NO30-G01", "pzn": "", "aep": 9.92, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_093_pr30_g01", "name": "Seni San Prima – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-093-PR30-G01", "pzn": "", "aep": 9.39, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_093_fm30_g01", "name": "Seni San for men – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-093-FM30-G01", "pzn": "", "aep": 20.95, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_ma_144_s000_010", "name": "Ambulex Vinyl Einmalhandschuhe puderfrei, 100 Stück", "gruppe": "TZMO Deutschland GmbH", "sku": "MA-144-S000-010", "pzn": "", "aep": 2.8, "ve": 100, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_ma_144_m000_010", "name": "Ambulex Vinyl Einmalhandschuhe puderfrei, 100 Stück – M", "gruppe": "TZMO Deutschland GmbH", "sku": "MA-144-M000-010", "pzn": "", "aep": 2.8, "ve": 100, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_ma_144_l000_010", "name": "Ambulex Vinyl Einmalhandschuhe puderfrei, 100 Stück – L", "gruppe": "TZMO Deutschland GmbH", "sku": "MA-144-L000-010", "pzn": "", "aep": 2.8, "ve": 100, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_ma_144_xl00_010", "name": "Ambulex Vinyl Einmalhandschuhe puderfrei, 100 Stück – XL", "gruppe": "TZMO Deutschland GmbH", "sku": "MA-144-XL00-010", "pzn": "", "aep": 2.8, "ve": 100, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_091_sn30_g01", "name": "Seni Soft Normal | Bettschutzunterlage – 40 x 60 cm", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-091-SN30-G01", "pzn": "", "aep": 6.86, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk2", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_091_sn30_002", "name": "Seni Soft Normal | Bettschutzunterlage – 60 x 60 cm", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-091-SN30-002", "pzn": "", "aep": 8.71, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk2", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_091_sn30_003", "name": "Seni Soft Normal | Bettschutzunterlage – 60 x 90 cm", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-091-SN30-003", "pzn": "", "aep": 11.22, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk2", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_091_su30_001", "name": "Seni Soft Super | Bettschutzunterlage – 40 x 60 cm", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-091-SU30-001", "pzn": "", "aep": 8.53, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk2", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_091_su30_002", "name": "Seni Soft Super | Bettschutzunterlage – 60 x 60 cm", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-091-SU30-002", "pzn": "", "aep": 11.18, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk2", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_091_su30_003", "name": "Seni Soft Super | Bettschutzunterlage – 60 x 90 cm", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-091-SU30-003", "pzn": "", "aep": 14.94, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk2", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_091_su30_004", "name": "Seni Soft Super | Bettschutzunterlage – 90 x 170 cm", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-091-SU30-004", "pzn": "", "aep": 21.83, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk2", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_ma_144_s000_024", "name": "Ambulex Nitril Einmalhandschuhe puderfrei, 100 Stück", "gruppe": "TZMO Deutschland GmbH", "sku": "MA-144-S000-024", "pzn": "", "aep": 4.3, "ve": 100, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_ma_144_m000_024", "name": "Ambulex Nitril Einmalhandschuhe puderfrei, 100 Stück – M", "gruppe": "TZMO Deutschland GmbH", "sku": "MA-144-M000-024", "pzn": "", "aep": 4.3, "ve": 100, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_ma_144_l000_024", "name": "Ambulex Nitril Einmalhandschuhe puderfrei, 100 Stück – L", "gruppe": "TZMO Deutschland GmbH", "sku": "MA-144-L000-024", "pzn": "", "aep": 4.3, "ve": 100, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_ma_144_xl00_024", "name": "Ambulex Nitril Einmalhandschuhe puderfrei, 100 Stück – XL", "gruppe": "TZMO Deutschland GmbH", "sku": "MA-144-XL00-024", "pzn": "", "aep": 4.3, "ve": 100, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_091_b030_003", "name": "Seni Soft Basic | Bettschutzunterlage | 60 x 90 cm – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-091-B030-003", "pzn": "", "aep": 10.95, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk2", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_091_b030_g01", "name": "Seni Soft Basic | Bettschutzunterlage – 40 x 60 cm", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-091-B030-G01", "pzn": "", "aep": 5.95, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk2", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_091_sb30_002", "name": "Seni Soft Basic | Bettschutzunterlage – 60 x 60 cm", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-091-SB30-002", "pzn": "", "aep": 8.31, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk2", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_094_jx30_g01", "name": "Seni Kids Junior Extra Inkontinenzslips für Kinder | Packung (30 Stück) – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-094-JX30-G01", "pzn": "", "aep": 10.71, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_094_js30_g01", "name": "Seni Kids Junior Super Inkontinenzslips für Kinder | Packung (30 Stück) – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-094-JS30-G01", "pzn": "", "aep": 14.9, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_094_ju30_g01", "name": "Seni Kids Junior Inkontinenzslips für Kinder | Packung (30 Stück) – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-094-JU30-G01", "pzn": "", "aep": 10.95, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_231_s400_d17", "name": "Seni Care Fußbadesalz für entspannende Fußbäder | 400 Gramm – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-231-S400-D17", "pzn": "", "aep": 5.99, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_981_b300_41d", "name": "Seni Care Aktivschaum Entfernung von Urinflecken u. -geruch | 300 ml – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-981-B300-41D", "pzn": "", "aep": 7.79, "ve": 1, "veLabel": "Flasche", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_981_b500_002", "name": "Seni Care Geruchsneutralisator | 500 ml – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-981-B500-002", "pzn": "", "aep": 8.72, "ve": 1, "veLabel": "Flasche", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_981_wore_001", "name": "Seni Care Entsorgungsbeutel | 5 L | Packung 100 Stück – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-981-WORE-001", "pzn": "", "aep": 4.9, "ve": 100, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_981_slin_001", "name": "Seni Care Einweglätzchen Schutzservietten | 100 Stück Packung – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-981-SLIN-001", "pzn": "", "aep": 19.99, "ve": 100, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_231_w020_i01", "name": "Seni Care Feuchttücher Inti+ | 20 Stück (Packung) – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-231-W020-I01", "pzn": "", "aep": 1.39, "ve": 20, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_231_w048_a01", "name": "Seni Care Feuchttücher Aqua | 48 Stück (Packung) – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-231-W048-A01", "pzn": "", "aep": 4.28, "ve": 48, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_231_wk52_m01", "name": "Seni Care Feuchttücher maxi | 52 Stück (Packung) – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-231-WK52-M01", "pzn": "", "aep": 4.28, "ve": 52, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_231_wk68_s03", "name": "Seni Care Feuchttücher sensitive | 68 Stück (Packung) – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-231-WK68-S03", "pzn": "", "aep": 4.28, "ve": 68, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_231_wk80_003", "name": "Seni Care Feuchttücher | 80 Stück (Packung) – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-231-WK80-003", "pzn": "", "aep": 4.28, "ve": 80, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_981_ra30_z01", "name": "Seni Care Hygienetücher Air-Laid | 30 Stück (Packung) – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-981-RA30-Z01", "pzn": "", "aep": 3.45, "ve": 30, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_981_mn50_z02", "name": "Seni Care Waschhandschuhe ohne Folie | 50 Stück – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-981-MN50-Z02", "pzn": "", "aep": 4.05, "ve": 50, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_981_mp50_z01", "name": "Seni Care Waschhandschuhe mit Folie | 50 Stück – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-981-MP50-Z01", "pzn": "", "aep": 4.8, "ve": 50, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_231_b200_d16", "name": "Seni Care Shampoo-Schaum ohne Wasser | 200 ml – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-231-B200-D16", "pzn": "", "aep": 4.28, "ve": 1, "veLabel": "Flasche", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_231_p500_d12", "name": "Seni Care Hautreinigungs- und Pflegeschaum | 500 ml – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-231-P500-D12", "pzn": "0190911", "aep": 5.2, "ve": 1, "veLabel": "Flasche", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_231_b200_d24", "name": "Seni Care Körperöl pflegend | 200 ml – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-231-B200-D24", "pzn": "", "aep": 5.99, "ve": 1, "veLabel": "Flasche", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_231_t200_32d", "name": "Seni Care Schutzcreme mit Arginin | 200 ml – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-231-T200-32D", "pzn": "", "aep": 4.59, "ve": 1, "veLabel": "Flasche", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_231_t150_d33", "name": "Seni Care Hautschutzcreme mit Zinkoxid | 150 ml – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-231-T150-D33", "pzn": "19200747", "aep": 5.95, "ve": 1, "veLabel": "Flasche", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_231_b500_d11", "name": "Seni Care Waschlotion rückfettend | 500 ml – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-231-B500-D11", "pzn": "", "aep": 4.7, "ve": 1, "veLabel": "Flasche", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_231_b500_d13", "name": "Seni Care Waschcreme 3 in 1 | 500 ml – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-231-B500-D13", "pzn": "", "aep": 5.99, "ve": 1, "veLabel": "Flasche", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_231_b01l_d13", "name": "Seni Care Waschcreme 3 in 1 | 1000 ml – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-231-B01L-D13", "pzn": "10307780", "aep": 11.59, "ve": 1, "veLabel": "Flasche", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_231_b500_d15", "name": "Seni Care Feuchtigkeitsspendendes Shampoo mit 3% Urea | Intensive Nährpflege | 500 ml – De", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-231-B500-D15", "pzn": "", "aep": 4.69, "ve": 1, "veLabel": "Flasche", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_231_b500_d14", "name": "Seni Care Duschcreme 3% Urea | 500 ml – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-231-B500-D14", "pzn": "15743209", "aep": 6.99, "ve": 1, "veLabel": "Flasche", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_231_b500_d23", "name": "Seni Care Körperemulsion mit 4% Urea | Intensive Feuchtigkeitspflege | 500 ml – Default Ti", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-231-B500-D23", "pzn": "", "aep": 8.49, "ve": 1, "veLabel": "Flasche", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_231_t100_25d", "name": "Seni Care Hautcreme 10% Urea für trockene Haut | 100 ml – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-231-T100-25D", "pzn": "", "aep": 3.59, "ve": 1, "veLabel": "Flasche", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_231_b050_d28", "name": "Seni Care reichhaltige Gesichtspflege | 50 ml – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-231-B050-D28", "pzn": "", "aep": 4.99, "ve": 1, "veLabel": "Flasche", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_231_t100_2d7", "name": "Seni Care Fußcreme 7% Urea | Intensive Pflege für beanspruchte Füße | 100 ml – Default Tit", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-231-T100-2D7", "pzn": "", "aep": 3.99, "ve": 1, "veLabel": "Flasche", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_231_b500_dxe", "name": "Seni Care Handschutzcreme ECARF | 500 ml – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-231-B500-DXE", "pzn": "", "aep": 8.4, "ve": 1, "veLabel": "Flasche", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_231_t100_26d", "name": "Seni Care Pflegende Handcreme mit 3% UREA | Regeneration für trockene Hände | 100 ml – Def", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-231-T100-26D", "pzn": "", "aep": 3.09, "ve": 1, "veLabel": "Flasche", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_095_pl15_sc3", "name": "Seni Control Plus | Einlagen | 15 Stück – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-095-PL15-SC3", "pzn": "11532697", "aep": 3.5, "ve": 15, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_095_su15_sc2", "name": "Seni Control Super | Einlagen | 15 Stück – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-095-SU15-SC2", "pzn": "11510023", "aep": 3.4, "ve": 15, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_095_ex15_sc2", "name": "Seni Control Extra | Einlagen | 15 Stück – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-095-EX15-SC2", "pzn": "11509988", "aep": 2.19, "ve": 15, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_095_no15_sc2", "name": "Seni Control Normal | Einlagen | 15 Stück – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-095-NO15-SC2", "pzn": "11509959", "aep": 1.79, "ve": 15, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_095_mi15_sc3", "name": "Seni Control Mini | Einlagen | 15 Stück – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-095-MI15-SC3", "pzn": "11532674", "aep": 1.39, "ve": 15, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_096_me10_m01", "name": "Seni Man Pants | Packung (15 Stück) – m", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-096-ME10-M01", "pzn": "", "aep": 8.09, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_096_la10_m01", "name": "Seni Man Pants | Packung (15 Stück) – l", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-096-LA10-M01", "pzn": "", "aep": 8.79, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_095_5l15_d01", "name": "Seni Man Super Level 5 | Packung (15 Stück) – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-095-5L15-D01", "pzn": "18271053", "aep": 5.99, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_095_4l15_d01", "name": "Seni Man Extra Plus Level 4 | Packung (15 Stück) – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-095-4L15-D01", "pzn": "18271030", "aep": 5.99, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_095_3l15_d01", "name": "Seni Man Extra Level 3 | Packung (15 Stück) – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-095-3L15-D01", "pzn": "18271018", "aep": 4.75, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_095_2l15_d01", "name": "Seni Man Normal Level 2 | Packung (15 Stück) – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-095-2L15-D01", "pzn": "18270993", "aep": 3.49, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_095_1l15_d01", "name": "Seni Man Light Level 1 | Packung (15 Stück) – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-095-1L15-D01", "pzn": "18270970", "aep": 2.99, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_096_la10_l01", "name": "Seni Lady Pants – l", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-096-LA10-L01", "pzn": "", "aep": 7.99, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_096_me10_l01", "name": "Seni Lady Pants – m", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-096-ME10-L01", "pzn": "", "aep": 8.7, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_095_pl15_de1", "name": "Seni Lady Plus – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-095-PL15-DE1", "pzn": "", "aep": 3.91, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_095_su15_de1", "name": "Seni Lady Super – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-095-SU15-DE1", "pzn": "", "aep": 3.79, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_095_ep15_de1", "name": "Seni Lady Extra Plus – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-095-EP15-DE1", "pzn": "", "aep": 3.3, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_095_ex15_de1", "name": "Seni Lady Slim Extra – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-095-EX15-DE1", "pzn": "", "aep": 2.89, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_095_no20_de1", "name": "Seni Lady Slim Normal – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-095-NO20-DE1", "pzn": "", "aep": 2.79, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_095_mp20_de1", "name": "Seni Lady Slim Mini Plus – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-095-MP20-DE1", "pzn": "", "aep": 2.49, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_095_mi20_de2", "name": "Seni Lady Slim Mini – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-095-MI20-DE2", "pzn": "", "aep": 2.2, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_095_ms20_de1", "name": "Seni Lady Slim Micro Plus – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-095-MS20-DE1", "pzn": "17444681", "aep": 2.4, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_095_mc20_de2", "name": "Seni Lady Slim Micro – Default Title", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-095-MC20-DE2", "pzn": "19640802", "aep": 1.79, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1540np_12", "name": "3M™ Steri-Strip™ Wundverschlussstreifen – 3 x 76 mm", "gruppe": "3M", "sku": "1540NP-12", "pzn": "", "aep": 37.44, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1541np_12", "name": "3M™ Steri-Strip™ Wundverschlussstreifen – 6 x 75 mm", "gruppe": "3M", "sku": "1541NP-12", "pzn": "", "aep": 57.84, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1542np_12", "name": "3M™ Steri-Strip™ Wundverschlussstreifen – 6 x 38 mm", "gruppe": "3M", "sku": "1542NP-12", "pzn": "", "aep": 37.44, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1546np_12", "name": "3M™ Steri-Strip™ Wundverschlussstreifen – 6 x 100 mm", "gruppe": "3M", "sku": "1546NP-12", "pzn": "", "aep": 77.76, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1547np_12", "name": "3M™ Steri-Strip™ Wundverschlussstreifen – 12 x 100 mm", "gruppe": "3M", "sku": "1547NP-12", "pzn": "", "aep": 77.76, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1624np", "name": "3M™ Tegaderm™ Film Transparentverband, 1624NP, 6 cm x 7 cm (5 Stück) – Default Title", "gruppe": "3M", "sku": "1624NP", "pzn": "", "aep": 17.25, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1624w", "name": "3M™ Tegaderm™ Film Transparentverband, 1624W, 6 cm x 7 cm – Default Title", "gruppe": "3M", "sku": "1624W", "pzn": "", "aep": 34.5, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_1530np_1sd", "name": "3M Micropore Fixierpflaster 2,5cm x 5m | Mit Abroller – Default Title", "gruppe": "3M", "sku": "1530NP-1SD", "pzn": "", "aep": 4.8, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_570", "name": "Hot-Cold Migräneband | Warm-Kaltkompresse zur Behandlung von Kopfschmerzen und Migräne – D", "gruppe": "Dr. Winkler", "sku": "570", "pzn": "", "aep": 20.2, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_56201", "name": "Hot-Cold Gesichtsmaske | Warm-Kalt Kompresse für das gesamte Gesicht – Default Title", "gruppe": "Dr. Winkler", "sku": "56201", "pzn": "", "aep": 36.2, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_562", "name": "Hot-Cold Gesichtsmaske | Warm-Kalt Kompresse für das gesamte Gesicht, mit Klettverschluss ", "gruppe": "Dr. Winkler", "sku": "562", "pzn": "", "aep": 41.2, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_561", "name": "Hot-Cold Pads | Warm-Kalt Kompressen für kleinflächige Schwellungen und kosmetische Anwend", "gruppe": "Dr. Winkler", "sku": "561", "pzn": "", "aep": 15.7, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_560", "name": "Hot-Cold Maske | Kühlmaske, Eismaske oder Wärmemaske für die Augenpartie – Default Title", "gruppe": "Dr. Winkler", "sku": "560", "pzn": "", "aep": 16.2, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_096_sm30_ac1", "name": "Seni Active Classic", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-096-SM30-AC1", "pzn": "", "aep": 17.99, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_096_me30_ac1", "name": "Seni Active Classic – m", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-096-ME30-AC1", "pzn": "", "aep": 18.4, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_096_la30_ac1", "name": "Seni Active Classic", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-096-LA30-AC1", "pzn": "", "aep": 19.6, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_se_096_xl30_ac1", "name": "Seni Active Classic – xl", "gruppe": "TZMO Deutschland GmbH", "sku": "SE-096-XL30-AC1", "pzn": "", "aep": 21.99, "ve": 1, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_tp7d80931s", "name": "Trachealkompresse SafeSorb ALU | 8,0 x 9,3 cm - 100 Stück – Default Title", "gruppe": "Tenowo GmbH", "sku": "TP7D80931S", "pzn": "", "aep": 84.0, "ve": 100, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_tp1d9595w10", "name": "Trachealkompresse SafeSorb TP1 | 9,5 x 9,5 cm - 10 Stück – Default Title", "gruppe": "Tenowo GmbH", "sku": "TP1D9595W10", "pzn": "", "aep": 6.9, "ve": 10, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_9420250", "name": "Hartmann Peha-soft Nitril Einmalhandschuhe blau puderfrei, 100 Stück – XS", "gruppe": "Paul Hartmann AG", "sku": "9420250", "pzn": "", "aep": 3.8, "ve": 100, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_9420260", "name": "Hartmann Peha-soft Nitril Einmalhandschuhe blau puderfrei, 100 Stück", "gruppe": "Paul Hartmann AG", "sku": "9420260", "pzn": "", "aep": 3.8, "ve": 100, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_9420270", "name": "Hartmann Peha-soft Nitril Einmalhandschuhe blau puderfrei, 100 Stück – M", "gruppe": "Paul Hartmann AG", "sku": "9420270", "pzn": "", "aep": 3.8, "ve": 100, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_9420280", "name": "Hartmann Peha-soft Nitril Einmalhandschuhe blau puderfrei, 100 Stück – L", "gruppe": "Paul Hartmann AG", "sku": "9420280", "pzn": "", "aep": 3.8, "ve": 100, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_9420290", "name": "Hartmann Peha-soft Nitril Einmalhandschuhe blau puderfrei, 100 Stück – XL", "gruppe": "Paul Hartmann AG", "sku": "9420290", "pzn": "", "aep": 3.8, "ve": 100, "veLabel": "Stück", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_3392gs", "name": "3M Cavilon Langzeit-Hautschutz-Creme 3392GS, 20 Sachet á 2 g – Default Title", "gruppe": "Solventum Germany GmbH", "sku": "3392GS", "pzn": "", "aep": 29.2, "ve": 1, "veLabel": "Sachet", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_3392g", "name": "3M Cavilon 92g (Große Tube) - Langzeit-Hautschutz 3392G – Default Title", "gruppe": "Solventum Germany GmbH", "sku": "3392G", "pzn": "10286434", "aep": 14.49, "ve": 1, "veLabel": "Tube", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}, {"id": "p_3391g", "name": "3M Cavilon™ Langzeit-Hautschutz-Creme 3391G, 28g Tube – Default Title", "gruppe": "Solventum Germany GmbH", "sku": "3391G", "pzn": "10286428", "aep": 10.8, "ve": 1, "veLabel": "Tube", "minbestand": 5, "versandklasse": "vk1", "wbName": "", "wbPreis": null, "ek": {}}],
+  chargen: [],
+  vkValues: {},
+  verpackung: {},
+};
+
+let S = loadState();
+let FILTER_LIEF = null;
+let FILTER_MHD = 'all';
+let SEARCH_QUERY = '';
+
+// ── PRODUKTE & BESTAND SUCHE ──────────────────────────────
+let PROD_SEARCH = '';
+let BESTAND_SEARCH = '';
+
+function setProdSearch(q) { PROD_SEARCH = q; renderProdukte(); }
+function setBestandSearch(q) { BESTAND_SEARCH = q; renderBestand(); }
+
+function filterProdukteBySearch(produkte) {
+  if (!PROD_SEARCH) return produkte;
+  const q = PROD_SEARCH.toLowerCase();
+  return produkte.filter(p => 
+    (p.name||'').toLowerCase().includes(q) ||
+    (p.sku||'').toLowerCase().includes(q) ||
+    (p.pzn||'').toLowerCase().includes(q) ||
+    (p.gruppe||'').toLowerCase().includes(q)
+  );
+}
+
+function loadState() {
+  try { const s=localStorage.getItem('krbmed_v43'); if(s) return deepMerge(JSON.parse(JSON.stringify(DEFAULTS)),JSON.parse(s)); } catch(e){}
+  return JSON.parse(JSON.stringify(DEFAULTS));
+}
+function saveState() { localStorage.setItem('krbmed_v43', JSON.stringify(S)); }
+function deepMerge(def, saved) {
+  const r={...def};
+  for(const k in saved){ if(Array.isArray(saved[k])) r[k]=saved[k]; else if(typeof saved[k]==='object'&&saved[k]!==null) r[k]=deepMerge(def[k]||{},saved[k]); else r[k]=saved[k]; }
+  return r;
+}
+
+const uid  = () => 'id_'+Math.random().toString(36).substr(2,9);
+const n    = v  => parseFloat(v)||0;
+const eur  = v  => (v||0).toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2})+' €';
+const pct  = v  => ((v||0)*100).toLocaleString('de-DE',{minimumFractionDigits:1,maximumFractionDigits:1})+' %';
+const fmtD = d  => d ? new Date(d).toLocaleDateString('de-DE') : '—';
+const getLief = id => S.lieferanten.find(l=>l.id===id);
+const getVK   = id => S.versandklassen.find(v=>v.id===id);
+const getProd = id => S.produkte.find(p=>p.id===id);
+const aktivL  = () => S.settings.aktiverLieferant || S.lieferanten[0]?.id;
+
+function getVersandEk(prod, lid) {
+  const vk = getVK(prod.versandklasse); if(!vk) return 0;
+  return vk.kosten[lid] ?? Object.values(vk.kosten).find(v=>v!==null) ?? 0;
+}
+function getEk(prod, lid) { return prod.ek?.[lid] ?? 0; }
+function getVerpack(prod) { return S.verpackung?.[prod.id] ?? 0; }
+
+function kalk(prod, vkB, lid) {
+  const s=S.settings, ek=getEk(prod,lid), vek=getVersandEk(prod,lid), vp=getVerpack(prod);
+  const ein=ek+vek+vp, vkN=vkB/(1+s.mwst), bU=vkB+s.versandKundeBrutto;
+  const shop=bU-(bU*s.shopifyFaktor-s.shopifyFix), nU=vkN+s.versandKundeNetto;
+  const gew=nU-ein-shop, mar=vkN>0?gew/vkN:0;
+  const t=s.mwst,sf=1-s.shopifyFaktor,vb=s.versandKundeBrutto,vno=s.versandKundeNetto,fix=s.shopifyFix;
+  const be=(ein+vb*sf+fix-vno)/(1/(1+t)-sf);
+  return {ek,vek,vp,ein,vkN,bU,shop,nU,gew,mar,be};
+}
+const vkVS  = aep => Math.round(aep*1.19*0.89/0.10)*0.10-0.01;
+const getVkV= (id,aep) => S.vkValues[id] ?? vkVS(aep);
+
+function mhdSt(mhdStr) {
+  if(!mhdStr) return {cls:'',text:'—',days:null};
+  const days=Math.floor((new Date(mhdStr)-new Date())/86400000);
+  const warn=S.settings.mhdWarnDays||90;
+  if(days<0)    return {cls:'mhd-exp', text:`Abgelaufen`,days};
+  if(days<30)   return {cls:'mhd-crit',text:`${days}d`,days};
+  if(days<warn) return {cls:'mhd-warn',text:`${days}d`,days};
+  return {cls:'mhd-ok',text:fmtD(mhdStr),days};
+}
+function bestand(pid) { return S.chargen.filter(c=>c.prodId===pid&&!c.ausgebucht).reduce((s,c)=>s+n(c.menge),0); }
+function naechstMHD(pid) { const a=S.chargen.filter(c=>c.prodId===pid&&!c.ausgebucht&&c.mhd); return a.length?a.sort((a,b)=>new Date(a.mhd)-new Date(b.mhd))[0]:null; }
+function lagerWert() {
+  const lid = aktivL();
+  return S.produkte.reduce((sum,p)=>{
+    const bs = bestand(p.id);
+    const ek = getEk(p,lid);
+    return sum + (bs * ek);
+  },0);
+}
+
+function toast(msg,color='var(--green)') {
+  const el=document.getElementById('toast');
+  el.textContent=msg; el.style.borderColor=color; el.style.color=color;
+  el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),2200);
+}
+
+function setLiefFilter(id) { FILTER_LIEF=id; renderKalkulation(); }
+function setSearch(q) { SEARCH_QUERY=q; renderKalkulation(); }
+function filterMHD(mode) { FILTER_MHD=mode; renderBestand(); }
+
+function filterProdukte(produkte) {
+  let filtered = produkte;
+  if (FILTER_LIEF) {
+    filtered = filtered.filter(p => {
+      const ek = p.ek?.[FILTER_LIEF];
+      return ek !== null && ek !== undefined && ek > 0;
+    });
+  }
+  if (SEARCH_QUERY) {
+    const q = SEARCH_QUERY.toLowerCase();
+    filtered = filtered.filter(p => 
+      (p.name||'').toLowerCase().includes(q) ||
+      (p.sku||'').toLowerCase().includes(q) ||
+      (p.pzn||'').toLowerCase().includes(q) ||
+      (p.gruppe||'').toLowerCase().includes(q)
+    );
+  }
+  return filtered;
+}
+
+document.querySelectorAll('.nav-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('panel-'+btn.dataset.panel).classList.add('active');
+    renderAll();
+  });
+});
+
+function renderKalkulation() {
+  const lid = aktivL(); // Standard Lieferant
+  const calcLief = FILTER_LIEF || lid; // Für Berechnung
+  
+  // Filter buttons generieren
+  const filterBtns = document.getElementById('lief-filter-btns');
+  if (filterBtns) {
+    filterBtns.innerHTML = S.lieferanten.map(l=>`
+      <button class="filter-btn ${FILTER_LIEF===l.id?'active':''}" 
+        onclick="setLiefFilter('${l.id}')" 
+        style="${FILTER_LIEF===l.id?'background:'+l.farbe+';border-color:'+l.farbe+';color:#fff;':'border-color:'+l.farbe+';color:'+l.farbe}">
+        ${l.kuerzel}
+      </button>`).join('');
+  }
+
+  // Alle Produkte kalkulieren mit calcLief
+  const all = S.produkte.map(p => {
+    const vk = getVkV(p.id, p.aep);
+    const k = kalk(p, vk, calcLief);
+    return {...p, ...k, vkB: vk};
+  });
+  
+  // Filter anwenden
+  const filtered = filterProdukte(all);
+  
+  // KPIs
+  const gSum = filtered.reduce((s,r) => s + r.gew, 0);
+  const avg = filtered.length ? filtered.reduce((s,r) => s + r.mar, 0) / filtered.length : 0;
+  const prof = filtered.filter(r => r.gew > 0).length;
+
+  document.getElementById('kalk-kpis').innerHTML = [
+    {l:'Produkte', v:filtered.length, c:'var(--accent)', s:`${SEARCH_QUERY||FILTER_LIEF?'gefiltert':'gesamt'}`},
+    {l:'Profitabel', v:prof, c:'var(--green)', s:`von ${filtered.length}`},
+    {l:'Ø Marge', v:pct(avg), c:avg>.4?'var(--green)':avg>.2?'var(--yellow)':'var(--red)', s:'auf VK Netto'},
+  ].map(k => `<div class="kpi-card"><div class="kpi-label">${k.l}</div><div class="kpi-val" style="color:${k.c}">${k.v}</div><div class="kpi-sub">${k.s}</div></div>`).join('');
+
+  // Tabelle
+  const tb = document.getElementById('kalk-tbody');
+  if (!filtered.length) {
+    tb.innerHTML = `<tr><td colspan="14" class="L"><div class="empty"><div class="ico">📦</div><h3>Keine Produkte gefunden</h3><p style="color:var(--text3);font-size:12px;margin-top:6px;">${SEARCH_QUERY?'Suchbegriff: "'+SEARCH_QUERY+'"':FILTER_LIEF?'Lieferant: '+S.lieferanten.find(l=>l.id===FILTER_LIEF)?.kuerzel:''}</p></div></td></tr>`;
+    return;
+  }
+  
+  tb.innerHTML = filtered.map(r => {
+    const bs = bestand(r.id);
+    const mc = r.mar > .5 ? 'var(--green)' : r.mar > .25 ? 'var(--yellow)' : r.mar > 0 ? 'var(--orange)' : 'var(--red)';
+    const gc = r.gew > 0 ? 'var(--green)' : 'var(--red)';
+    const bePct = r.vkB > 0 ? Math.min(r.be / r.vkB * 100, 100) : 0;
+    
+    return `<tr>
+      <td class="L"><div class="fw6">${r.name}</div><div style="font-size:10px;color:var(--text3);font-family:'IBM Plex Mono';">${r.sku||'—'}</div></td>
+      <td><span class="badge bb">${r.ve} ${r.veLabel||'Stk'}</span></td>
+      <td><span class="mono ${bs>0?'stock-ok':'stock-out'}" style="font-size:11px;">${bs}</span></td>
+      <td><span class="mono" style="color:var(--green);font-size:12px;">${eur(r.ek)}</span></td>
+      <td><span class="mono" style="color:var(--accent)">${eur(r.vek)}</span></td>
+      <td><span class="mono" style="color:var(--orange);font-size:11px;">${r.vp>0?eur(r.vp):'—'}</span></td>
+      <td><span class="mono" style="color:var(--red)">${eur(r.ein)}</span></td>
+      <td style="background:rgba(227,179,65,.04);">
+        <div style="display:flex;align-items:center;gap:4px;justify-content:flex-end;">
+          <input class="vk-input" type="number" step="0.10" value="${r.vkB.toFixed(2)}" onchange="updateVk('${r.id}',this.value)" onclick="this.select()">
+          <button onclick="resetVk('${r.id}',${r.aep})" title="Reset" style="background:none;border:none;cursor:pointer;color:var(--text3);font-size:13px;">↺</button>
+        </div>
+      </td>
+      <td class="mono" style="font-size:12px;">${eur(r.vkN)}</td>
+      <td class="mono" style="color:var(--purple);font-size:12px;">${eur(r.shop)}</td>
+      <td><span class="mono fw6" style="color:${gc};font-size:13px;">${eur(r.gew)}</span></td>
+      <td><span class="badge ${r.mar>.5?'bg':r.mar>.25?'by':r.mar>0?'bo':'br'}">${pct(r.mar)}</span></td>
+      <td>
+        <div class="mono" style="font-size:11px;color:${r.vkB>=r.be?'var(--green)':'var(--red)'};">${eur(r.be)}</div>
+        <div class="be-bar"><div class="be-fill" style="width:${bePct}%;background:${r.vkB>=r.be?'var(--green)':'var(--red)'}"></div></div>
+      </td>
+      <td class="mono" style="font-size:11px;color:var(--text3);">${eur(r.aep)}</td>
+    </tr>`;
+  }).join('');
+}
+function updateVk(id,val){S.vkValues[id]=n(val);saveState();renderKalkulation();}
+function resetVk(id,aep){S.vkValues[id]=vkVS(aep);saveState();renderKalkulation();}
+
+function renderBestand() {
+  const krit=S.produkte.filter(p=>{const c=naechstMHD(p.id);return c&&mhdSt(c.mhd).days!==null&&mhdSt(c.mhd).days<30;}).length;
+  const bdg=document.getElementById('mhd-badge');
+  bdg.style.display=krit>0?'inline':'none'; bdg.textContent=krit;
+
+  const gesamtVE=S.produkte.reduce((s,p)=>s+bestand(p.id),0);
+  const unterMin=S.produkte.filter(p=>bestand(p.id)<(p.minbestand||0)).length;
+  const mhdW=S.produkte.filter(p=>{const c=naechstMHD(p.id);return c&&mhdSt(c.mhd).days!==null&&mhdSt(c.mhd).days<(S.settings.mhdWarnDays||90);}).length;
+  const lw = lagerWert();
+
+  document.getElementById('bestand-kpis').innerHTML=[
+    {l:'Lagerbestand', v:gesamtVE+' VE', c:'var(--accent)',  s:'alle Produkte'},
+    {l:'Warenwert',    v:eur(lw),         c:'var(--purple)', s:'bei EK Preisen'},
+    {l:'Unter Minbest.', v:unterMin,       c:unterMin>0?'var(--red)':'var(--green)', s:'Produkte'},
+    {l:'MHD Warnung',    v:mhdW,           c:mhdW>0?'var(--yellow)':'var(--green)', s:`< ${S.settings.mhdWarnDays}d`},
+  ].map(k=>`<div class="kpi-card"><div class="kpi-label">${k.l}</div><div class="kpi-val" style="color:${k.c}">${k.v}</div><div class="kpi-sub">${k.s}</div></div>`).join('');
+
+  let produkte = S.produkte;
+  
+  // Suchfilter
+  if (BESTAND_SEARCH) {
+    const q = BESTAND_SEARCH.toLowerCase();
+    produkte = produkte.filter(p => 
+      (p.name||'').toLowerCase().includes(q) ||
+      (p.sku||'').toLowerCase().includes(q) ||
+      (p.pzn||'').toLowerCase().includes(q)
+    );
+  }
+  if (FILTER_MHD !== 'all') {
+    produkte = produkte.filter(p => {
+      const mc = naechstMHD(p.id);
+      if (!mc) return false;
+      const days = mhdSt(mc.mhd).days;
+      if (FILTER_MHD === 'crit') return days !== null && days < 30;
+      if (FILTER_MHD === 'warn') return days !== null && days < 90;
+      return true;
+    });
+  }
+
+  const tb=document.getElementById('bestand-tbody');
+  tb.innerHTML=produkte.map(p=>{
+    const bs=bestand(p.id), min=p.minbestand||0, mc=naechstMHD(p.id), mhd=mc?mhdSt(mc.mhd):{cls:'',text:'—'};
+    const stB=bs===0?'br':bs<min?'by':'bg', stT=bs===0?'Kein Bestand':bs<min?'Niedrig':'OK';
+    return`<tr>
+      <td class="L"><div class="fw6">${p.name}</div></td>
+      <td class="C"><span class="badge bb">${p.ve} ${p.veLabel||'Stk'}</span></td>
+      <td class="C"><span class="mono fw6 ${bs===0?'stock-out':bs<min?'stock-low':'stock-ok'}" style="font-size:15px;">${bs}</span></td>
+      <td class="C"><span class="mono" style="color:var(--text2);">${min}</span></td>
+      <td class="C"><span class="badge ${stB}">${stT}</span></td>
+      <td class="L"><span class="mono" style="font-size:11px;">${mc?.chargeNr||'—'}</span></td>
+      <td class="C"><span class="mono ${mhd.cls}" style="font-size:11px;">${mhd.text}</span></td>
+      <td class="C"><button class="btn btn-ghost btn-xs" onclick="openChargeModal('${p.id}')">+ Eingang</button></td>
+    </tr>`;
+  }).join('');
+
+  const ctb=document.getElementById('chargen-tbody');
+  // Chargen auch filtern
+  let chargen = S.chargen;
+  if (BESTAND_SEARCH) {
+    const q = BESTAND_SEARCH.toLowerCase();
+    chargen = chargen.filter(c => {
+      const p = getProd(c.prodId);
+      return (p?.name||'').toLowerCase().includes(q) || 
+             (c.chargeNr||'').toLowerCase().includes(q);
+    });
+  }
+  const sorted=[...chargen].sort((a,b)=>new Date(b.datum||0)-new Date(a.datum||0));
+  if(!sorted.length){ctb.innerHTML=`<tr><td colspan="7"><div class="empty"><div class="ico">📋</div><h3>Keine Chargen</h3></div></td></tr>`;return;}
+  ctb.innerHTML=sorted.map(c=>{
+    const p=getProd(c.prodId), l=getLief(c.liefId), mhd=mhdSt(c.mhd);
+    return`<tr style="${c.ausgebucht?'opacity:.4':''}">
+      <td class="L fw6">${p?.name||'—'}</td>
+      <td class="L"><span class="mono" style="font-size:12px;">${c.chargeNr}</span></td>
+      <td class="C"><span class="mono ${mhd.cls}" style="font-size:11px;">${mhd.text}</span></td>
+      <td class="C"><span class="mono">${c.menge} VE</span></td>
+      <td class="L"><span class="badge" style="background:${l?.farbe+'20'||'var(--bg3)'};color:${l?.farbe||'var(--text2)'};">${l?.kuerzel||'—'}</span></td>
+      <td class="L"><span class="mono" style="font-size:11px;color:var(--accent);">${c.shopifyOrder||'—'}</span></td>
+      <td class="C" style="white-space:nowrap;">
+        ${!c.ausgebucht?`<button class="btn btn-warning btn-xs" onclick="openAusbuchenModal('${c.id}')">Ausbuchen</button>`:'<span style="font-size:10px;color:var(--text3)">✓</span>'}
+        <button class="btn btn-danger btn-xs" onclick="deleteCharge('${c.id}')">✕</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function renderProdukte() {
+  const all = filterProdukteBySearch(S.produkte);
+  const tb=document.getElementById('prod-tbody');
+  if(!all.length){tb.innerHTML=`<tr><td colspan="7"><div class="empty"><div class="ico">📦</div><h3>Keine Produkte gefunden</h3></div></td></tr>`;return;}
+  tb.innerHTML=all.map(p=>{
+    // Nur Lieferanten anzeigen wo EK > 0
+    const ekC=S.lieferanten.filter(l => p.ek?.[l.id] > 0).map(l=>`<span style="font-size:10px;color:${l.farbe};margin-right:8px;">${l.kuerzel}: ${eur(p.ek[l.id])}</span>`).join('');
+    return`<tr>
+      <td class="L fw6">${p.name}</td>
+      <td class="L" style="font-size:11px;color:var(--text2);">${p.gruppe||'—'}</td>
+      <td class="L"><span class="mono" style="font-size:11px;">${p.sku||'—'}</span></td>
+      <td><span class="mono">${eur(p.aep)}</span></td>
+      <td class="C"><span class="badge bb">${p.ve||1} ${p.veLabel||'Stk'}</span></td>
+      <td class="L">${ekC||'<span style="font-size:10px;color:var(--text3);">Kein EK</span>'}</td>
+      <td class="C" style="white-space:nowrap;">
+        <button class="btn btn-ghost btn-sm" onclick="openProdModal('${p.id}')">✏</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteProd('${p.id}')">✕</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function renderLieferanten() {
+  const tb=document.getElementById('lief-tbody');
+  if(!S.lieferanten.length){tb.innerHTML=`<tr><td colspan="6"><div class="empty"><h3>Keine Lieferanten</h3></div></td></tr>`;return;}
+  tb.innerHTML=S.lieferanten.map(l=>`<tr>
+    <td class="L"><div class="fw6" style="color:${l.farbe};">${l.name}</div></td>
+    <td class="L"><span class="badge" style="background:${l.farbe+'20'};color:${l.farbe};">${l.kuerzel}</span></td>
+    <td class="L" style="font-size:11px;">${l.kontakt||'—'}</td>
+    <td class="C"><span class="mono">${l.zahlziel||30} Tage</span></td>
+    <td class="L" style="font-size:11px;color:var(--text2);">${l.notiz||'—'}</td>
+    <td class="C" style="white-space:nowrap;">
+      <button class="btn btn-ghost btn-sm" onclick="openLiefModal('${l.id}')">✏</button>
+      <button class="btn btn-danger btn-sm" onclick="deleteLief('${l.id}')">✕</button>
+    </td>
+  </tr>`).join('');
+}
+
+function renderVersand() {
+  const lH=S.lieferanten.map(l=>`<th style="color:${l.farbe};">${l.kuerzel}</th>`).join('');
+  const rows=S.versandklassen.map(vk=>{
+    const kC=S.lieferanten.map(l=>`<td><span class="mono" style="color:${l.farbe};">${vk.kosten?.[l.id]!=null?eur(vk.kosten[l.id]):'—'}</span></td>`).join('');
+    return`<tr><td class="L fw6">${vk.name}</td>${kC}<td class="C" style="white-space:nowrap;"><button class="btn btn-ghost btn-sm" onclick="openVersandModal('${vk.id}')">✏</button><button class="btn btn-danger btn-sm" onclick="deleteVersand('${vk.id}')">✕</button></td></tr>`;
+  }).join('');
+  document.getElementById('versand-table-wrap').innerHTML=`<table><thead><tr><th class="L">Klasse</th>${lH}<th class="C">Aktionen</th></tr></thead><tbody>${rows||'<tr><td colspan="10"><div class="empty"><h3>Keine Versandklassen</h3></div></td></tr>'}</tbody></table>`;
+  document.getElementById('vers-netto').value  = S.settings.versandKundeNetto;
+  document.getElementById('vers-brutto').value = S.settings.versandKundeBrutto;
+}
+
+function renderEinstellungen() {
+  const s=S.settings;
+  document.getElementById('shopify-faktor').value = s.shopifyFaktor;
+  document.getElementById('shopify-fix').value    = s.shopifyFix;
+  document.getElementById('mwst-satz').value      = s.mwst;
+  document.getElementById('mhd-warn-days').value  = s.mhdWarnDays;
+}
+function saveSettings() {
+  S.settings.shopifyFaktor       = n(document.getElementById('shopify-faktor').value);
+  S.settings.shopifyFix          = n(document.getElementById('shopify-fix').value);
+  S.settings.mwst                = n(document.getElementById('mwst-satz').value);
+  S.settings.mhdWarnDays         = n(document.getElementById('mhd-warn-days').value);
+  S.settings.versandKundeNetto   = n(document.getElementById('vers-netto').value);
+  S.settings.versandKundeBrutto  = n(document.getElementById('vers-brutto').value);
+  saveState(); renderKalkulation();
+}
+
+function openProdModal(id) {
+  document.getElementById('ep-versand').innerHTML=S.versandklassen.map(v=>`<option value="${v.id}">${v.name}</option>`).join('');
+  document.getElementById('ep-ek-fields').innerHTML=S.lieferanten.map(l=>`<div class="form-group"><label class="form-label" style="color:${l.farbe};">EK ${l.kuerzel}</label><input type="number" step="0.01" class="form-control mono" id="ep-ek-${l.id}" placeholder="0.00"></div>`).join('');
+  if(id){
+    const p=getProd(id); if(!p) return;
+    document.getElementById('modal-prod-title').textContent='Produkt bearbeiten';
+    document.getElementById('ep-id').value=p.id;
+    document.getElementById('ep-name').value=p.name;
+    document.getElementById('ep-gruppe').value=p.gruppe||'';
+    document.getElementById('ep-sku').value=p.sku||'';
+    document.getElementById('ep-pzn').value=p.pzn||'';
+    document.getElementById('ep-aep').value=p.aep||'';
+    document.getElementById('ep-ve').value=p.ve||1;
+    document.getElementById('ep-ve-label').value=p.veLabel||'';
+    document.getElementById('ep-minbestand').value=p.minbestand||0;
+    document.getElementById('ep-verpack').value=S.verpackung?.[p.id]||0;
+    document.getElementById('ep-versand').value=p.versandklasse||'';
+    document.getElementById('ep-wbpreis').value=p.wbPreis||'';
+    S.lieferanten.forEach(l=>{const el=document.getElementById(`ep-ek-${l.id}`);if(el)el.value=p.ek?.[l.id]||'';});
+  } else {
+    document.getElementById('modal-prod-title').textContent='Neues Produkt';
+    document.getElementById('ep-id').value='';
+    ['ep-name','ep-gruppe','ep-sku','ep-pzn','ep-aep','ep-wbpreis'].forEach(i=>{const el=document.getElementById(i);if(el)el.value='';});
+    document.getElementById('ep-ve').value=1;
+    document.getElementById('ep-ve-label').value='Stück';
+    document.getElementById('ep-minbestand').value=5;
+    document.getElementById('ep-verpack').value=0;
+  }
+  document.getElementById('modal-prod').classList.add('open');
+}
+function saveProduct() {
+  const id=document.getElementById('ep-id').value, name=document.getElementById('ep-name').value.trim();
+  if(!name){alert('Produktname ist Pflicht');return;}
+  const ek={};
+  S.lieferanten.forEach(l=>{const v=n(document.getElementById(`ep-ek-${l.id}`)?.value);ek[l.id]=v||null;});
+  const vp = n(document.getElementById('ep-verpack').value);
+  const prod={id:id||uid(),name,gruppe:document.getElementById('ep-gruppe').value.trim(),sku:document.getElementById('ep-sku').value.trim(),pzn:document.getElementById('ep-pzn').value.trim(),aep:n(document.getElementById('ep-aep').value),ve:n(document.getElementById('ep-ve').value)||1,veLabel:document.getElementById('ep-ve-label').value.trim()||'Stk',minbestand:n(document.getElementById('ep-minbestand').value),versandklasse:document.getElementById('ep-versand').value,wbPreis:n(document.getElementById('ep-wbpreis').value)||null,ek};
+  if(id){const i=S.produkte.findIndex(p=>p.id===id);S.produkte[i]=prod;}else S.produkte.push(prod);
+  if(!S.verpackung) S.verpackung = {};
+  S.verpackung[prod.id] = vp;
+  saveState();closeModal('modal-prod');renderAll();toast(id?'✓ Produkt aktualisiert':'✓ Produkt angelegt');
+}
+function deleteProd(id){if(!confirm('Produkt löschen?'))return;S.produkte=S.produkte.filter(p=>p.id!==id);saveState();renderAll();toast('Gelöscht','var(--red)');}
+
+function openLiefModal(id) {
+  if(id){
+    const l=getLief(id);if(!l)return;
+    document.getElementById('el-id').value=l.id; document.getElementById('el-name').value=l.name;
+    document.getElementById('el-kuerzel').value=l.kuerzel; document.getElementById('el-kontakt').value=l.kontakt||'';
+    document.getElementById('el-zahlziel').value=l.zahlziel||30;
+    document.getElementById('el-farbe').value=l.farbe||'#388bfd';
+    document.getElementById('el-notiz').value=l.notiz||'';
+  } else {
+    document.getElementById('el-id').value='';
+    ['el-name','el-kuerzel','el-kontakt','el-notiz'].forEach(i=>document.getElementById(i).value='');
+    document.getElementById('el-zahlziel').value=30;
+    document.getElementById('el-farbe').value='#'+Math.floor(Math.random()*0xffffff).toString(16).padStart(6,'0');
+  }
+  document.getElementById('modal-lief').classList.add('open');
+}
+function saveLieferant() {
+  const id=document.getElementById('el-id').value, name=document.getElementById('el-name').value.trim(), kuerzel=document.getElementById('el-kuerzel').value.trim().toUpperCase();
+  if(!name||!kuerzel){alert('Name und Kürzel sind Pflicht');return;}
+  const lief={id:id||uid(),name,kuerzel,kontakt:document.getElementById('el-kontakt').value.trim(),zahlziel:n(document.getElementById('el-zahlziel').value),farbe:document.getElementById('el-farbe').value,notiz:document.getElementById('el-notiz').value.trim()};
+  if(id){const i=S.lieferanten.findIndex(l=>l.id===id);S.lieferanten[i]=lief;}else S.lieferanten.push(lief);
+  saveState();closeModal('modal-lief');renderAll();toast(id?'✓ Lieferant aktualisiert':'✓ Lieferant angelegt');
+}
+function deleteLief(id){if(!confirm('Lieferant löschen?'))return;S.lieferanten=S.lieferanten.filter(l=>l.id!==id);saveState();renderAll();toast('Gelöscht','var(--red)');}
+
+function openVersandModal(id) {
+  document.getElementById('ev-lief-fields').innerHTML=S.lieferanten.map(l=>`<div class="form-group"><label class="form-label" style="color:${l.farbe};">${l.kuerzel}</label><input type="number" step="0.01" class="form-control mono" id="ev-${l.id}"></div>`).join('');
+  if(id){
+    const v=getVK(id);if(!v)return;
+    document.getElementById('ev-id').value=v.id; document.getElementById('ev-name').value=v.name; document.getElementById('ev-gewicht').value=v.gewicht||'';
+    S.lieferanten.forEach(l=>{const el=document.getElementById(`ev-${l.id}`);if(el)el.value=v.kosten?.[l.id]??'';});
+  } else {
+    document.getElementById('ev-id').value=''; document.getElementById('ev-name').value=''; document.getElementById('ev-gewicht').value='';
+  }
+  document.getElementById('modal-versand').classList.add('open');
+}
+function saveVersand() {
+  const id=document.getElementById('ev-id').value, name=document.getElementById('ev-name').value.trim();
+  if(!name){alert('Bezeichnung ist Pflicht');return;}
+  const kosten={};
+  S.lieferanten.forEach(l=>{kosten[l.id]=n(document.getElementById(`ev-${l.id}`)?.value)||null;});
+  const vk={id:id||uid(),name,gewicht:document.getElementById('ev-gewicht').value.trim(),kosten};
+  if(id){const i=S.versandklassen.findIndex(v=>v.id===id);S.versandklassen[i]=vk;}else S.versandklassen.push(vk);
+  saveState();closeModal('modal-versand');renderAll();toast(id?'✓ Versandklasse aktualisiert':'✓ Versandklasse angelegt');
+}
+function deleteVersand(id){if(!confirm('Versandklasse löschen?'))return;S.versandklassen=S.versandklassen.filter(v=>v.id!==id);saveState();renderAll();}
+
+function openChargeModal(prodId) {
+  document.getElementById('ec-produkt').innerHTML=S.produkte.map(p=>`<option value="${p.id}" ${p.id===prodId?'selected':''}>${p.name}${p.gruppe?' ('+p.gruppe+')':''}</option>`).join('');
+  document.getElementById('ec-lieferant').innerHTML=S.lieferanten.map(l=>`<option value="${l.id}">${l.name}</option>`).join('');
+  ['ec-charge','ec-mhd'].forEach(i=>document.getElementById(i).value='');
+  document.getElementById('ec-menge').value=1;
+  document.getElementById('ec-datum').value=new Date().toISOString().slice(0,10);
+  document.getElementById('modal-charge').classList.add('open');
+}
+function saveCharge() {
+  const prodId=document.getElementById('ec-produkt').value, chargeNr=document.getElementById('ec-charge').value.trim(), mhd=document.getElementById('ec-mhd').value, menge=n(document.getElementById('ec-menge').value);
+  if(!prodId||!chargeNr||!mhd||!menge){alert('Produkt, Charge, MHD und Menge sind Pflicht');return;}
+  S.chargen.push({id:uid(),prodId,chargeNr,mhd,menge,liefId:document.getElementById('ec-lieferant').value,datum:document.getElementById('ec-datum').value,ausgebucht:false,shopifyOrder:null});
+  saveState();closeModal('modal-charge');renderAll();toast(`✓ ${menge} VE eingebucht`);
+}
+
+function openAusbuchenModal(id) {
+  document.getElementById('ea-id').value = id;
+  document.getElementById('ea-order').value = '';
+  document.getElementById('modal-ausbuchen').classList.add('open');
+}
+function confirmAusbuchen() {
+  const id = document.getElementById('ea-id').value;
+  const order = document.getElementById('ea-order').value.trim();
+  const c=S.chargen.find(c=>c.id===id);
+  if(c){c.ausgebucht=true; c.shopifyOrder=order||null; saveState();closeModal('modal-ausbuchen');renderAll();toast('Charge ausgebucht','var(--yellow)');}
+}
+function deleteCharge(id){if(!confirm('Charge löschen?'))return;S.chargen=S.chargen.filter(c=>c.id!==id);saveState();renderAll();toast('Gelöscht','var(--red)');}
+
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+document.querySelectorAll('.modal-overlay').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open');}));
+
+function exportData(){const blob=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`krbmed_v43_${new Date().toISOString().slice(0,10)}.json`;a.click();toast('✓ Export');}
+function importData(e){const file=e.target.files[0];if(!file)return;const r=new FileReader();r.onload=ev=>{try{S=deepMerge(JSON.parse(JSON.stringify(DEFAULTS)),JSON.parse(ev.target.result));saveState();renderAll();toast('✓ Import');}catch(err){alert('Ungültige Datei');}};r.readAsText(file);e.target.value='';}
+function importCSV(e){
+  const file=e.target.files[0];if(!file)return;
+  const r=new FileReader();
+  r.onload=ev=>{
+    const lines=ev.target.result.split('\n').filter(l=>l.trim());
+    const header=lines[0].split(',').map(h=>h.trim().replace(/"/g,''));
+    let count=0;
+    lines.slice(1).forEach(line=>{
+      const cols=line.split(',').map(c=>c.trim().replace(/"/g,''));
+      const row=Object.fromEntries(header.map((h,i)=>[h,cols[i]||'']));
+      const name=row['Name']||row['name']||row['Produktname'];
+      if(!name)return;
+      const sku=row['SKU']||row['sku'];
+      if(S.produkte.find(p=>p.sku===sku && sku))return;
+      
+      const ek={};
+      S.lieferanten.forEach(l=>{
+        const val=n(row[`EK_${l.kuerzel}`]||row[`ek_${l.kuerzel.toLowerCase()}`]);
+        if(val)ek[l.id]=val;
+      });
+      
+      S.produkte.push({
+        id:uid(),name,
+        gruppe:row['Gruppe']||row['gruppe']||'',
+        sku:sku||'',
+        pzn:row['PZN']||row['pzn']||'',
+        aep:n(row['AEP_Netto']||row['AEP']||row['aep'])||0,
+        ve:n(row['VE']||row['ve'])||1,
+        veLabel:row['VE_Label']||row['ve_label']||'Stück',
+        minbestand:n(row['Mindestbestand']||row['mindestbestand'])||5,
+        versandklasse:row['Versandklasse']||row['versandklasse']||S.versandklassen[0]?.id||'',
+        wbPreis:n(row['Wettbewerb_VK'])||null,
+        ek
+      });
+      count++;
+    });
+    saveState();renderAll();toast(`✓ ${count} Produkte importiert`);
+  };
+  r.readAsText(file);e.target.value='';
+}
+function resetData(){S=JSON.parse(JSON.stringify(DEFAULTS));saveState();renderAll();toast('Reset','var(--yellow)');}
+
+function exportInventurPDF() {
+  alert('PDF Export folgt in der nächsten Version!');
+}
+
+function renderAll(){renderKalkulation();renderBestand();renderProdukte();renderLieferanten();renderVersand();renderEinstellungen();}
+renderAll();
+</script>
+</body>
+</html>
